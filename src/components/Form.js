@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { v1 as uuid } from 'uuid';
 import { addArticle } from '../actions/index';
+import { delArticle } from '../actions/index';
 
 const mapDispatchToProps = dispatch => {
     return {
-        addArticle: article => dispatch(addArticle(article))
+        addArticle: article => dispatch(addArticle(article)),
+        delArticle: article => dispatch(delArticle(article))
     };
 };
 
@@ -17,6 +19,7 @@ class ConnectedForm extends Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
     }
 
     handleChange(event) {
@@ -30,6 +33,15 @@ class ConnectedForm extends Component {
         const { title } = this.state;
         const id = uuid();
         this.props.addArticle({ title, id });
+        this.setState({
+            title: ""
+        });
+    }
+
+    handleDelete(event) {
+        event.preventDefault();
+        const { title } = this.state;
+        this.props.delArticle({ title });
         this.setState({
             title: ""
         });
@@ -52,7 +64,11 @@ class ConnectedForm extends Component {
                 <button type="submit" className="btn btn-success btn-lg">
                   SAVE
                 </button>
+                <button onClick={this.handleDelete} className="btn btn-success btn-lg">
+                  DELETE
+                </button>
             </form>
+
         )
     }
 }
