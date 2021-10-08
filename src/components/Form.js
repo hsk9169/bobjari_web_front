@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { v1 as uuid } from 'uuid';
-import { addArticle } from '../actions/index';
-import { delArticle } from '../actions/index';
+import { addArticle, editArticle, delArticle, delArticleAll } from '../actions/index';
 
 const mapDispatchToProps = dispatch => {
     return {
         addArticle: article => dispatch(addArticle(article)),
-        delArticle: article => dispatch(delArticle(article))
+        editArticle: article => dispatch(editArticle(article)),
+        delArticle: article => dispatch(delArticle(article)),
+        delArticleAll: () => dispatch(delArticleAll())
     };
 };
 
@@ -15,14 +16,24 @@ class ConnectedForm extends Component {
     constructor() {
         super();
         this.state = {
-            title: ""
+            title: "",
+            edit: ""
         };
-        this.handleChange = this.handleChange.bind(this);
+        this.handleTitleChange = this.handleTitleChange.bind(this);
+        this.handleEditChange = this.handleEditChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.handleDeleteAll = this.handleDeleteAll.bind(this);
     }
 
-    handleChange(event) {
+    handleTitleChange(event) {
+        this.setState({
+            [event.target.id]: event.target.value
+        });
+    }
+
+    handleEditChange(event) {
         this.setState({
             [event.target.id]: event.target.value
         });
@@ -38,6 +49,16 @@ class ConnectedForm extends Component {
         });
     }
 
+    handleEdit(event) {
+        event.preventDefault();
+        const { title, edit } = this.state;
+        this.props.editArticle({ title, edit });
+        this.setState({
+            title: "",
+            edit: ""
+        });
+    }
+
     handleDelete(event) {
         event.preventDefault();
         const { title } = this.state;
@@ -47,8 +68,13 @@ class ConnectedForm extends Component {
         });
     }
 
+    handleDeleteAll(event) {
+        event.preventDefault();
+        this.props.delArticleAll();
+    }
+
     render() {
-        const { title } = this.state;
+        const { title, edit } = this.state;
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
@@ -58,14 +84,28 @@ class ConnectedForm extends Component {
                       className="form-control"
                       id="title"
                       value={title}
-                      onChange={this.handleChange}
+                      onChange={this.handleTitleChange}
+                    />
+                    <label htmlFor="edit">Edit As</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="edit"
+                      value={edit}
+                      onChange={this.handleEditChange}
                     />
                 </div>
                 <button type="submit" className="btn btn-success btn-lg">
                   SAVE
                 </button>
+                <button onClick={this.handleEdit} className="btn btn-success btn-lg">
+                  EDIT
+                </button>
                 <button onClick={this.handleDelete} className="btn btn-success btn-lg">
                   DELETE
+                </button>
+                <button onClick={this.handleDeleteAll} className="btn btn-success btn-lg">
+                  DELETE ALL
                 </button>
             </form>
 
