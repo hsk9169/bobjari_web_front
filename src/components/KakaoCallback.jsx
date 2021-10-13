@@ -11,18 +11,17 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-
 const KakaoCallbackComponent = (props) => {
-    const accessCode = new URL(window.location.href).searchParams.get("code");
-
-    const jsonData = JSON.stringify({
-        client_id: authInfo.CLIENT_ID,
-        redirect_uri: authInfo.CALLBACK_URI,
-        access_code: accessCode, 
-        secret_key: authInfo.SECRET_KEY,
-    });
-
+    
     useEffect( () => {
+
+        const accessCode = new URL(window.location.href).searchParams.get("code");
+        const jsonData = JSON.stringify({
+            client_id: authInfo.CLIENT_ID,
+            redirect_uri: authInfo.CALLBACK_URI,
+            access_code: accessCode, 
+            secret_key: authInfo.SECRET_KEY,
+        });
 
         async function getAccessToken (accessCode) {
 
@@ -48,10 +47,11 @@ const KakaoCallbackComponent = (props) => {
         }
         
         if (accessCode) {
-            getAccessToken(accessCode)
+            console.log(accessCode);
+            getAccessToken(accessCode);
         }           
         
-    }, [jsonData, props, accessCode]);
+    }, [props]);
 
 
     return (

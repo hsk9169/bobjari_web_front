@@ -1,16 +1,7 @@
-import React, { useEffect } from 'react';
-import { addSession } from '../actions/index';
-import { connect } from 'react-redux';
-import { v1 as uuid } from 'uuid';
+import React from 'react';
 const authInfo = require('../constants/kakao-auth');
 
-const mapDispatchToProps = dispatch => {
-    return {
-        addSession: session => dispatch(addSession(session)),
-    };
-};
-
-const MainComponent = (props) => {
+const Main = (props) => {
 
     const redirectUri = () => {
         let baseUri = authInfo.BASE_URI;
@@ -41,7 +32,5 @@ const MainComponent = (props) => {
         </div>
     );
 }
-
-const Main = connect(null, mapDispatchToProps)(MainComponent);
 
 export default Main;
