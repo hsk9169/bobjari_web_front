@@ -25,14 +25,6 @@ const MainComponent = (props) => {
         window.location.assign(redirectUri());
     }
 
-    const accessCode = new URL(window.location.href).searchParams.get("code");
-
-    useEffect( () => {
-        console.log(accessCode);
-        const id = uuid();
-        props.addSession( { accessCode, id });
-    }, [props, accessCode]);
-
     return (
         <div>
             <h1>Main</h1>

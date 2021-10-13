@@ -24,16 +24,17 @@ const KakaoCallbackComponent = (props) => {
 
     useEffect( () => {
 
-        const options = {
-            method: 'POST',
-            headers: { 'content-type': 'application/json' },
-            body: jsonData,
-            url: authInfo.GETTOKEN_URI,
-        };
-        
-        const id = uuid();
-
         async function getAccessToken (accessCode) {
+
+            const options = {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: jsonData,
+                url: authInfo.GETTOKEN_URI,
+            };
+            
+            const id = uuid();
+
             await axios(options)
                 .then(res => {
                     const account = {
