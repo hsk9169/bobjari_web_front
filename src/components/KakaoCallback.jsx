@@ -12,10 +12,11 @@ const mapDispatchToProps = dispatch => {
 };
 
 const KakaoCallbackComponent = (props) => {
-    
+
+    const accessCode = new URL(window.location.href).searchParams.get("code");
+
     useEffect( () => {
 
-        const accessCode = new URL(window.location.href).searchParams.get("code");
         const jsonData = JSON.stringify({
             client_id: authInfo.CLIENT_ID,
             redirect_uri: authInfo.CALLBACK_URI,
@@ -51,7 +52,7 @@ const KakaoCallbackComponent = (props) => {
             getAccessToken(accessCode);
         }           
         
-    }, [props]);
+    }, [props, accessCode]);
 
 
     return (
