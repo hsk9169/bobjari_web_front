@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { addSession } from '../actions/index';
+import { connect } from 'react-redux';
+import { v1 as uuid } from 'uuid';
 const authInfo = require('../constants/kakao-auth');
 
-export default function Main(props) {
+const mapDispatchToProps = dispatch => {
+    return {
+        addSession: session => dispatch(addSession(session)),
+    };
+};
+
+const MainComponent = (props) => {
 
     const redirectUri = () => {
         let baseUri = authInfo.BASE_URI;
@@ -15,6 +24,14 @@ export default function Main(props) {
     const kakaoJoinHandler = () => {
         window.location.assign(redirectUri());
     }
+
+    const accessCode = new URL(window.location.href).searchParams.get("code");
+
+    useEffect( (props) => {
+        console.log(accessCode);
+        const id = uuid();
+        props.addSession( { accessCode, id });
+    });
 
     return (
         <div>
@@ -32,3 +49,7 @@ export default function Main(props) {
         </div>
     );
 }
+
+const Main = connect(null, mapDispatchToProps)(MainComponent);
+
+export default Main;
