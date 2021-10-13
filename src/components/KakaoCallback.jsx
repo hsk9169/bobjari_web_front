@@ -17,19 +17,20 @@ const KakaoCallbackComponent = (props) => {
 
     useEffect( () => {
 
-        async function getAccessToken (jsonData) {
-            
-            const options = {
-                method: 'POST',
-                headers: { 'content-type': 'application/json' },
-                body: jsonData,
-                url: authInfo.GETTOKEN_URI,
-            };
-            console.log(options);
-            
+        async function getAccessToken (code) {
+
             const id = uuid();
 
-            await axios(options)
+            await axios({
+                method: 'POST',
+                url: authInfo.GETTOKEN_URI,
+                data: {
+                    client_id: authInfo.CLIENT_ID,
+                    redirect_uri: authInfo.CALLBACK_URI,
+                    access_code: code, 
+                    secret_key: authInfo.SECRET_KEY,
+                }
+            })
                 .then(res => {
                     const account = {
                         profile: res.data.email,
@@ -42,14 +43,8 @@ const KakaoCallbackComponent = (props) => {
         }
         
         if (accessCode) {
-            console.log(accessCode);
-            const jsonData = JSON.stringify({
-                client_id: authInfo.CLIENT_ID,
-                redirect_uri: authInfo.CALLBACK_URI,
-                access_code: accessCode, 
-                secret_key: authInfo.SECRET_KEY,
-            });
-            getAccessToken(jsonData);
+            const code = accessCode;
+            getAccessToken(code);
         }           
         
     }, [props, accessCode]);
