@@ -27,11 +27,11 @@ const MainComponent = (props) => {
 
     const accessCode = new URL(window.location.href).searchParams.get("code");
 
-    useEffect( (props) => {
+    useEffect( () => {
         console.log(accessCode);
         const id = uuid();
         props.addSession( { accessCode, id });
-    });
+    }, [props, accessCode]);
 
     return (
         <div>
