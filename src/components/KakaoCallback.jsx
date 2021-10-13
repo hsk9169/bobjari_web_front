@@ -18,13 +18,14 @@ const KakaoCallbackComponent = (props) => {
     useEffect( () => {
 
         async function getAccessToken (jsonData) {
-            console.log(jsonData);
+            
             const options = {
                 method: 'POST',
                 headers: { 'content-type': 'application/json' },
                 body: jsonData,
                 url: authInfo.GETTOKEN_URI,
             };
+            console.log(options);
             
             const id = uuid();
 
