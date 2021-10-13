@@ -18,7 +18,7 @@ const KakaoCallbackComponent = (props) => {
     useEffect( () => {
 
         async function getAccessToken (jsonData) {
-
+            console.log(jsonData);
             const options = {
                 method: 'POST',
                 headers: { 'content-type': 'application/json' },
