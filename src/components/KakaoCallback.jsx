@@ -17,14 +17,7 @@ const KakaoCallbackComponent = (props) => {
 
     useEffect( () => {
 
-        const jsonData = JSON.stringify({
-            client_id: authInfo.CLIENT_ID,
-            redirect_uri: authInfo.CALLBACK_URI,
-            access_code: accessCode, 
-            secret_key: authInfo.SECRET_KEY,
-        });
-
-        async function getAccessToken (accessCode) {
+        async function getAccessToken (jsonData) {
 
             const options = {
                 method: 'POST',
@@ -49,7 +42,13 @@ const KakaoCallbackComponent = (props) => {
         
         if (accessCode) {
             console.log(accessCode);
-            getAccessToken(accessCode);
+            const jsonData = JSON.stringify({
+                client_id: authInfo.CLIENT_ID,
+                redirect_uri: authInfo.CALLBACK_URI,
+                access_code: accessCode, 
+                secret_key: authInfo.SECRET_KEY,
+            });
+            getAccessToken(jsonData);
         }           
         
     }, [props, accessCode]);
