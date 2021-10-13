@@ -1,20 +1,15 @@
-import { ADD_ARTICLE, EDIT_ARTICLE, DEL_ARTICLE, DEL_ARTICLE_ALL } from '../constants/action-types';
+import { ADD_SESSION, UPDATE_SESSION, DELETE_SESSION } from '../constants/action-types';
 
-export const addArticle = article => ({
-    type: ADD_ARTICLE,
-    payload: article
+export const addSession = session => ({
+    type: ADD_SESSION,
+    payload: session
 });
 
-export const editArticle = title => ({
-    type: EDIT_ARTICLE,
-    payload: title
+export const updateSession = session => ({
+    type: UPDATE_SESSION,
+    payload: session
 });
 
-export const delArticle = title => ({
-    type: DEL_ARTICLE,
-    payload: title
+export const deleteSession = session => ({
+    type: DELETE_SESSION
 });
-
-export const delArticleAll = () => ({
-    type: DEL_ARTICLE_ALL
-})

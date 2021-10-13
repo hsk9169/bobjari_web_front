@@ -1,33 +1,35 @@
-import { ADD_ARTICLE, EDIT_ARTICLE, DEL_ARTICLE, DEL_ARTICLE_ALL } from "../constants/action-types";
+import { ADD_SESSION, UPDATE_SESSION, DELETE_SESSION } from "../constants/action-types";
 
+/* Store State Items Detail
+ * session
+ * { email:'...', accessToken:'...', refreshToken:'...' }
+ * 
+ */
 const initialState = {
-    articles: []
+    session: [],
 };
 
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
-        case ADD_ARTICLE:
+        case ADD_SESSION:
             return {
                 ...state, 
-                articles: [...state.articles, action.payload] 
+                session: [...state.session, action.payload]
             };
-        case EDIT_ARTICLE:
+        case UPDATE_SESSION:
             return {
                 ...state,
-                ...state.articles = state.articles.map(article => { 
-                    if(article.title === action.payload.title) article.title = action.payload.edit;
-                    return article.title;
+                ...state.session = state.session.map(session => { 
+                    if(session.email === action.payload.email) {
+                        session.accessToken = action.payload.accessToken;
+                    }
+                    return session.email;
                 })
             };
-        case DEL_ARTICLE:
+        case DELETE_SESSION:
             return {
                 ...state,
-                articles: state.articles.filter(article => article.title !== action.payload.title)
-            };
-        case DEL_ARTICLE_ALL:
-            return {
-                ...state,
-                articles: []
+                session: []
             };
         default:
             return state;

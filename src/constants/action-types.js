@@ -1,4 +1,3 @@
-export const ADD_ARTICLE = "ADD_ARTICLE";
-export const EDIT_ARTICLE = "EDIT_ARTICLE";
-export const DEL_ARTICLE = "DEL_ARTICLE";
-export const DEL_ARTICLE_ALL = "DEL_ARTICLE_ALL";
+export const ADD_SESSION = "ADD_SESSION";
+export const UPDATE_SESSION = "UPDATE_SESSION";
+export const DELETE_SESSION = "DELETE_SESSION";

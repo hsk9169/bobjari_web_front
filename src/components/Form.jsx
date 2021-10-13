@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { v1 as uuid } from 'uuid';
-import { addArticle, editArticle, delArticle, delArticleAll } from '../actions/index';
+import { addSession, editSession, delSession, delSessionAll } from '../actions/index';
 
 const mapDispatchToProps = dispatch => {
     return {
-        addArticle: article => dispatch(addArticle(article)),
-        editArticle: article => dispatch(editArticle(article)),
-        delArticle: article => dispatch(delArticle(article)),
-        delArticleAll: () => dispatch(delArticleAll())
+        addSession: session => dispatch(addSession(session)),
+        editSession: session => dispatch(editSession(session)),
+        delSession: session => dispatch(delSession(session)),
+        delSessionAll: () => dispatch(delSessionAll())
     };
 };
 
@@ -43,7 +43,7 @@ class ConnectedForm extends Component {
         event.preventDefault();
         const { title } = this.state;
         const id = uuid();
-        this.props.addArticle({ title, id });
+        this.props.addSession({ title, id });
         this.setState({
             title: ""
         });
@@ -52,7 +52,7 @@ class ConnectedForm extends Component {
     handleEdit(event) {
         event.preventDefault();
         const { title, edit } = this.state;
-        this.props.editArticle({ title, edit });
+        this.props.editSession({ title, edit });
         this.setState({
             title: "",
             edit: ""
@@ -62,7 +62,7 @@ class ConnectedForm extends Component {
     handleDelete(event) {
         event.preventDefault();
         const { title } = this.state;
-        this.props.delArticle({ title });
+        this.props.delSession({ title });
         this.setState({
             title: ""
         });
@@ -70,7 +70,7 @@ class ConnectedForm extends Component {
 
     handleDeleteAll(event) {
         event.preventDefault();
-        this.props.delArticleAll();
+        this.props.delSessionAll();
     }
 
     render() {
