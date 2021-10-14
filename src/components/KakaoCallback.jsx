@@ -36,7 +36,7 @@ const KakaoCallbackComponent = (props) => {
                         profile: res.data.email,
                         gender: res.data.gender,
                         age: res.data.age,
-                        profileImg: res.data.profileImg,
+                        profileImg: res.data.profileImage,
                     };
                     props.addSession({ account, id });
                 })
