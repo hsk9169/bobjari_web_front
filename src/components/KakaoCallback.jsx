@@ -39,6 +39,7 @@ const KakaoCallbackComponent = (props) => {
                         profileImg: res.data.profileImage,
                     };
                     props.addSession({ account, id });
+                    props.history.push('/kakaoLogin');
                 })
         }
         

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, Link, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 import { connect } from 'react-redux';
 
