@@ -107,13 +107,15 @@ const KakaoLoginComp = ({location}) => {
                         defaultValue={state.gender}
                         variant='filled'
                     />
-                </Box>
-                : <br/>}
+                
+                
                 {(location.props.profileImage) ?
                     <div>
                         <h2>프로필 사진</h2>
                         <img src={state.profileImage} alt='프로필 이미지' />
                     </div>
+                : <br/>}
+                </Box>
                 : <br/>}
             </Stack>
         </div>
