@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { addSession } from '../actions/index';
 import { connect } from 'react-redux';
-import { v1 as uuid } from 'uuid';
 const axios = require('axios');
 const authInfo = require('../constants/kakao-auth');
 
@@ -19,8 +18,6 @@ const KakaoCallbackComponent = (props) => {
 
         async function getAccessToken (code) {
 
-            const id = uuid();
-
             await axios({
                 method: 'POST',
                 url: authInfo.GETTOKEN_URI,
@@ -32,15 +29,12 @@ const KakaoCallbackComponent = (props) => {
                 }
             })
                 .then(res => {
-                    console.log(res);
-                    //const account = {
-                    //    profile: res.data.email,
-                    //    gender: res.data.gender,
-                    //    age: res.data.age,
-                    //    profileImg: res.data.profileImage,
-                    //};
-                    //props.addSession({ account, id });
-                    props.history.push('/kakaoLogin');
+                    props.history.push({
+                        pathname: '/kakaoLogin',
+                        props: {
+                            profile: res.data,
+                        }
+                    });
                 })
         }
         
