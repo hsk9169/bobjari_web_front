@@ -17,13 +17,13 @@ const mapDispatchToProps = dispatch => {
 };
 
 const KakaoLoginComp = props => {
-
+    console.log(props.profile);
     const initialNickName = createNickname();
     const [ state, setState ] = useState({
-        email: props.email,
-        age: props.age,
-        gender: props.gender,
-        profileImg: props.profileImg,
+        email: props.profile.email,
+        age: props.profile.age,
+        gender: props.profile.gender,
+        profileImg: props.profile.profileImg,
         nickName: initialNickName,
         isOverlapped: false,
     });
