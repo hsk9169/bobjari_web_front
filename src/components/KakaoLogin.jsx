@@ -17,7 +17,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 const KakaoLoginComp = props => {
-    console.log(props.profile);
+
     const initialNickName = createNickname();
     const [ state, setState ] = useState({
         email: props.profile.email,
@@ -77,6 +77,7 @@ const KakaoLoginComp = props => {
                     }
                     <Button variant='contained' onClick={handleNicknameRefresh}>닉네임 재추천</Button>
                 </Stack>
+                {(props.profile) ?
                 <Box
                 component="form"
                 sx={{
@@ -104,6 +105,7 @@ const KakaoLoginComp = props => {
                         variant='filled'
                     />
                 </Box>
+                : <br/>}
                 <img src={state.profileImg} alt='프로필 이미지' />
             </Stack>
         </div>
