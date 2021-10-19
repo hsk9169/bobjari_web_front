@@ -31,8 +31,8 @@ const Welcome = (props) => {
     }
 
     const kakaoButtonHandler = () => {
-        //window.location.assign(redirectUri());
-        props.history.push('/kakaoLogin');
+        window.location.assign(redirectUri());
+        //props.history.push('/kakaoLogin');
     }
 
     const bobjariSignInButtonHandler = () => {

@@ -20,6 +20,10 @@ const KakaoLoginComp = props => {
 
     const initialNickName = createNickname();
     const [ state, setState ] = useState({
+        email: props.profile.email,
+        age: props.profile.age,
+        gender: props.profile.gender,
+        profileImg: props.profile.profileImg,
         nickName: initialNickName,
         isOverlapped: false,
     });
@@ -73,6 +77,34 @@ const KakaoLoginComp = props => {
                     }
                     <Button variant='contained' onClick={handleNicknameRefresh}>닉네임 재추천</Button>
                 </Stack>
+                <Box
+                component="form"
+                sx={{
+                  '& .MuiTextField-root': { m: 1, width: '25ch' },
+                }}
+                noValidate
+                autoComplete="off"
+                >
+                    <TextField
+                        disabled
+                        id="email"
+                        defaultValue={state.email}
+                        variant='filled'
+                    />
+                    <TextField
+                        disabled
+                        id="age"
+                        defaultValue={state.age}
+                        variant='filled'
+                    />
+                    <TextField
+                        disabled
+                        id="email"
+                        defaultValue={state.gender}
+                        variant='filled'
+                    />
+                </Box>
+                <img src={state.profileImg} alt='프로필 이미지' />
             </Stack>
         </div>
     );
