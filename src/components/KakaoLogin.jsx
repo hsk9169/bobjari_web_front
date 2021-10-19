@@ -20,10 +20,10 @@ const KakaoLoginComp = props => {
 
     const initialNickName = createNickname();
     const [ state, setState ] = useState({
-        email: props.profile.email,
-        age: props.profile.age,
-        gender: props.profile.gender,
-        profileImg: props.profile.profileImg,
+        email: props.email,
+        age: props.age,
+        gender: props.gender,
+        profileImg: props.profileImg,
         nickName: initialNickName,
         isOverlapped: false,
     });
