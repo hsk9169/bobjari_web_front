@@ -54,7 +54,7 @@ const KakaoLoginComp = ({location}) => {
 
     return (
         <div>
-            <h1>이름</h1>
+            <h2>이름</h2>
             <p>성공적인 밥자리를 위해<br/>개성 넘치는 이름을 설정해주세요</p>
             <Stack direction='column' spacing={2}>
                 <Box
@@ -86,27 +86,31 @@ const KakaoLoginComp = ({location}) => {
                 noValidate
                 autoComplete="off"
                 >
+                    <h2>이메일</h2>
                     <TextField
                         disabled
                         id="email"
                         defaultValue={state.email}
                         variant='filled'
                     />
+                    <h2>나이</h2>
                     <TextField
                         disabled
                         id="age"
                         defaultValue={state.age}
                         variant='filled'
                     />
+                    <h2>성별</h2>
                     <TextField
                         disabled
-                        id="email"
+                        id="gender"
                         defaultValue={state.gender}
                         variant='filled'
                     />
                 </Box>
                 : <br/>}
-                <img src={state.profileImg} alt='프로필 이미지' />
+                <h2>프로필 사진</h2>
+                <img src={require(state.profileImg).default} alt='프로필 이미지' />
             </Stack>
         </div>
     );
