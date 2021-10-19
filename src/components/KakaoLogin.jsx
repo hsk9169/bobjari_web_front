@@ -109,8 +109,12 @@ const KakaoLoginComp = ({location}) => {
                     />
                 </Box>
                 : <br/>}
-                <h2>프로필 사진</h2>
-                <img src={require(state.profileImg).default} alt='프로필 이미지' />
+                {(location.props.profileImg) ?
+                    <div>
+                        <h2>프로필 사진</h2>
+                        <img src={require(state.profileImg).default} alt='프로필 이미지' />
+                    </div>
+                : <br/>}
             </Stack>
         </div>
     );
