@@ -31,12 +31,7 @@ const KakaoCallbackComponent = (props) => {
                 .then(res => {
                     props.history.push({
                         pathname: '/kakaoLogin',
-                        props: {
-                            email: res.data.email,
-                            age: res.data.age,
-                            gender: res.data.gender,
-                            profileImg: res.data.profileImg,
-                        },
+                        props: res.data,
                     });
                 })
         }

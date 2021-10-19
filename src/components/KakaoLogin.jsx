@@ -16,14 +16,14 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-const KakaoLoginComp = props => {
+const KakaoLoginComp = ({location}) => {
 
     const initialNickName = createNickname();
     const [ state, setState ] = useState({
-        email: props.email,
-        age: props.age,
-        gender: props.gender,
-        profileImg: props.profileImg,
+        email: location.props.email,
+        age: location.props.age,
+        gender: location.props.gender,
+        profileImg: location.props.profileImg,
         nickName: initialNickName,
         isOverlapped: false,
     });
@@ -77,7 +77,7 @@ const KakaoLoginComp = props => {
                     }
                     <Button variant='contained' onClick={handleNicknameRefresh}>닉네임 재추천</Button>
                 </Stack>
-                {(props.profile) ?
+                {(location.props.email) ?
                 <Box
                 component="form"
                 sx={{
