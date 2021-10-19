@@ -4,9 +4,12 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { connect } from 'react-redux';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import HomeIcon from '@mui/icons-material/Home';
-import BobIcon from '@mui/icons-material/RiceBowl';
-import ProfileIcon from '@mui/icons-material/Person';
+import HomeIconFilled from '@mui/icons-material/Home';
+import HomeIconOutlined from '@mui/icons-material/HomeOutlined';
+import BobIconFilled from '@mui/icons-material/RiceBowl';
+import BobIconOutlined from '@mui/icons-material/RiceBowlOutlined';
+import ProfileIconFilled from '@mui/icons-material/Person';
+import ProfileIconOutlined from '@mui/icons-material/PersonOutline';
 
 import Main from './components/Main';
 import Welcome from './components/Welcome';
@@ -25,7 +28,7 @@ const mapStateToProps = state => {
 
 const AppComp = ({ session }, props) => {
 
-    const [ value, setValue ] = React.useState('0');
+    const [ value, setValue ] = React.useState('home');
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -61,17 +64,17 @@ const AppComp = ({ session }, props) => {
                     <BottomNavigationAction
                         label="Home"
                         value="home"
-                        icon={<HomeIcon />}
+                        icon={(value === 'home') ? <HomeIconFilled /> : <HomeIconOutlined />}
                     />
                     <BottomNavigationAction
                         label="Bob"
                         value="bob"
-                        icon={<BobIcon />}
+                        icon={(value === 'bob') ? <BobIconFilled /> : <BobIconOutlined />}
                     />
                     <BottomNavigationAction
                         label="Profile"
                         value="profile"
-                        icon={<ProfileIcon />}
+                        icon={(value === 'profile') ? <ProfileIconFilled /> : <ProfileIconOutlined />}
                     />
                 </BottomNavigation>                
         </ErrorBoundary>
