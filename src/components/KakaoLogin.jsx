@@ -23,7 +23,7 @@ const KakaoLoginComp = ({location}) => {
         email: location.props.email,
         age: location.props.age,
         gender: location.props.gender,
-        profileImg: location.props.profileImg,
+        profileImage: location.props.profileImage,
         nickName: initialNickName,
         isOverlapped: false,
     });
@@ -109,10 +109,10 @@ const KakaoLoginComp = ({location}) => {
                     />
                 </Box>
                 : <br/>}
-                {(location.props.profileImg) ?
+                {(location.props.profileImage) ?
                     <div>
                         <h2>프로필 사진</h2>
-                        <img src={require(state.profileImg).default} alt='프로필 이미지' />
+                        <img src={require(state.profileImage).default} alt='프로필 이미지' />
                     </div>
                 : <br/>}
             </Stack>
