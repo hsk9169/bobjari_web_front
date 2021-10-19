@@ -32,13 +32,14 @@ const KakaoCallbackComponent = (props) => {
                 }
             })
                 .then(res => {
-                    const account = {
-                        profile: res.data.email,
-                        gender: res.data.gender,
-                        age: res.data.age,
-                        profileImg: res.data.profileImage,
-                    };
-                    props.addSession({ account, id });
+                    console.log(res);
+                    //const account = {
+                    //    profile: res.data.email,
+                    //    gender: res.data.gender,
+                    //    age: res.data.age,
+                    //    profileImg: res.data.profileImage,
+                    //};
+                    //props.addSession({ account, id });
                     props.history.push('/kakaoLogin');
                 })
         }
