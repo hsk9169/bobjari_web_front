@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { addSession } from '../actions/index';
 import { connect } from 'react-redux';
-import { v1 as uuid } from 'uuid';
+//import { v1 as uuid } from 'uuid';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import createNickname from '../middleware/create-nickname';
-const axios = require('axios');
-const authInfo = require('../constants/kakao-auth');
+//const axios = require('axios');
+//const authInfo = require('../constants/kakao-auth');
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -27,10 +27,11 @@ const KakaoLoginComp = ({location}) => {
         nickName: initialNickName,
         isOverlapped: false,
     });
-    const id = uuid();
+    //const id = uuid();
 
     const handleNickNameInput = (event) => {
         setState({
+            ...state, 
             nickName: event.target.value,
             isOverlapped: false,
         })
@@ -47,7 +48,7 @@ const KakaoLoginComp = ({location}) => {
         event.preventDefault();
         const recommend = createNickname();
         setState({
-            nickName: recommend, isOverlapped: false
+            ...state, nickName: recommend, isOverlapped: false
         });
         console.log(state);
     };

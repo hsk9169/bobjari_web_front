@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 import { connect } from 'react-redux';
+import Paper from '@mui/material/Paper';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import HomeIconFilled from '@mui/icons-material/Home';
@@ -60,23 +61,25 @@ const AppComp = ({ session }, props) => {
                     <Route path='/main' component={Main} />
                     <Route component={NotFound} />
                 </Switch>
-                <BottomNavigation value={value} onChange={handleChange}>
-                    <BottomNavigationAction
-                        label="Home"
-                        value="home"
-                        icon={(value === 'home') ? <HomeIconFilled /> : <HomeIconOutlined />}
-                    />
-                    <BottomNavigationAction
-                        label="Bob"
-                        value="bob"
-                        icon={(value === 'bob') ? <BobIconFilled /> : <BobIconOutlined />}
-                    />
-                    <BottomNavigationAction
-                        label="Profile"
-                        value="profile"
-                        icon={(value === 'profile') ? <ProfileIconFilled /> : <ProfileIconOutlined />}
-                    />
-                </BottomNavigation>                
+                <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+                    <BottomNavigation value={value} onChange={handleChange}>
+                        <BottomNavigationAction
+                            label="Home"
+                            value="home"
+                            icon={(value === 'home') ? <HomeIconFilled /> : <HomeIconOutlined />}
+                        />
+                        <BottomNavigationAction
+                            label="Bob"
+                            value="bob"
+                            icon={(value === 'bob') ? <BobIconFilled /> : <BobIconOutlined />}
+                        />
+                        <BottomNavigationAction
+                            label="Profile"
+                            value="profile"
+                            icon={(value === 'profile') ? <ProfileIconFilled /> : <ProfileIconOutlined />}
+                        />
+                    </BottomNavigation> 
+                </Paper>
         </ErrorBoundary>
     )
 };
