@@ -107,16 +107,23 @@ const KakaoLoginComp = ({location}) => {
                         defaultValue={state.gender}
                         variant='filled'
                     />
-                
-                
-                {(location.props.profileImage) ?
+                </Box>
+                : <br/>}
+                {location.props.profileImage ?
                     <div>
                         <h2>프로필 사진</h2>
                         <img src={state.profileImage} alt='프로필 이미지' />
                     </div>
                 : <br/>}
+                <Box
+                component="form"
+                sx={{
+                  '& .MuiTextField-root': { m: 1, width: '25ch' },
+                }}
+                noValidate
+                autoComplete="off"
+                >
                 </Box>
-                : <br/>}
             </Stack>
         </div>
     );
