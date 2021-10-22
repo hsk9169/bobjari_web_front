@@ -33,26 +33,6 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-const checkDuplicate = async (nickname) => {
-    let ret;
-    await axios({
-        method: 'GET',
-        //url: apiInfo.CHECK_NICKNAME,
-        url: 'http://localhost:8000/api/users/nickname',
-        data: {
-            nickname: nickname,
-        }})
-        .then(res => {
-            console.log(res);
-            ret = res.data;
-        })
-        .catch(err => {
-            console.log(err);
-        });
-    console.log(ret);
-    return ret;
-};
-
 const KakaoLoginComp = ({location}) => {
 
     const initialNickname = createNickname();
@@ -136,8 +116,8 @@ const KakaoLoginComp = ({location}) => {
         let ret, duplicate;
         await axios({
             method: 'GET',
-            //url: apiInfo.CHECK_NICKNAME,
-            url: apiInfo.CHECK_NICKNAME_LOCAL,
+            url: apiInfo.CHECK_NICKNAME,
+            //url: apiInfo.CHECK_NICKNAME_LOCAL,
             data: {
                 nickname: '행복한부엉이',
             }})
