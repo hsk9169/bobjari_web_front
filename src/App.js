@@ -14,10 +14,10 @@ import ProfileIconOutlined from '@mui/icons-material/PersonOutline';
 
 import Main from './components/Main';
 import Welcome from './components/Welcome';
-import Login from './components/Login';
-import KakaoLogin from './components/KakaoLogin';
+import SignIn from './components/SignIn';
+import SignUpForm from './components/SignUpForm';
 import KakaoCallback from './components/KakaoCallback';
-import Join from './components/Join';
+import SignUp from './components/SignUp';
 import NotFound from './components/NotFound';
 import ErrorPage from './components/ErrorPage';
 
@@ -49,15 +49,15 @@ const AppComp = ({ session }, props) => {
         <ErrorBoundary FallbackComponent={ErrorPage}>
                 {<Redirect to='/welcome' />}
                 <Switch>
-                    <Route path='/login' render={(props) => {
+                    <Route path='/signin' render={(props) => {
                         if(session) {
                             return <Redirect to='/main' />
                         }
-                    }} component={Login} />
+                    }} component={SignIn} />
                     <Route path='/welcome' component={Welcome} />
-                    <Route path='/kakaoLogin' component={KakaoLogin} />
+                    <Route path='/signupform' component={SignUpForm} />
                     <Route path='/auths/kakao/callback' component={KakaoCallback} />
-                    <Route path='/join' component={Join} />
+                    <Route path='/signup' component={SignUp} />
                     <Route path='/main' component={Main} />
                     <Route component={NotFound} />
                 </Switch>

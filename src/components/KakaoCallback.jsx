@@ -30,7 +30,7 @@ const KakaoCallbackComponent = (props) => {
             })
                 .then(res => {
                     props.history.push({
-                        pathname: '/kakaoLogin',
+                        pathname: '/signupform',
                         props: res.data,
                     });
                 })
