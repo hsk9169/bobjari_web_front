@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { addSession } from '../actions/index';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -15,12 +14,13 @@ import { makeStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 import { EmojiProvider, Emoji } from 'react-apple-emojis'
 import emojiData from 'react-apple-emojis/lib/data.json'
+
 const imageUri = require('../constants/image-uri');
 const axios = require('axios');
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
     return {
-        addSession: session => dispatch(addSession(session)),
+        api: state.api,
     };
 };
 
@@ -37,40 +37,45 @@ const useStyles = makeStyles({
     },
 });
 
-const SignUpFormComp = (props) => {
+const KakaoSignUpFormComp = (props) => {
 
     const classes = useStyles();
 
     const initialNickname = createNickname();
     const [ state, setState ] = useState({
         email: props.location.data.email,
-        age: '',
-        gender: '',
+        age: props.location.data.age,
+        gender: props.location.data.gender,
+        profileImage: ( (props.location.data.profileImage) ? props.location.data.profileImage
+                                                      : imageUri.BOB_CHARACTER ),
         nickname: initialNickname,
         nicknameCheck: null,
-        profileImage: '',
-        profileImageType: 'url',
         errMsg: '',
     });
-    const [selectedFile, setSelectedFile] = useState({
-        file: null,
-        previewUrl: '',
-        selectUrl: '',
-    });
+
+    const checkEmailForm = () => {
+        // RegExp check
+    };
 
     const checkBeforeSubmit = () => {
-        if (state.nicknameCheck &&
-            state.age &&
-            state.gender &&
-            state.profileImage) return true;
+        if (state.nicknameCheck) return true;
         else return false;
     };
 
+    //const id = uuid();
+
     const handleNicknameInput = (event) => {
         setState({
-            ...state,
+            ...state, 
             [event.target.id]: event.target.value,
             isDuplicated: false,
+        })
+    };
+
+    const handleEmailInput = (event) => {
+        setState({
+            ...state, 
+            [event.target.id]: event.target.value,
         })
     };
     
@@ -79,7 +84,6 @@ const SignUpFormComp = (props) => {
             ...state, 
             [event.target.id]: event.target.value,
         })
-        console.log(state);
     };
 
     const handleGenderSelect = (event) => {
@@ -92,6 +96,7 @@ const SignUpFormComp = (props) => {
     const handleCheckDuplicate = async (event) => {
         event.preventDefault();
         let ret;
+        console.log(state.nickname);
         await axios({
             method: 'POST',
             url: process.env.REACT_APP_API_CHECK_NICKNAME,
@@ -121,21 +126,10 @@ const SignUpFormComp = (props) => {
 
     const handleProfileImageSelect = (event) => {
         event.preventDefault();
-        const prefix = event.target.value.slice(0,4);
-        let fileType = 'url';
-        if (selectedFile.file !== null) {
-            fileType = selectedFile.file.type;
-        }
-
         setState({
             ...state,
             profileImage: event.target.value,
-            profileImageType: prefix === 'http' ? 'url' : fileType,
         });
-        setSelectedFile({
-            ...selectedFile,
-            previewUrl: event.target.value,
-        })
     };
 
     const handleJoin = async (event) => {
@@ -144,56 +138,28 @@ const SignUpFormComp = (props) => {
         let msg = '';
         if (ret) {
             msg = '';
-            let img;
-            if (selectedFile.file === null) {
-                img = state.profileImage;
-            } else {
-                img = selectedFile.file;
-            }
             props.history.push({
-                pathname: '/signup/role',
+                pathname: '/kakao-signup/role',
                 data: {
                     email: state.email,
                     age: state.age,
                     gender: state.gender,
                     nickname: state.nickname,
                     profileImage: {
-                        data: img,
-                        contentType: state.profileImageType,
-                    }
+                        data: state.profileImage,
+                        contentType: 'url',
+                    },
                 }
             });
         } else {
             if (!state.nicknameCheck) msg += '닉네임 ';
-            if (!state.age) msg += '나이 ';
-            if (!state.gender) msg += '성별 ';
-            if (!state.profileImg) msg += '프로필 이미지 ';
             msg += '다시 확인해주세요';
         }
         setState({
             ...state,
             errMsg: msg,
         });
-        console.log(state);
     };
- 
-    const handleFileInput = (event) => {
-        event.preventDefault();
-        let file = event.target.files[0];
-        let reader = new FileReader();
-
-        reader.onloadend = () => {
-            setSelectedFile({
-                file: file,
-                selectUrl: reader.result,
-                previewUrl: reader.result,
-            });
-        }
-        try {
-            reader.readAsDataURL(file);
-        } catch {}
-        
-    }
 
     return (
         <Box 
@@ -203,6 +169,7 @@ const SignUpFormComp = (props) => {
                 margin: 2,
                 maxWidth: 400,
                 overflow: 'auto',
+                justifyContent: 'center'
             }}
         >
         
@@ -233,19 +200,30 @@ const SignUpFormComp = (props) => {
                     }
                     <Button variant='contained' onClick={handleNicknameRefresh}>닉네임 재추천</Button>
                 </Stack>
+                <Typography variant='h5' sx={{ pt: 2, pb: 2, fontWeight: 'fontWeigntMedium' }}>
+                    비밀번호
+                </Typography>
                 </Box>
                 <Box
-                    component="form"
-                    sx={{
-                      '& .MuiTextField-root': { m: 1, width: '25ch' },
-                    }}
-                    noValidate
-                    autoComplete="off"
+                component="form"
+                sx={{
+                  '& .MuiTextField-root': { m: 1, width: '25ch' },
+                }}
+                noValidate
+                autoComplete="off"
                 >
+                    <Typography variant='h5' sx={{ pb: 2, fontWeight: 'fontWeigntMedium' }}>
+                        이메일
+                    </Typography>
+                    {(props.location.data.email) ? <TextField disabled id="email" value={state.email} variant='filled'/>
+                                   : <TextField id="email" value={state.email} onChange={handleEmailInput} />
+                    }
                     <Typography variant='h5' sx={{ pt: 2, pb: 2, fontWeight: 'fontWeigntMedium' }}>
                         나이
                     </Typography>
-                    <TextField id="age" value={state.age} onChange={handleAgeInput} />
+                    {(props.location.data.age) ? <TextField disabled id="age" value={state.age} variant='filled'/>
+                                   : <TextField id="age" value={state.age} onChange={handleAgeInput} />
+                    }
                     <Typography variant='h5' sx={{ pt: 2, pb: 2, fontWeight: 'fontWeigntMedium' }}>
                         성별
                     </Typography>
@@ -256,8 +234,12 @@ const SignUpFormComp = (props) => {
                             onChange={handleGenderSelect}
                             name="controlled-radio-buttons-group"
                         >
-                            <FormControlLabel value='female' control={<Radio />} label="여성" />
-                            <FormControlLabel value='male' control={<Radio />} label="남성" />
+                            {(props.location.data.gender) ? <FormControlLabel disabled value='female' control={<Radio />} label="여성" />
+                                                     : <FormControlLabel value='female' control={<Radio />} label="여성" />
+                            }
+                            {(props.location.data.gender) ? <FormControlLabel disabled value='male' control={<Radio />} label="남성" />
+                                                     : <FormControlLabel value='male' control={<Radio />} label="남성" />
+                            }
                         </RadioGroup>
                     </FormControl>
                 </Box>
@@ -272,27 +254,16 @@ const SignUpFormComp = (props) => {
                             onChange={handleProfileImageSelect}
                             name="controlled-radio-buttons-group"
                         >
-                            <FormControlLabel value={selectedFile.selectUrl} control={<Radio />} label="사용" />
-                            <FormControlLabel value={imageUri.BOB_CHARACTER} control={<Radio />} label="미사용" />                            
+                            {(props.location.data.profileImage) ? <FormControlLabel value={props.location.data.profileImage} control={<Radio />} label="사용" />
+                                                           : <FormControlLabel disabled value={props.location.data.profileImage} control={<Radio />} label="사용" />
+                            }
+                            {(props.location.data.profileImage) ? <FormControlLabel value={imageUri.BOB_CHARACTER} control={<Radio />} label="미사용" />
+                                                           : <FormControlLabel disabled value={imageUri.BOB_CHARACTER} control={<Radio />} label="미사용" />
+                            }
                         </RadioGroup>
                     </FormControl>
-                    <Avatar alt="프로필 사진" src={selectedFile.previewUrl} sx={{ width: 100, height: 100 }} />
+                    <Avatar alt="프로필 사진" src={state.profileImage} sx={{ width: 100, height: 100 }} />
                 </Stack>
-                <form id='myForm' name='myForm'>
-                    <input
-                        accept='image/*'
-                        className={classes.input}
-                        id='raised-button-file'
-                        style={{ display: 'none', }}
-                        type='file'
-                        onChange={handleFileInput}
-                    />
-                    <label htmlFor='raised-button-file'>
-                        <Button variant='contained' component='span' className={classes.button} size='small'>
-                            이미지 첨부
-                        </Button>
-                    </label>
-                </form>
                 <Box
                     component="form"
                     sx={{
@@ -321,6 +292,6 @@ const SignUpFormComp = (props) => {
     );
 }
 
-const SignUpForm = connect(null, mapDispatchToProps)(SignUpFormComp);
+const KakaoSignUpForm = connect(mapStateToProps)(KakaoSignUpFormComp);
 
-export default SignUpForm;
+export default KakaoSignUpForm;

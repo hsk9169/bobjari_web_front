@@ -1,6 +1,7 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
+import { addApi } from './actions/index';
 import { connect } from 'react-redux';
 import Paper from '@mui/material/Paper';
 import BottomNavigation from '@mui/material/BottomNavigation';
@@ -15,21 +16,27 @@ import ProfileIconOutlined from '@mui/icons-material/PersonOutline';
 import Main from './components/Main';
 import Welcome from './components/Welcome';
 import SignIn from './components/SignIn';
+import SignInAuth from './components/SignInAuth';
 import SignUpForm from './components/SignUpForm';
+import SignUpRole from './components/SignUpRole';
+import SignUpInterest from './components/SignUpInterest';
 import KakaoCallback from './components/KakaoCallback';
-import SignUp from './components/SignUp';
+import KakaoSignUpForm from './components/KakaoSignUpForm';
+import KakaoSignUpRole from './components/KakaoSignUpRole';
+import KakaoSignUpInterest from './components/KakaoSignUpInterest';
 import NotFound from './components/NotFound';
 import ErrorPage from './components/ErrorPage';
 
-const mapStateToProps = state => {
+const mapDispatchToProps = dispatch => {
     return {
-        session: state.session
+        addApi: api => dispatch(addApi(api)),
     };
 };
 
-const AppComp = ({ session }, props) => {
+const AppComp = (props) => {
 
     const [ value, setValue ] = React.useState('home');
+    
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -45,20 +52,33 @@ const AppComp = ({ session }, props) => {
         }
     };
 
+    useEffect( () => {
+        const api = {
+            KAKAO_TOKEN: process.env.REACT_APP_API_KAKAO_TOKEN,
+            CHECK_NICKNAME: process.env.REACT_APP_API_CHECK_NICKNAME,
+            SIGN_IN_KAKAO: process.env.REACT_APP_API_SIGN_IN_KAKAO,
+            USER_JOIN: process.env.REACT_APP_API_USER_JOIN,
+            SIGN_IN: process.env.REACT_APP_API_SIGN_IN,
+            EMAIL_AUTH: process.env.REACT_APP_API_EMAIL_AUTH,
+        }
+        props.addApi(api);
+    });
+
     return (
         <ErrorBoundary FallbackComponent={ErrorPage}>
                 {<Redirect to='/welcome' />}
                 <Switch>
-                    <Route path='/signin' render={(props) => {
-                        if(session) {
-                            return <Redirect to='/main' />
-                        }
-                    }} component={SignIn} />
-                    <Route path='/welcome' component={Welcome} />
-                    <Route path='/signupform' component={SignUpForm} />
-                    <Route path='/auths/kakao/callback' component={KakaoCallback} />
-                    <Route path='/signup' component={SignUp} />
+                    <Route path='/signin/auth' component={SignInAuth} />
+                    <Route path='/signin' component={SignIn} />
                     <Route path='/main' component={Main} />
+                    <Route path='/welcome' component={Welcome} />
+                    <Route path='/kakao-signup/form' component={KakaoSignUpForm} />
+                    <Route path='/kakao-signup/role' component={KakaoSignUpRole} />
+                    <Route path='/kakao-signup/interest' component={KakaoSignUpInterest} />
+                    <Route path='/signup/form' component={SignUpForm} />
+                    <Route path='/signup/role' component={SignUpRole} />
+                    <Route path='/signup/interest' component={SignUpInterest} />
+                    <Route path='/auths/kakao/callback' component={KakaoCallback} />
                     <Route component={NotFound} />
                 </Switch>
                 <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
@@ -84,6 +104,6 @@ const AppComp = ({ session }, props) => {
     )
 };
 
-const App = connect(mapStateToProps)(AppComp);
+const App = connect(null, mapDispatchToProps)(AppComp);
 
 export default App;

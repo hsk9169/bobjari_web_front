@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
+
 import { addSession } from '../actions/index';
 import { connect } from 'react-redux';
+import { v1 as uuid } from 'uuid';
 const axios = require('axios');
 const authInfo = require('../constants/kakao-auth');
 
@@ -9,6 +11,12 @@ const mapDispatchToProps = dispatch => {
         addSession: session => dispatch(addSession(session)),
     };
 };
+
+const mapStateToProps = state => {
+    return {
+        api: state.api,
+    };
+}
 
 const KakaoCallbackComponent = (props) => {
 
@@ -20,7 +28,7 @@ const KakaoCallbackComponent = (props) => {
 
             await axios({
                 method: 'POST',
-                url: authInfo.GETTOKEN_URI,
+                url: process.env.REACT_APP_API_KAKAO_TOKEN,
                 data: {
                     client_id: authInfo.CLIENT_ID,
                     redirect_uri: authInfo.CALLBACK_URI,
@@ -29,10 +37,28 @@ const KakaoCallbackComponent = (props) => {
                 }
             })
                 .then(res => {
-                    props.history.push({
-                        pathname: '/signupform',
-                        props: res.data,
-                    });
+                    // check if res has token
+                    // if not, pass to sign up form
+                    // or, take token and sign in
+                    const token = res.data.token;
+                    if (token) {
+                        const id = uuid();
+                        props.addSession({ token, id });
+                        localStorage.setItem("accessToken", token.accessToken);
+                        localStorage.setItem("refreshToken", token.refreshToken);
+                        props.history.push({
+                            pathname: '/main',
+                            data: {
+                                email: res.data.email,
+                            },
+                        });
+                    } else {
+                        console.log(res);
+                        props.history.push({
+                            pathname: '/kakao-signup/form',
+                            data: res.data,
+                        });
+                    }
                 })
         }
         
@@ -46,11 +72,11 @@ const KakaoCallbackComponent = (props) => {
 
     return (
         <div>
-            <h1>Kakao Callback</h1>
+            카카오콜백
         </div>
     );
 }
 
-const KakaoCallback = connect(null, mapDispatchToProps)(KakaoCallbackComponent);
+const KakaoCallback = connect(mapStateToProps, mapDispatchToProps)(KakaoCallbackComponent);
 
 export default KakaoCallback;

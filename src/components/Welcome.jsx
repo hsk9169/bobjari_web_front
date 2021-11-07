@@ -1,5 +1,8 @@
 import React from 'react';
+import { addSession } from '../actions/index';
+import { connect } from 'react-redux';
 import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 import Link from '@mui/material/Link';
 import { makeStyles } from '@mui/styles';
 import { useTheme } from '@mui/material/styles';
@@ -9,17 +12,29 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import PropTypes from 'prop-types';
 import { Global } from '@emotion/react';
 import { styled } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { grey } from '@mui/material/colors';
-import Skeleton from '@mui/material/Skeleton';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
+import { EmojiProvider, Emoji } from 'react-apple-emojis';
+import emojiData from 'react-apple-emojis/lib/data.json';
 const authInfo = require('../constants/kakao-auth');
 const imgUri = require('../constants/image-uri');
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addSession: session => dispatch(addSession(session)),
+    };
+};
+
+const mapStateToProps = state => {
+    return {
+        api: state.api,
+    };
+}
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -82,7 +97,9 @@ const useStyles = makeStyles({
     },
 });
 
-const Welcome = (props) => {
+const WelcomeComp = (props) => {
+
+    // Check if .env params got right
 
     const classes = useStyles();
 
@@ -91,7 +108,7 @@ const Welcome = (props) => {
     const maxSteps = steps.length;
 
     // Drawer
-    const { window } = props;
+    const { drawerWindow } = props;
     const [open, setOpen] = React.useState(false);
 
     const handleNext = () => {
@@ -110,9 +127,8 @@ const Welcome = (props) => {
         setOpen(newOpen);
     };
     
-    // This is used only for the example
-    const container = window !== undefined ? () => window().document.body : undefined;
-
+    // Swipeable Modal Contents
+    const container = drawerWindow !== undefined ? () => window.document.body : undefined;
 
     const redirectUri = () => {
         let baseUri = authInfo.BASE_URI;
@@ -123,30 +139,32 @@ const Welcome = (props) => {
         return baseUri;
     }
 
-    const kakaoButtonHandler = () => {
-        //window.location.assign(redirectUri());
-        props.history.push({
-            pathname: '/signupform',
-            props: {
-                email: 'hsk9169@gmail.com',
-                age: '31',
-                gender: 'male',
-                profileImage: 'https://w.namu.la/s/28027c57126faed6ad2426677a122ac53864e9fca93d64442af454a4bb397c3ac6467f258f151f0bb19b3c8b91609ae7cc8ab888a9b235670622ef1cb1fbc6df56bfd6011ccdef1401fb8ce52739c8e9fc85a22f858fdfd891e8b8522d4647c4',
-            }
-        });
+    const kakaoButtonHandler = async () => {
+        window.location.assign(redirectUri());
+        //props.history.push({
+        //    pathname: '/kakao-signup/form',
+        //    data: {
+        //        email: 'hsk9169@gmail.com',
+        //        age: '31',
+        //        gender: 'male',
+        //        profileImage: 'https://w.namu.la/s/28027c57126faed6ad2426677a122ac53864e9fca93d64442af454a4bb397c3ac6467f258f151f0bb19b3c8b91609ae7cc8ab888a9b235670622ef1cb1fbc6df56bfd6011ccdef1401fb8ce52739c8e9fc85a22f858fdfd891e8b8522d4647c4',
+        //    }
+        //});
     }
 
     const bobjariSignInButtonHandler = () => {
         props.history.push('/signin');
-    }
-
-    const bobjariSignUpButtonHandler = () => {
-        props.history.push('/signup');
+        //props.history.push({
+        //    pathname: '/signup/form',
+        //    data: {
+        //        email: 'hsk9169@gmail.com',
+        //    },
+        //});
     }
 
     return (
         <div>
-            <Box sx={{height: 30}}></Box>
+            <Box sx={{height: 60}}></Box>
             <Box sx={{ 
                     maxWidth: 400, 
                     flexGrow: 1,
@@ -156,10 +174,9 @@ const Welcome = (props) => {
                     square
                     elevation={0}
                     sx={{
-                      display: 'flex',
-                      alignItems: 'center',
                       height: 100,
                       pl: 5,
+                      margin: 2,
                     }}
                 >
                     <Typography variant='h4' sx={{ fontWeight: 'fontWeightBold'}}>
@@ -171,6 +188,7 @@ const Welcome = (props) => {
                     sx={{ 
                         maxWidth: 400, 
                         pl: 5,
+                        margin: 2,
                     }}
                 >
                     {steps[activeStep].description1}<br/>
@@ -231,37 +249,13 @@ const Welcome = (props) => {
                     }
                 />
             </Box>
-            <br/>
-            <div>
-                <img src={require('../contents/kakao_login_medium_wide.png').default} alt="카카오 로그인 버튼"
-                 onClick={() => {
-                    kakaoButtonHandler();
-                 }}/>
-            </div>
-            <div>
-                <Button className={classes.root} onClick={() => {
-                    bobjariSignInButtonHandler();
-                }}>밥자리 계정으로 로그인</Button>
-            </div>
-            <div>
-                <a>아직 회원이 아니신가요?  </a>
-                <Link
-                    component="button"
-                    variant="body2"
-                    onClick={() => {
-                        bobjariSignUpButtonHandler();
-                    }}
-                >
-                    밥자리 회원가입
-                </Link>
-            </div>      
 
             <Root>
                 <CssBaseline />
                 <Global
                     styles={{
                         '.MuiDrawer-root > .MuiPaper-root': {
-                          height: `calc(50% - ${drawerBleeding}px)`,
+                          height: `calc(30% - ${drawerBleeding}px)`,
                           overflow: 'visible',
                         },
                     }}
@@ -287,6 +281,9 @@ const Welcome = (props) => {
                             visibility: 'visible',
                             right: 0,
                             left: 0,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
                         }}
                     >
                         <Puller />
@@ -296,33 +293,51 @@ const Welcome = (props) => {
                                         fontWeight: 'fontWeigntMedium',
                                     }}
                         >
-                            로그인 회원가입
+                            끌올해서 밥자리 시작&nbsp;
+                            <EmojiProvider data={emojiData}>
+                                <Emoji name="fire" width={16} />
+                                <Emoji name="fire" width={16} />
+                                <Emoji name="fire" width={16} />
+                            </EmojiProvider>
                         </Typography>
                     </StyledBox>
                     <StyledBox
                         sx={{
+                            display: 'flex',
                             px: 2,
                             pb: 2,
                             height: '100%',
                             overflow: 'auto',
+                            justifyContent: 'center',
+                            alignItems: 'center',
                         }}
                     >
+                        <Stack direction='column' spacing={1}>
+                            <div>
+                                <img src={require('../contents/kakao_login_medium_wide.png').default} alt="카카오 로그인 버튼"
+                                    onClick={() => {
+                                        kakaoButtonHandler();
+                                    }}
+                                />
+                            </div>
+                            <div>
+                                <Button className={classes.root} onClick={bobjariSignInButtonHandler}>
+                                    <Typography variant='body1' sx={{ fontWeight: 'fontWeightMedium'}}>
+                                        밥자리 계정으로 시작하기&nbsp;
+                                        <EmojiProvider data={emojiData}>
+                                            <Emoji name="cooked-rice" width={25} />
+                                        </EmojiProvider>
+                                    </Typography>
+                                </Button>
+                            </div>
+                        </Stack>
                     </StyledBox>
                 </SwipeableDrawer>
-    </Root>
-
-
+            </Root>
         </div>
-        
     );
 }
 
-Welcome.propTypes = {
-    /**
-     * Injected by the documentation to work in an iframe.
-     * You won't need it on your project.
-     */
-    window: PropTypes.func,
-  };
+const Welcome = connect(mapStateToProps, mapDispatchToProps)(WelcomeComp);
 
 export default Welcome;

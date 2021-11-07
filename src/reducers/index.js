@@ -1,4 +1,4 @@
-import { ADD_SESSION, UPDATE_SESSION, DELETE_SESSION } from "../constants/action-types";
+import { ADD_API, ADD_SESSION, UPDATE_SESSION, DELETE_SESSION } from "../constants/action-types";
 
 /* Store State Items Detail
  * session
@@ -7,6 +7,7 @@ import { ADD_SESSION, UPDATE_SESSION, DELETE_SESSION } from "../constants/action
  */
 const initialState = {
     session: [],
+    api: {},
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -30,6 +31,11 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 session: []
+            };
+        case ADD_API:
+            return {
+                ...state,
+                api: action.payload
             };
         default:
             return state;
