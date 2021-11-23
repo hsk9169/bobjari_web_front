@@ -10,6 +10,8 @@ import ButtonBase from '@mui/material/ButtonBase';
 import { red } from '@mui/material/colors';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import axios from 'axios';
+import { makeStyles } from '@mui/styles';
+
 
 const mapStateToProps = state => {
   return {
@@ -17,7 +19,22 @@ const mapStateToProps = state => {
   };
 }
 
-const MainComponent = props => {
+const useStyles = makeStyles({
+    root: {
+        background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+        border: 0,
+        borderRadius: 3,
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        color: 'white',
+        height: 45,
+        width: 300,
+        padding: '0 30px',
+    },
+});
+
+const ProfileComponent = props => {
+
+    const classes = useStyles();
 
     const [ state, setState ] = useState({
         gotData: false,
@@ -26,6 +43,12 @@ const MainComponent = props => {
         nickname: '',
         interests: [],
     })
+
+    const handleSearch = () => {
+        props.history.push({
+            pathname: '/home',
+        });
+    }
 
     useEffect( () => {
         if (!state.gotData) {
@@ -58,6 +81,7 @@ const MainComponent = props => {
     });
 
     return (
+        <div>
         <Paper variant='elevation' sx={{
                 pt:2,
                 pb:2,
@@ -99,10 +123,18 @@ const MainComponent = props => {
                     </ButtonBase>
                 </Grid>
             </Grid>
-        </Paper>   
+        </Paper>
+        
+            <Button className={classes.root} onClick={handleSearch} sx={{justifyContent: 'center'}}>
+                <Typography variant='h6'>
+                    다른 사용자 둘러보기
+                </Typography>
+            </Button>
+        </div>
+        
   );
 }
 
-const Main = connect(mapStateToProps)(MainComponent);
+const Profile = connect(mapStateToProps)(ProfileComponent);
 
-export default Main;
+export default Profile;

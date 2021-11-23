@@ -32,10 +32,8 @@ const useStyles = makeStyles({
     },
 });
 
-
-  
-
 const SignInAuthComponent = (props) => {
+    console.log(props.location.data.auth);
 
     const classes = useStyles();
     const [state, setState] = React.useState({
@@ -67,7 +65,7 @@ const SignInAuthComponent = (props) => {
                         localStorage.setItem("accessToken", token.accessToken);
                         localStorage.setItem("refreshToken", token.refreshToken);
                         props.history.push({
-                            pathname: '/main',
+                            pathname: '/profile',
                             data: {
                                 email: props.location.data.email,
                             },

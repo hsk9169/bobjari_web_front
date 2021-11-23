@@ -38,7 +38,6 @@ const useStyles = makeStyles({
 });
 
 const KakaoSignUpFormComp = (props) => {
-
     const classes = useStyles();
 
     const initialNickname = createNickname();

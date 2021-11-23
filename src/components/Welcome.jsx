@@ -3,7 +3,6 @@ import { addSession } from '../actions/index';
 import { connect } from 'react-redux';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import Link from '@mui/material/Link';
 import { makeStyles } from '@mui/styles';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -140,26 +139,37 @@ const WelcomeComp = (props) => {
     }
 
     const kakaoButtonHandler = async () => {
-        window.location.assign(redirectUri());
-        //props.history.push({
-        //    pathname: '/kakao-signup/form',
-        //    data: {
-        //        email: 'hsk9169@gmail.com',
-        //        age: '31',
-        //        gender: 'male',
-        //        profileImage: 'https://w.namu.la/s/28027c57126faed6ad2426677a122ac53864e9fca93d64442af454a4bb397c3ac6467f258f151f0bb19b3c8b91609ae7cc8ab888a9b235670622ef1cb1fbc6df56bfd6011ccdef1401fb8ce52739c8e9fc85a22f858fdfd891e8b8522d4647c4',
-        //    }
-        //});
+        //window.location.assign(redirectUri());
+        props.history.push({
+            pathname: '/signup/role',
+            data: {
+                email: 'bobjari_test@gmail.com',
+                age: 22,
+                gender: 'male',
+                nickname: '로보트태권브이',
+                profileImage: {
+                    data: 'https://w.namu.la/s/28027c57126faed6ad2426677a122ac53864e9fca93d64442af454a4bb397c3ac6467f258f151f0bb19b3c8b91609ae7cc8ab888a9b235670622ef1cb1fbc6df56bfd6011ccdef1401fb8ce52739c8e9fc85a22f858fdfd891e8b8522d4647c4',
+                    contentType: 'url',
+                },
+            },
+        });
     }
 
     const bobjariSignInButtonHandler = () => {
-        props.history.push('/signin');
-        //props.history.push({
-        //    pathname: '/signup/form',
-        //    data: {
-        //        email: 'hsk9169@gmail.com',
-        //    },
-        //});
+        //props.history.push('/signin');
+        props.history.push({
+            pathname: '/signup/role',
+            data: {
+                email: 'bobjari_test@gmail.com',
+                age: 22,
+                gender: 'male',
+                nickname: '로보트태권브이',
+                profileImage: {
+                    data: 'https://w.namu.la/s/28027c57126faed6ad2426677a122ac53864e9fca93d64442af454a4bb397c3ac6467f258f151f0bb19b3c8b91609ae7cc8ab888a9b235670622ef1cb1fbc6df56bfd6011ccdef1401fb8ce52739c8e9fc85a22f858fdfd891e8b8522d4647c4',
+                    contentType: 'url',
+                },
+            },
+        });
     }
 
     return (

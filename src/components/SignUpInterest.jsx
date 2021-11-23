@@ -60,7 +60,6 @@ const SignUpInterestComp = (props) => {
     let ref = React.createRef();
     
 
-    console.log(props.location.data);
 
     const handleJoin = (event) => {
         let formData = new FormData();
@@ -87,7 +86,6 @@ const SignUpInterestComp = (props) => {
             }
         )
             .then(res => {
-                console.log(res);
                 const token = res.data.token;
                 if (token) {
                     const id = uuid();
@@ -95,7 +93,7 @@ const SignUpInterestComp = (props) => {
                     localStorage.setItem("accessToken", token.accessToken);
                     localStorage.setItem("refreshToken", token.refreshToken);
                     props.history.push({
-                        pathname: '/main',
+                        pathname: '/profile',
                         data: {
                             email: props.location.data.email,
                         }
@@ -128,7 +126,7 @@ const SignUpInterestComp = (props) => {
                 }}
             >
                 <Stack direction='column' spacing={2}>
-                    <Typography variant='h5' sx={{ fontWeight: 'fontWeigntMedium' }}>
+                    <Typography variant='h5' sx={{ fontWeight: 'fontWeightMedium' }}>
                         관심 직업
                     </Typography>
                     <Typography variant='subtitle1'>

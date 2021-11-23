@@ -91,7 +91,7 @@ const KakaoSignUpInterestComp = (props) => {
                     localStorage.setItem("accessToken", token.accessToken);
                     localStorage.setItem("refreshToken", token.refreshToken);
                     props.history.push({
-                        pathname: '/main',
+                        pathname: '/profile',
                         data: {
                             email: props.location.data.email,
                         }

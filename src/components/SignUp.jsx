@@ -35,7 +35,7 @@ const prefixes = [
   },
 ];
 
-export default function SignUp() {
+export default function SignUp(props) {
 
     const [numbers, setNumber] = React.useState({
         middle: '',

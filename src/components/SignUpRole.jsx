@@ -1,18 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { addSession, updateSession } from '../actions/index';
+import { connect } from 'react-redux';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ButtonBase from '@mui/material/ButtonBase';
 
-const SignUpRole= (props) => {
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addSession: session => dispatch(addSession(session)),
+        updateSession: session => dispatch(updateSession(session)),
+    };
+};
+
+const mapStateToProps = state => {
+    return {
+        session: state.session,
+    };
+};
+
+const SignUpRoleComp = (props) => {
 
     const [ state, setState ] = useState({
         menteeDisplay: 'outlined',
         mentorDisplay: 'outlined',
         role: '',
+        initialized: false,
     });
-
-    console.log(props.location.data);
+    console.log(state)
 
     const handleNext = async (event) => {
         event.preventDefault();
@@ -30,7 +48,7 @@ const SignUpRole= (props) => {
             });      
         } else if (state.role === 'mentor') {
             props.history.push({
-                pathname: '/signup/career',
+                pathname: '/signup/mentor/job',
                 data: {
                     email: props.location.data.email,
                     age: props.location.data.age,
@@ -42,6 +60,19 @@ const SignUpRole= (props) => {
             });      
         };
     };  
+
+    const handleBack = () => {
+        props.history.replace({
+            pathname: '/signup/form',
+            data: {
+                email: props.location.data.email,
+                age: props.location.data.age,
+                gender: props.location.data.gender,
+                nickname: props.location.data.nickname,
+                profileImage: props.location.data.profileImage,
+            }
+        });
+    };
     
     const handleMenteeDisplay = async () => {
         setState({
@@ -61,20 +92,47 @@ const SignUpRole= (props) => {
         });
     }
 
+    useEffect( () => {
+        if (!state.initialized) {
+            if (props.location.data.role !== undefined) {
+                setState({
+                    ...state,
+                    role: props.location.data.role,
+                    initialized: true,
+                    menteeDisplay: (props.location.data.role==='mentee' ?
+                        'contained' : 'outlined'),
+                    mentorDisplay: (props.location.data.role==='mentor' ?
+                        'contained' : 'outlined'),
+                })
+            }
+        } else {console.log('no prop data')}
+    },[state, props]);
+
     return (
         <Box component='div'
             sx={{
                 px: 2,
-                pb: 10,
                 margin: 2,
                 maxWidth: 400,
                 overflow: 'auto',
                 justifyContent: 'center',
             }}
         >
+            <Box sx={{
+                pt: 1,
+                pb: 1,
+                margin: 2,
+                maxWidth: 400,
+                height: 50,
+                display: 'flex',
+            }}>
+                <ButtonBase>
+                    <ArrowBackIosIcon color='disabled' onClick={handleBack} />
+                </ButtonBase>
+            </Box>
             <Box
                 sx={{
-                    pt: 4,
+                    pt: 1,
                     pb: 4,
                     margin: 2,
                     maxWidth: 400,
@@ -109,7 +167,7 @@ const SignUpRole= (props) => {
                             minHeight: 200,
                         }}
                     >
-                        <Typography variant='h5' sx={{ fontWeight: 'fontWeigntMedium' }}>
+                        <Typography variant='h5' sx={{ fontWeight: 'fontWeightMedium' }}>
                             예비<br/>직업인
                         </Typography>
                     </Button>
@@ -121,7 +179,7 @@ const SignUpRole= (props) => {
                             minHeight: 200,
                         }}
                     >
-                        <Typography variant='h5' sx={{ fontWeight: 'fontWeigntMedium' }}>
+                        <Typography variant='h5' sx={{ fontWeight: 'fontWeightMedium' }}>
                             직업인
                         </Typography>
                     </Button>
@@ -143,5 +201,7 @@ const SignUpRole= (props) => {
         </Box>
     );
 }
+
+const SignUpRole = connect(mapStateToProps, mapDispatchToProps)(SignUpRoleComp);
 
 export default SignUpRole;

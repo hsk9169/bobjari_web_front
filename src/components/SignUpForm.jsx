@@ -38,11 +38,13 @@ const useStyles = makeStyles({
 });
 
 const SignUpFormComp = (props) => {
+    console.log(props)
 
     const classes = useStyles();
 
     const initialNickname = createNickname();
     const [ state, setState ] = useState({
+        initialized: false,
         email: props.location.data.email,
         age: '',
         gender: '',
@@ -57,6 +59,8 @@ const SignUpFormComp = (props) => {
         previewUrl: '',
         selectUrl: '',
     });
+
+    console.log(state);
 
     const checkBeforeSubmit = () => {
         if (state.nicknameCheck &&
@@ -79,7 +83,6 @@ const SignUpFormComp = (props) => {
             ...state, 
             [event.target.id]: event.target.value,
         })
-        console.log(state);
     };
 
     const handleGenderSelect = (event) => {
@@ -161,7 +164,7 @@ const SignUpFormComp = (props) => {
                         data: img,
                         contentType: state.profileImageType,
                     }
-                }
+                }         
             });
         } else {
             if (!state.nicknameCheck) msg += '닉네임 ';
@@ -174,7 +177,6 @@ const SignUpFormComp = (props) => {
             ...state,
             errMsg: msg,
         });
-        console.log(state);
     };
  
     const handleFileInput = (event) => {
@@ -194,6 +196,27 @@ const SignUpFormComp = (props) => {
         } catch {}
         
     }
+
+    useEffect( () => {
+        if (!state.initialized) {
+            if (props.location.data.age !== undefined &&
+                props.location.data.gender !== undefined &&
+                props.location.data.nickname !== undefined &&
+                props.location.data.profileImage !== undefined) {
+                setState({
+                    ...state,
+                    email : props.location.data.email,
+                    age: props.location.data.age,
+                    gender: props.location.data.gender,
+                    nickname: props.location.data.nickname,
+                    nicknameCheck: true,
+                    profileImage: props.location.data.profileImage.data,
+                    profileImageType: props.location.data.profileImage.contentType,
+                    initialized: true,
+                })
+            }
+        } else {console.log('no prop data')}
+    },[state, props]);
 
     return (
         <Box 
