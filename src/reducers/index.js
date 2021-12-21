@@ -1,9 +1,8 @@
 import { ADD_SESSION, UPDATE_SESSION, DELETE_SESSION } from "../constants/action-types";
 
-/* Store State Items Detail
- * signup form
- ** email, nickname, age, gender, profileImg, role
- * 
+/* Session
+ ** role
+ ** token
  */
 const initialState = {
     session: [],

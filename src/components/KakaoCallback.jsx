@@ -21,14 +21,16 @@ const mapStateToProps = state => {
 const KakaoCallbackComponent = (props) => {
 
     const accessCode = new URL(window.location.href).searchParams.get("code");
+    
 
     useEffect( () => {
+        let profile = null;
 
-        async function getAccessToken (code) {
+        async function getUserProfile (code) {
 
             await axios({
                 method: 'POST',
-                url: process.env.REACT_APP_API_KAKAO_TOKEN,
+                url: process.env.REACT_APP_API_KAKAO_AUTH,
                 data: {
                     client_id: authInfo.CLIENT_ID,
                     redirect_uri: authInfo.CALLBACK_URI,
@@ -37,34 +39,57 @@ const KakaoCallbackComponent = (props) => {
                 }
             })
                 .then(res => {
-                    // check if res has token
-                    // if not, pass to sign up form
-                    // or, take token and sign in
-                    const token = res.data.token;
-                    if (token) {
-                        const id = uuid();
-                        props.addSession({ token, id });
-                        localStorage.setItem("accessToken", token.accessToken);
-                        localStorage.setItem("refreshToken", token.refreshToken);
-                        props.history.push({
-                            pathname: '/main',
-                            data: {
-                                email: res.data.email,
-                            },
-                        });
-                    } else {
-                        console.log(res);
-                        props.history.push({
-                            pathname: '/kakao-signup/form',
-                            data: res.data,
-                        });
-                    }
+                    profile = res.data;
+                    
+                    axios({
+                        method: 'POST',
+                        url: process.env.REACT_APP_API_SIGN_IN_KAKAO,
+                        data: {
+                            email: profile.email,
+                        }
+                    })
+                        .then(res => {
+                            let retEmail = null;
+                            try {
+                                retEmail = res.data.userInfo.email;
+                            } catch {}
+                            console.log(res.data)
+        
+                            if (retEmail === profile.email) {
+                                console.log('request getting token');
+                                axios.get(process.env.REACT_APP_API_GET_TOKEN,
+                                    { params: {
+                                        email: retEmail,
+                                    }
+                                })
+                                    .then(res => {
+                                        const token = res.data.token;
+                                        localStorage.setItem("accessToken", token.accessToken);
+                                        localStorage.setItem("refreshToken", token.refreshToken);
+                                        props.history.push({
+                                            pathname: '/bobjari',
+                                            data: {
+                                                email: profile.email,
+                                            }
+                                        });
+                                    })
+                                    .catch(err => {
+                                        console.log(err);
+                                    })
+                            } else {
+                                props.history.push({
+                                    pathname: '/signup',
+                                    data: profile,
+                                });
+                            }
+                        })
+                    
                 })
         }
         
         if (accessCode) {
             const code = accessCode;
-            getAccessToken(code);
+            getUserProfile(code);
         }           
         
     }, [props, accessCode]);
