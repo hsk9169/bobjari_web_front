@@ -32,20 +32,15 @@ const Fee = (props) => {
     const handleSelect = feeSel => () => {
         props.setState({
             ...props.state,
-            fee: {
-                select: feeSel,
-                value: (feeSel===0 ? fee : '0'),
-            },
+            feeSelect: feeSel,
+            fee: (feeSel===0 ? fee : '0'),
         })
     }
 
     const handleFee = event => {
         props.setState({
             ...props.state,
-            fee: {
-                select: 0,
-                value: event.target.value,
-            }
+            fee: event.target.value,
         })
         setFee(event.target.value)
     }
@@ -56,7 +51,7 @@ const Fee = (props) => {
             <PageBox sx={{display:'flex'}}>
                 <Stack direction='column' spacing={2} sx={{width:'85%'}}>
                     {feeOption.map((el,idx) => (
-                        <Button variant={props.state.fee.select===idx ? 'contained' : 'outlined'} 
+                        <Button variant={props.state.feeSelect===idx ? 'contained' : 'outlined'} 
                             onClick={handleSelect(idx)} 
                             sx={{width: '100%', height:60}}
                         >
@@ -65,12 +60,12 @@ const Fee = (props) => {
                                     value={fee}
                                     onChange={handleFee}
                                     sx={{width: 80, alignItem:'center',
-                                    color: (props.state.fee.select===0 ? 'white' : 'black')}} 
+                                    color: (props.state.feeSelect===0 ? 'white' : 'black')}} 
                                 />
                                 : null
                             }
                             <Typography variant='subtitle1' 
-                                color={props.state.fee.select===idx ? 'white' : 'black'}
+                                color={props.state.feeSelect===idx ? 'white' : 'black'}
                                 sx={{fontWeight: 'fontWeightBold'}}
                             >
                                 {el}

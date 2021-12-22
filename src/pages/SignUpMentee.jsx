@@ -44,13 +44,20 @@ const SignUpMentee = (props) => {
         }
 
         if (props.location.data.profileImage.contentType === 'url') {
-            formData.append('img', props.location.data.profileImage.data);
+            formData.append(
+                'img', 
+                JSON.stringify(props.location.data.profileImage.data),
+            );
         } else {
-            formData.append('img', props.location.data.profileImage.file);
+            formData.append(
+                'img', 
+                props.location.data.profileImage.file,
+            );
         }
 
         for (let [key, value] of Object.entries(req)) {
-            formData.append(key, value);
+            console.log(key, JSON.stringify(value))
+            formData.append(key, JSON.stringify(value));
         }
 
         axios.post(process.env.REACT_APP_API_MENTEE_JOIN,

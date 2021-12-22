@@ -68,7 +68,7 @@ const SignInComponent = (props) => {
                                 localStorage.setItem("accessToken", token.accessToken);
                                 localStorage.setItem("refreshToken", token.refreshToken);
                                 props.history.push({
-                                    pathname: '/bobjari',
+                                    pathname: '/',
                                     data: {
                                         email: state.email,
                                     }

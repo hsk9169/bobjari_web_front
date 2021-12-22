@@ -9,6 +9,7 @@ export const verifyJWT = () => {
         }})
         .then(res => {
             console.log(res)
+            isValid = true;
         })
     return isValid;
 };

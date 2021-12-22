@@ -30,6 +30,7 @@ const SignUpMentor = (props) => {
         authSelect: null,
         authFile: null,
         isAuth: false,
+        feeSelect: null,
         fee: '',
         hashtag: '',
         introduce: '',
@@ -57,28 +58,31 @@ const SignUpMentor = (props) => {
             introduce: state.introduce,
             schedules: state.schedules,
             cafes: state.cafes,
+            feeSelect: state.feeSelect,
             fee: state.fee,
         }
 
         if (props.location.data.profileImage.contentType === 'url') {
             formData.append(
-                'files', 
-                props.location.data.profileImage.data,
+                'img', 
+                JSON.stringify(props.location.data.profileImage.data),
             );
         } else {
             formData.append(
-                'files', 
+                'img', 
                 props.location.data.profileImage.file,
-                props.location.data.profileImage.file.name,
             );
         }
-        formData.append(
-            'files', 
-            state.authFile,
-            state.authFile.name,
-        )
+        try {
+            formData.append(
+                'auth', 
+                state.authFile,
+            )
+        } catch {}
+        
         for (let [key, value] of Object.entries(req)) {
-            formData.append(key, new Blob([JSON.stringify(value)]), {type: 'application/json'});
+            console.log(key, JSON.stringify(value))
+            formData.append(key, JSON.stringify(value));
         }
 
         axios.post(process.env.REACT_APP_API_MENTOR_JOIN,
