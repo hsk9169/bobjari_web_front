@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { v1 as uuid } from 'uuid';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -68,7 +67,7 @@ const SignInComponent = (props) => {
                                 localStorage.setItem("accessToken", token.accessToken);
                                 localStorage.setItem("refreshToken", token.refreshToken);
                                 props.history.push({
-                                    pathname: '/',
+                                    pathname: '/main',
                                     data: {
                                         email: state.email,
                                     }

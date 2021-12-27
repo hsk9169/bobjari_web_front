@@ -1,19 +1,20 @@
 import axios from 'axios';
 
-export const verifyJWT = () => {
-    let isValid = false;
+export const verifyJWT = async (caller) => {
+    console.log(caller)
 
-    axios.get(process.env.REACT_APP_API_VERIFY_TOKEN,
+    await axios.get(process.env.REACT_APP_API_VERIFY_TOKEN,
         { headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         }})
         .then(res => {
-            console.log(res)
-            isValid = true;
+            if (res.data === 'valid') {
+                console.log('valid')
+                return true;
+            }             
         })
-    return isValid;
-};
-
-export const refreshJWT = () => {
-
+        .catch(err => {
+            console.log('invalid token')
+            return false
+        })
 };

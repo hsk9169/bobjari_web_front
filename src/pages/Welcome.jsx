@@ -97,6 +97,7 @@ const useStyles = makeStyles({
 });
 
 const WelcomeComp = (props) => {
+    console.log('welcome')
 
     // Check if .env params got right
 

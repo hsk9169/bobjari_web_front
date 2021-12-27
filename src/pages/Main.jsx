@@ -1,7 +1,10 @@
 const Main = (props) => {
+
+    props.setBotNav(true)
+
     return (
         <div>
-            Home
+            Main
         </div>
     )
 }

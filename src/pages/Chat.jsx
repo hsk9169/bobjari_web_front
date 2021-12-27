@@ -1,12 +1,11 @@
-const Mypage = (props) => {
+const Chat = (props) => {
 
     props.setBotNav(true)
-
     return (
         <div>
-            Mypage
+            Chat
         </div>
     )
 }
 
-export default Mypage;
+export default Chat;
