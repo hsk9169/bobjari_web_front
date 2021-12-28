@@ -17,6 +17,8 @@ const axios = require('axios');
 
 
 const SignUpMentor = (props) => {
+
+    props.setBotNav(false)
     
     const progressRatio = 11;
     

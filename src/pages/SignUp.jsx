@@ -21,6 +21,8 @@ const pageText = {
 
 const SignUp = (props) => {
 
+    props.setBotNav(false)
+
     const initialNickname = createNickname();
     const progressRatio = 25
   

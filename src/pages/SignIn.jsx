@@ -26,6 +26,8 @@ const mapStateToProps = state => {
 
 const SignInComponent = (props) => {
 
+    props.setBotNav(false)
+
     const [state, setState] = React.useState({
         email: '',
         pageNum: 0,
@@ -100,7 +102,16 @@ const SignInComponent = (props) => {
     };
 
     const handleBack = () => {
-
+        if (state.pageNum===1) {
+            setState({
+                ...state,
+                pageNum: state.pageNum - 1,
+            })
+        } else {
+            props.history.replace({
+                pathname: '/',
+            })
+        }
     }
 
     const RenderBody = () => {

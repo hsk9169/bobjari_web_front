@@ -51,9 +51,7 @@ const PrivateRoute = ({ component: Component, setBotNav, access, ...rest }) => {
         console.log(access)
         if (isValid.access===true) {
             return (
-                <Component {...props} 
-                    setBotNav={setBotNav} 
-                />
+                <Component {...props} setBotNav={setBotNav} />
             )
         } else if (isValid.access===false) {
             return (

@@ -23,14 +23,10 @@ const AppComp = (props) => {
     const [isVisible, setIsVisible] = useState(false)
     const [access, setAccess] = useState(true)
     
-
     return (
         <ErrorBoundary FallbackComponent={ErrorPage}>
                 <Switch>
-                    <PublicRoute restricted={true} component={SignUpMentor} path='/signup/mentor' exact />
-                    <PublicRoute restricted={true} component={SignUpMentee} path='/signup/mentee' exact />
-                    <PublicRoute restricted={true} component={SignUp} path='/signup' exact />
-                    <PublicRoute restricted={true} component={SignIn} path='/signin' exact />
+                    
                     <PrivateRoute component={Main} path='/main' exact 
                         setBotNav={setIsVisible} access={access} setAccess={setAccess} />
                     <PrivateRoute component={Search} path='/search' exact 
@@ -39,7 +35,17 @@ const AppComp = (props) => {
                         setBotNav={setIsVisible} access={access} setAccess={setAccess} />
                     <PrivateRoute component={Mypage} path='/mypage' exact 
                         setBotNav={setIsVisible} access={access} setAccess={setAccess} />
-                    <PublicRoute restricted={true} component={Welcome} path='/' exact />
+
+                    <PublicRoute restricted={true} component={SignUpMentor} 
+                        path='/signup/mentor' exact setBotNav={setIsVisible}/>
+                    <PublicRoute restricted={true} component={SignUpMentee} 
+                        path='/signup/mentee' exact setBotNav={setIsVisible} />
+                    <PublicRoute restricted={true} component={SignUp} 
+                        path='/signup' exact setBotNav={setIsVisible} />
+                    <PublicRoute restricted={true} component={SignIn} 
+                        path='/signin' exact setBotNav={setIsVisible} />
+                    <PublicRoute restricted={true} component={Welcome} 
+                        path='/' exact setBotNav={setIsVisible} />
                 </Switch>
                 {isVisible
                     ? <BottomNavigator

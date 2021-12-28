@@ -18,6 +18,8 @@ import StackTitle from '../components/styled/StackTitle';
 const axios = require('axios');
 
 const SignUpMentee = (props) => {
+
+    props.setBotNav(false)
     
     let jobList = [];
     let ref = React.createRef();

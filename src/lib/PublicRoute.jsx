@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button'
 
-const PublicRoute = ({ component: Component, restricted, ...rest }) => {
+const PublicRoute = ({ component: Component, restricted, setBotNav, ...rest }) => {
     const [isValid, setValid] = useState({
         initialized: false,
         access: null,
@@ -50,7 +50,7 @@ const PublicRoute = ({ component: Component, restricted, ...rest }) => {
     const action = (props) => {
         if (isValid.access===true) {
             return (
-                <Component {...props} />
+                <Component {...props} setBotNav={setBotNav} />
             )
         } else if (isValid.access===false) {
             return (
