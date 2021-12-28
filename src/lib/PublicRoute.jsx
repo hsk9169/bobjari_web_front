@@ -15,9 +15,6 @@ const PublicRoute = ({ component: Component, restricted, setBotNav, ...rest }) =
     })
     const [dialogOpen, setDialogOpen] = useState(false);
 
-    console.log(isValid)
-    console.log(...rest.path)
-
     useEffect( () => {
         async function start() {
             if (!isValid.initialized) { 
@@ -27,10 +24,8 @@ const PublicRoute = ({ component: Component, restricted, setBotNav, ...rest }) =
                     }})
                     .then(res => {
                         if (res.data === 'valid') {
-                            console.log('token valid && public restricted')
                             setDialogOpen(true)
                         } else if (res.data === 'invalid') {
-                            console.log('token invalid')
                             setValid({
                                 initialized: true,
                                 access: true,

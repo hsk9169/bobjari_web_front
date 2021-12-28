@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 import { addApi } from './actions/index';
 import { connect } from 'react-redux';
@@ -21,20 +21,26 @@ const mapDispatchToProps = dispatch => {
 const AppComp = (props) => {
     const [value, setValue] = useState('main')
     const [isVisible, setIsVisible] = useState(false)
-    const [access, setAccess] = useState(true)
+    const [sessionTime, setSessionTime] = useState({
+        expireTime: null,
+        reaminTime: null,
+    })
     
     return (
         <ErrorBoundary FallbackComponent={ErrorPage}>
-                <Switch>
-                    
+                <Switch>  
                     <PrivateRoute component={Main} path='/main' exact 
-                        setBotNav={setIsVisible} access={access} setAccess={setAccess} />
+                        setBotNav={setIsVisible}
+                        sessionTime={sessionTime} setSessionTime={setSessionTime} />
                     <PrivateRoute component={Search} path='/search' exact 
-                        setBotNav={setIsVisible} access={access} setAccess={setAccess} />
+                        setBotNav={setIsVisible}
+                        sessionTime={sessionTime} setSessionTime={setSessionTime} />
                     <PrivateRoute component={Chat} path='/chat' exact 
-                        setBotNav={setIsVisible} access={access} setAccess={setAccess} />
+                        setBotNav={setIsVisible}
+                        sessionTime={sessionTime} setSessionTime={setSessionTime} />
                     <PrivateRoute component={Mypage} path='/mypage' exact 
-                        setBotNav={setIsVisible} access={access} setAccess={setAccess} />
+                        setBotNav={setIsVisible}
+                        sessionTime={sessionTime} setSessionTime={setSessionTime} />
 
                     <PublicRoute restricted={true} component={SignUpMentor} 
                         path='/signup/mentor' exact setBotNav={setIsVisible}/>
@@ -52,10 +58,6 @@ const AppComp = (props) => {
                         page={{
                             value: value,
                             setValue: setValue,
-                        }}
-                        access={{
-                            access: access,
-                            setAccess: setAccess,
                         }}
                         history={props.history}
                     /> 

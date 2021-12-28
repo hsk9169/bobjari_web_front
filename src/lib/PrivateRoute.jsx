@@ -8,13 +8,16 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button'
 
-const PrivateRoute = ({ component: Component, setBotNav, access, ...rest }) => {
+const jwt = require('jsonwebtoken');
+
+const PrivateRoute = ({ component: Component, setBotNav,
+                        sessionTime, setSessionTime, ...rest }) => {
     const [isValid, setValid] = useState({
         initialized: false,
         access: null,
     })
     const [dialogOpen, setDialogOpen] = useState(false);
-
+    
     useEffect( () => {
         async function start() {
             if (!isValid.initialized) {
@@ -23,35 +26,47 @@ const PrivateRoute = ({ component: Component, setBotNav, access, ...rest }) => {
                         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
                     }})
                     .then(res => {
+                        console.log('token check', res.data)
                         if (res.data === 'valid') {
-                            console.log('token valid')
+                            console.log('valid')
                             setValid({
                                 initialized: true,
                                 access: true,
-                            })                        
+                            })
+                            jwt.verify(localStorage.getItem('accessToken'),
+                                'shhhhh', (err,decoded) => {
+                                    setSessionTime({
+                                        expireTime: decoded.exp, 
+                                        remainTime: decoded.exp - Math.floor(Date.now()/1000),
+                                    })
+                                }
+                            )   
                         } else if (res.data === 'invalid') {
-                            console.log('token invalid')
+                            console.log('invalid')
                             setDialogOpen(true)                       
                         }         
                     })
                     .catch(err => {
                         console.log(err)
                     })
-            }
+            } 
         }
 
         start();
-        if (!access) {
+        if (sessionTime.remainTime === 0) {
             setDialogOpen(true)
         }
 
-    }, [isValid, setValid, access])
+    }, [isValid, sessionTime, setSessionTime])
 
     const action = (props) => {
-        console.log(access)
         if (isValid.access===true) {
             return (
-                <Component {...props} setBotNav={setBotNav} />
+                <Component {...props} 
+                    setBotNav={setBotNav}
+                    sessionTime={sessionTime}
+                    setSessionTime={setSessionTime}
+                />
             )
         } else if (isValid.access===false) {
             return (
@@ -65,8 +80,12 @@ const PrivateRoute = ({ component: Component, setBotNav, access, ...rest }) => {
             ...isValid,
             access: false,
         })
-        action();
+        setSessionTime({
+            expireTime: null, 
+            remainTime: null,
+        })
         setDialogOpen(false);
+        action();
     }
     
     return (
