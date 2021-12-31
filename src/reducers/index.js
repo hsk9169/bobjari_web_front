@@ -1,13 +1,12 @@
-import { ADD_API, ADD_SESSION, UPDATE_SESSION, DELETE_SESSION } from "../constants/action-types";
+import { ADD_SESSION, UPDATE_SESSION, DELETE_SESSION } from "constants/action-types";
 
-/* Store State Items Detail
- * session
- * { email:'...', accessToken:'...', refreshToken:'...' }
- * 
+/* Session
+ ** role
+ ** token
  */
 const initialState = {
     session: [],
-    api: {},
+    
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -15,27 +14,22 @@ const rootReducer = (state = initialState, action) => {
         case ADD_SESSION:
             return {
                 ...state, 
-                session: [...state.session, action.payload]
+                session: action.payload
             };
         case UPDATE_SESSION:
             return {
                 ...state,
-                ...state.session = state.session.map(session => { 
-                    if(session.email === action.payload.email) {
-                        session.accessToken = action.payload.accessToken;
+                session: state.session.map(element => { 
+                    if(element.email === action.payload.email) {
+                        element.accessToken = action.payload.accessToken;
                     }
-                    return session.email;
+                    return state;
                 })
             };
         case DELETE_SESSION:
             return {
                 ...state,
-                session: []
-            };
-        case ADD_API:
-            return {
-                ...state,
-                api: action.payload
+                signupForm: []
             };
         default:
             return state;
