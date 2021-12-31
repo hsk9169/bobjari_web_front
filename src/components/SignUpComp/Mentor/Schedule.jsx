@@ -22,7 +22,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 
-import {days} from '../../../constants/days'
+import {days} from 'constants/days'
 
 
 const Root = styled('div')(({ theme }) => ({

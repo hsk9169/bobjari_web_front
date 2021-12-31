@@ -3,8 +3,8 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Input from '@mui/material/Input';
-import PageBox from '../../styled/PageBox'
-import BobButton from '../../styled/BobButton'
+import PageBox   from 'components/styled/PageBox'
+import BobButton from 'components/styled/BobButton'
 
 const feeOption = [
     '원 / 1시간',

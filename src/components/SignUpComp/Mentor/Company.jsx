@@ -1,14 +1,12 @@
 import * as React from 'react'
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import Chip from '@mui/material/Chip';import Search from '@mui/icons-material/Search';
-import CircularProgress from '@mui/material/CircularProgress';
-import InputAdornment from '@mui/material/InputAdornment';
-import PageBox from '../../styled/PageBox'
-import BobButton from '../../styled/BobButton'
-import RemovableList from '../../styled/RemovableList';
+import Search from '@mui/icons-material/Search';
+import PageBox       from 'components/styled/PageBox'
+import BobButton     from 'components/styled/BobButton'
+import RemovableList from 'components/styled/RemovableList';
 
-import {corps} from '../../../constants/job-corp-name'
+import {corps} from 'constants/job-corp-name'
 
 
 const Company = (props) => {
@@ -41,7 +39,7 @@ const Company = (props) => {
     const handleDeleteCompany = select => event => {
         props.setState({
             ...props.state,
-            company: [...props.state.company.filter((el) => 
+            job: [...props.state.company.filter((el) => 
                     el !== select)]
         })
     }

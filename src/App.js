@@ -7,9 +7,9 @@ import { connect } from 'react-redux';
 import { PublicRoute, PrivateRoute } from './lib';
 
 import { Welcome, SignIn, SignUp, SignUpMentee, SignUpMentor, ErrorPage, NotFound, 
-        Main, Search, Chat, Mypage } from './pages';
+        Main, Search, Chat, Mypage } from 'pages';
 
-import BottomNavigator from './components/styled/BottomNavigator';
+import BottomNavigator from 'components/styled/BottomNavigator';
 
 
 const mapDispatchToProps = dispatch => {
@@ -25,34 +25,47 @@ const AppComp = (props) => {
         expireTime: null,
         reaminTime: null,
     })
+
+    let privateContext = {
+        setBotNav: setIsVisible,
+        setScreen: setValue,
+        sessionTime: sessionTime,
+        setSessionTime: setSessionTime,
+    }
+
+    let publicContext = {
+        setBotNav: setIsVisible,
+    }
     
     return (
         <ErrorBoundary FallbackComponent={ErrorPage}>
                 <Switch>  
                     <PrivateRoute component={Main} path='/main' exact 
-                        setBotNav={setIsVisible}
-                        sessionTime={sessionTime} setSessionTime={setSessionTime} />
+                        context={privateContext} />
                     <PrivateRoute component={Search} path='/search' exact 
-                        setBotNav={setIsVisible}
-                        sessionTime={sessionTime} setSessionTime={setSessionTime} />
+                        context={privateContext} />
                     <PrivateRoute component={Chat} path='/chat' exact 
-                        setBotNav={setIsVisible}
-                        sessionTime={sessionTime} setSessionTime={setSessionTime} />
+                        context={privateContext} />
                     <PrivateRoute component={Mypage} path='/mypage' exact 
-                        setBotNav={setIsVisible}
-                        sessionTime={sessionTime} setSessionTime={setSessionTime} />
+                        context={privateContext} />
 
                     <PublicRoute restricted={true} component={SignUpMentor} 
-                        path='/signup/mentor' exact setBotNav={setIsVisible}/>
+                        path='/signup/mentor' exact
+                        context={publicContext} />
                     <PublicRoute restricted={true} component={SignUpMentee} 
-                        path='/signup/mentee' exact setBotNav={setIsVisible} />
+                        path='/signup/mentee' exact
+                        context={publicContext} />
                     <PublicRoute restricted={true} component={SignUp} 
-                        path='/signup' exact setBotNav={setIsVisible} />
+                        path='/signup' exact
+                        context={publicContext} />
                     <PublicRoute restricted={true} component={SignIn} 
-                        path='/signin' exact setBotNav={setIsVisible} />
+                        path='/signin' exact
+                        context={publicContext} />
                     <PublicRoute restricted={true} component={Welcome} 
-                        path='/' exact setBotNav={setIsVisible} />
+                        path='/' exact
+                        context={publicContext} />
                 </Switch>
+
                 {isVisible
                     ? <BottomNavigator
                         page={{

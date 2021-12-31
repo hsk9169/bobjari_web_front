@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 
-import createNickname from '../utils/create-nickname';
-
-import StackTitleWithProgress from '../components/styled/StackTitleWithProgress';
-import Nickname from '../components/SignUpComp/Nickname';
-import Gender from '../components/SignUpComp/Gender';
-import ProfileImage from '../components/SignUpComp/ProfileImage';
-import Role from '../components/SignUpComp/Role';
+import createNickname from 'utils/create-nickname';
+import StackTitleWithProgress from 'components/styled/StackTitleWithProgress';
+import Nickname from 'components/SignUpComp/Nickname';
+import Gender from 'components/SignUpComp/Gender';
+import ProfileImage from 'components/SignUpComp/ProfileImage';
+import Role from 'components/SignUpComp/Role';
 
 
 const pageText = {

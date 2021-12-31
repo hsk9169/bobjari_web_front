@@ -9,11 +9,11 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Chip from '@mui/material/Chip';
 import Search from '@mui/icons-material/Search';
 import CircularProgress from '@mui/material/CircularProgress';
-import PageBox from '../components/styled/PageBox';
 import InputAdornment from '@mui/material/InputAdornment';
-import {jobs} from '../constants/job-corp-name'
-import BobButtonWithEmoji from '../components/styled/BobButtonWithEmoji';
-import StackTitle from '../components/styled/StackTitle';
+import PageBox from 'components/styled/PageBox';
+import {jobs} from 'constants/job-corp-name'
+import BobButtonWithEmoji from 'components/styled/BobButtonWithEmoji';
+import StackTitle from 'components/styled/StackTitle';
 
 const axios = require('axios');
 

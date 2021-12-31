@@ -10,8 +10,7 @@ import Button from '@mui/material/Button'
 
 const jwt = require('jsonwebtoken');
 
-const PrivateRoute = ({ component: Component, setBotNav,
-                        sessionTime, setSessionTime, ...rest }) => {
+const PrivateRoute = ({ component: Component, context, ...rest }) => {
     const [isValid, setValid] = useState({
         initialized: false,
         access: null,
@@ -35,7 +34,7 @@ const PrivateRoute = ({ component: Component, setBotNav,
                             })
                             jwt.verify(localStorage.getItem('accessToken'),
                                 'shhhhh', (err,decoded) => {
-                                    setSessionTime({
+                                    context.setSessionTime({
                                         expireTime: decoded.exp, 
                                         remainTime: decoded.exp - Math.floor(Date.now()/1000),
                                     })
@@ -53,19 +52,19 @@ const PrivateRoute = ({ component: Component, setBotNav,
         }
 
         start();
-        if (sessionTime.remainTime === 0) {
+        if (context.sessionTime.remainTime === 0) {
             setDialogOpen(true)
         }
 
-    }, [isValid, sessionTime, setSessionTime])
+    }, [isValid, context])
 
     const action = (props) => {
         if (isValid.access===true) {
             return (
                 <Component {...props} 
-                    setBotNav={setBotNav}
-                    sessionTime={sessionTime}
-                    setSessionTime={setSessionTime}
+                    setBotNav={context.setBotNav}
+                    sessionTime={context.sessionTime}
+                    setSessionTime={context.setSessionTime}
                 />
             )
         } else if (isValid.access===false) {
@@ -80,11 +79,12 @@ const PrivateRoute = ({ component: Component, setBotNav,
             ...isValid,
             access: false,
         })
-        setSessionTime({
+        context.setSessionTime({
             expireTime: null, 
             remainTime: null,
         })
         setDialogOpen(false);
+        context.setScreen('main')
         action();
     }
     

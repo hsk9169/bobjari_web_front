@@ -1,6 +1,6 @@
 import {useEffect, useRef} from 'react';
 import Box from '@mui/material/Box';
-import checkJWTExp from '../utils/check-jwt-exp';
+import checkJWTExp from 'utils/check-jwt-exp';
 
 const Mypage = (props) => {
     const interval = useRef(null)
@@ -25,7 +25,7 @@ const Mypage = (props) => {
     
     return (
         <div>
-            <h2>Main</h2>
+            <h2>Mypage</h2>
             <Box sx={{
                 width: '100%',
                 display: 'flex',

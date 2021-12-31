@@ -2,11 +2,11 @@ import * as React from 'react'
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Search from '@mui/icons-material/Search';
-import PageBox from '../../styled/PageBox'
-import BobButton from '../../styled/BobButton'
-import RemovableList from '../../styled/RemovableList';
+import PageBox from 'components/styled/PageBox'
+import BobButton from 'components/styled/BobButton'
+import RemovableList from 'components/styled/RemovableList';
 
-import {jobs} from '../../../constants/job-corp-name'
+import {jobs} from 'constants/job-corp-name'
 
 
 const Job = (props) => {

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import TextField from '@mui/material/TextField';
-import PageBox from '../../styled/PageBox'
-import BobButton from '../../styled/BobButton'
+import PageBox from 'components/styled/PageBox'
+import BobButton from 'components/styled/BobButton'
 
 const helpText = 
     '누구보다 업계를 잘 아는 IT 전문가\n#세부분야 #프레임워크 #핵심업무\n#나만의 경험';

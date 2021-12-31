@@ -7,13 +7,7 @@ import { Global } from '@emotion/react';
 import { styled } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { grey } from '@mui/material/colors';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import Drawer from '@mui/material/Drawer';
-import PageBox from '../../styled/PageBox'
-import BobButton from '../../styled/BobButton'
 import { TransitionGroup } from 'react-transition-group';
 import Collapse from '@mui/material/Collapse'
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -24,6 +18,8 @@ import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 import InputBase from '@mui/material/InputBase'
 import Typography from '@mui/material/Typography'
+import PageBox from 'components/styled/PageBox'
+import BobButton from 'components/styled/BobButton'
 
 const Root = styled('div')(({ theme }) => ({
     height: '100%',

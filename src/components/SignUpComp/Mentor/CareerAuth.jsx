@@ -8,11 +8,11 @@ import { styled } from '@mui/material/styles';
 import { grey } from '@mui/material/colors';
 import CssBaseline from '@mui/material/CssBaseline';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import PageBox from '../../styled/PageBox'
-import BobButton from '../../styled/BobButton'
+import PageBox   from 'components/styled/PageBox'
+import BobButton from 'components/styled/BobButton'
 
 import { Email, Company, Business, Etc } from './options'
-import { careerAuthText } from '../../../constants/mentor-signup-titles'
+import { careerAuthText } from 'constants/mentor-signup-titles'
 
 const authMethod = [
     {

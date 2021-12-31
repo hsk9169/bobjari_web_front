@@ -4,8 +4,8 @@ import Stack from '@mui/material/Stack'
 import {grey, green} from '@mui/material/colors'
 import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
 import { makeStyles } from '@mui/styles';
-import PageBox from '../../../styled/PageBox'
-import TitleWithDone from '../../../styled/TitleWithDone'
+import PageBox       from 'components/styled/PageBox'
+import TitleWithDone from 'components/styled/TitleWithDone'
 
 const useStyles = makeStyles({
     root: {

@@ -3,9 +3,9 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 
-import PageBox from '../styled/PageBox'
-import BobButton from '../styled/BobButton'
-import createNickname from '../../utils/create-nickname';
+import PageBox from 'components/styled/PageBox'
+import BobButton from 'components/styled/BobButton'
+import createNickname from 'utils/create-nickname';
 
 const axios = require('axios');
 

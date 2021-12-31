@@ -7,10 +7,10 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import PageBox from '../../../styled/PageBox'
-import Title from '../../../styled/Title'
-import TitleWithDone from '../../../styled/TitleWithDone'
-import BobButton from '../../../styled/BobButton'
+import PageBox       from 'components/styled/PageBox'
+import Title         from 'components/styled/Title'
+import TitleWithDone from 'components/styled/TitleWithDone'
+import BobButton     from 'components/styled/BobButton'
 const axios = require('axios');
 
 

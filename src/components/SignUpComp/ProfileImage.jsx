@@ -10,10 +10,10 @@ import Badge from "@mui/material/Badge";
 import { makeStyles } from '@mui/styles';
 
 
-import PageBox from '../styled/PageBox'
-import BobButton from '../styled/BobButton'
+import PageBox from 'components/styled/PageBox'
+import BobButton from 'components/styled/BobButton'
 
-const imageUri = require('../../constants/image-uri')
+const imageUri = require('constants/image-uri')
 
 
 const useStyles = makeStyles({

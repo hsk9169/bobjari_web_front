@@ -3,8 +3,8 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import PageBox from '../styled/PageBox'
-import BobButtonWithEmoji from '../styled/BobButtonWithEmoji'
+import PageBox from 'components/styled/PageBox'
+import BobButtonWithEmoji from 'components/styled/BobButtonWithEmoji'
 
 const Gender = (props) => {
 

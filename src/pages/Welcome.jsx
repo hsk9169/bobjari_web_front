@@ -20,8 +20,8 @@ import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import { EmojiProvider, Emoji } from 'react-apple-emojis';
 import emojiData from 'react-apple-emojis/lib/data.json';
-const authInfo = require('../constants/kakao-auth');
-const imgUri = require('../constants/image-uri');
+const authInfo = require('constants/kakao-auth');
+const imgUri = require('constants/image-uri');
 
 const mapDispatchToProps = dispatch => {
     return {

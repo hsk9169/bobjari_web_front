@@ -2,8 +2,8 @@ import * as React from 'react'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import PageBox from '../../styled/PageBox'
-import BobButton from '../../styled/BobButton'
+import PageBox from 'components/styled/PageBox'
+import BobButton from 'components/styled/BobButton'
 
 const topicList = [
     '직업 이점',

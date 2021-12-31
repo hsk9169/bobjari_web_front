@@ -1,4 +1,4 @@
-import { ADD_SESSION, UPDATE_SESSION, DELETE_SESSION } from "../constants/action-types";
+import { ADD_SESSION, UPDATE_SESSION, DELETE_SESSION } from "constants/action-types";
 
 /* Session
  ** role

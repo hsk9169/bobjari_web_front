@@ -11,7 +11,7 @@ import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import HeadsetMicOutlinedIcon from '@mui/icons-material/HeadsetMicOutlined';
 import { grey } from '@mui/material/colors';
        
-import IOSSwitch from '../../styled/IOSSwitch';
+import IOSSwitch from 'components/styled/IOSSwitch';
 
 
 export default function ControlEtc(props) {

@@ -4,8 +4,8 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ButtonBase from '@mui/material/ButtonBase';
-import EmailInput from '../components/SignInComp/EmailInput';
-import EmailAuth from '../components/SignInComp/EmailAuth';
+import EmailInput from 'components/SignInComp/EmailInput';
+import EmailAuth from 'components/SignInComp/EmailAuth';
 
 
 const axios = require('axios');

@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 
-import { addSession } from '../actions/index';
+import { addSession } from 'actions/index';
 import { connect } from 'react-redux';
 import { v1 as uuid } from 'uuid';
 const axios = require('axios');
-const authInfo = require('../constants/kakao-auth');
+const authInfo = require('constants/kakao-auth');
 
 const mapDispatchToProps = dispatch => {
     return {

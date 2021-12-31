@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import StackTitleWithProgress from '../components/styled/StackTitleWithProgress';
 
-import Job from '../components/SignUpComp/Mentor/Job'
-import Company from '../components/SignUpComp/Mentor/Company'
-import Topic from '../components/SignUpComp/Mentor/Topic'
-import Schedule from '../components/SignUpComp/Mentor/Schedule'
-import Location from '../components/SignUpComp/Mentor/Location'
-import CareerAuth from '../components/SignUpComp/Mentor/CareerAuth'
-import Fee from '../components/SignUpComp/Mentor/Fee'
-import HashTag from '../components/SignUpComp/Mentor/HashTag'
-import Introduce from '../components/SignUpComp/Mentor/Introduce'
-import PageBox from '../components/styled/PageBox';
-import {pageText} from '../constants/mentor-signup-titles'
+import Job from 'components/SignUpComp/Mentor/Job'
+import Company from 'components/SignUpComp/Mentor/Company'
+import Topic from 'components/SignUpComp/Mentor/Topic'
+import Schedule from 'components/SignUpComp/Mentor/Schedule'
+import Location from 'components/SignUpComp/Mentor/Location'
+import CareerAuth from 'components/SignUpComp/Mentor/CareerAuth'
+import Fee from 'components/SignUpComp/Mentor/Fee'
+import HashTag from 'components/SignUpComp/Mentor/HashTag'
+import Introduce from 'components/SignUpComp/Mentor/Introduce'
+import PageBox from 'components/styled/PageBox';
+import {pageText} from 'constants/mentor-signup-titles'
 
 const axios = require('axios');
 

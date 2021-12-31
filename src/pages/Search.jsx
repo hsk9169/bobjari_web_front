@@ -1,6 +1,6 @@
 import {useEffect, useRef} from 'react'
 import Box from '@mui/material/Box';
-import checkJWTExp from '../utils/check-jwt-exp';
+import checkJWTExp from 'utils/check-jwt-exp';
 
 const Search = (props) => {
     const interval = useRef(null)

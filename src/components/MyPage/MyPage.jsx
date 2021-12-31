@@ -4,7 +4,7 @@ import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
-import PageBox from '../styled/PageBox'
+import PageBox from 'components/styled/PageBox'
 
 import MentorProfileCard from './Mentor/ProfileCard';
 import MentorProfileInfo from './Mentor/ProfileInfo';

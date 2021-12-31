@@ -7,10 +7,9 @@ import Divider from "@mui/material/Divider";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import { styled } from "@mui/material/styles";
 
-
-import PageBox from '../../../styled/PageBox'
-import StackTitleWithDone from '../../../styled/StackTitleWithDone'
-import ItemListPaper from '../../../styled/ItemListPaper';
+import PageBox            from 'components/styled/PageBox'
+import StackTitleWithDone from 'components/styled/StackTitleWithDone'
+import ItemListPaper      from 'components/styled/ItemListPaper';
 
 
 const ProfileCardEdit = (props) => {

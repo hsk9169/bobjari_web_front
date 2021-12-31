@@ -11,8 +11,6 @@ import ProfileIconOutlined from '@mui/icons-material/PersonOutlined';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 
-const jwt = require('jsonwebtoken');
-
 
 const BottomNavigator = (props) => {
     
