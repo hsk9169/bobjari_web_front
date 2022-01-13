@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
 import StackTitleWithProgress from '../components/styled/StackTitleWithProgress';
-
-import Job from 'components/SignUpComp/Mentor/Job'
-import Company from 'components/SignUpComp/Mentor/Company'
-import Topic from 'components/SignUpComp/Mentor/Topic'
-import Schedule from 'components/SignUpComp/Mentor/Schedule'
-import Location from 'components/SignUpComp/Mentor/Location'
-import CareerAuth from 'components/SignUpComp/Mentor/CareerAuth'
-import Fee from 'components/SignUpComp/Mentor/Fee'
-import HashTag from 'components/SignUpComp/Mentor/HashTag'
-import Introduce from 'components/SignUpComp/Mentor/Introduce'
+import {Job, Company, Topic, Schedule, Location, CareerAuth, 
+        Fee, HashTag, Introduce, Years} from 'components/SignUpComp/Mentor'
 import PageBox from 'components/styled/PageBox';
 import {pageText} from 'constants/mentor-signup-titles'
-
+import { saveJWT } from 'utils/handle-jwt';
+import { useDispatch } from "react-redux";
+import { addSession } from "slices/session";
 const axios = require('axios');
 
 
@@ -20,11 +14,12 @@ const SignUpMentor = (props) => {
 
     props.setBotNav(false)
     
-    const progressRatio = 11;
+    const progressRatio = 10;
     
     const [state, setState] = useState({
         job: [],
         company: [],
+        years: null,
         topics: [],
         schedules: [],
         schedList: [],
@@ -34,12 +29,12 @@ const SignUpMentor = (props) => {
         isAuth: false,
         feeSelect: null,
         fee: '',
-        hashtag: '',
+        title: '',
         introduce: '',
         pageNum: 0,
         progress: progressRatio,
     })
-    console.log(state)
+    const dispatch = useDispatch();
 
     const handleJoin = (event) => {
         event.preventDefault();
@@ -54,9 +49,11 @@ const SignUpMentor = (props) => {
             role: props.location.data.role,
             job: state.job,
             company: state.company,
+            years: state.years,
             topics: state.topics,
             authSelect: state.authSelect,
             isAuth: state.isAuth,
+            title: state.title,
             introduce: state.introduce,
             schedules: state.schedules,
             cafes: state.cafes,
@@ -94,7 +91,8 @@ const SignUpMentor = (props) => {
             }
         )
             .then(res => {
-                const retEmail = res.data;
+                dispatch(addSession(res.data))
+                const retEmail = res.data.userInfo.email;
                 if (retEmail === props.location.data.email) {
                     console.log('request getting token');
                     axios.get(process.env.REACT_APP_API_GET_TOKEN, 
@@ -103,11 +101,10 @@ const SignUpMentor = (props) => {
                             }
                         })
                         .then(res => {
-                            const token = res.data.token;
-                            localStorage.setItem("accessToken", token.accessToken);
-                            localStorage.setItem("refreshToken", token.refreshToken);
+                            const tokens = res.data.token;
+                            saveJWT(tokens)
                             props.history.push({
-                                pathname: '/service',
+                                pathname: '/main',
                                 data: {
                                     email: props.location.data.email,
                                 }
@@ -159,18 +156,20 @@ const SignUpMentor = (props) => {
             case 1:
                 return (<Company state={state} setState={setState} />)
             case 2:
-                return (<Topic state={state} setState={setState} />)
+                return (<Years state={state} setState={setState} />)
             case 3:
-                return (<Schedule state={state} setState={setState} />)    
+                return (<Topic state={state} setState={setState} />)
             case 4:
-                return (<Location state={state} setState={setState} />)
+                return (<Schedule state={state} setState={setState} />)    
             case 5:
-                return (<CareerAuth state={state} setState={setState} />)
+                return (<Location state={state} setState={setState} />)
             case 6:
-                return (<Fee state={state} setState={setState} />)
+                return (<CareerAuth state={state} setState={setState} />)
             case 7:
-                return (<HashTag state={state} setState={setState} />)
+                return (<Fee state={state} setState={setState} />)
             case 8:
+                return (<HashTag state={state} setState={setState} />)
+            case 9:
                 return (<Introduce state={state} setState={setState}
                             clickJoin={handleJoin} />)
             default:

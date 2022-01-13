@@ -12,17 +12,10 @@ export default function ItemListPaper(props) {
     return (
         <Paper elevation={0}
             sx={{
-                width: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                pb: 1,
-                pt: 1,
+                width: 'inherit',
             }}
         >
-            <Grid container sx={{
-                alignItems: 'center',
-                justifyContent: 'center',
-            }}>
+            <Grid container sx={{alignItems: 'center', justifyContent: 'center'}}>
                 <Grid item xs={11} container direction='column'>
                     <Grid item>
                         <Box>

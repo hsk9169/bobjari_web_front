@@ -44,12 +44,12 @@ const ProfileImage = (props) => {
     });
     console.log(selectedFile)
 
-    const progressRatio = 25
+    const progressRatio = 20
 
     const handleNext = () => {
         props.setState({
             ...props.state,
-            pageNum: (props.state.pageNum < 4 
+            pageNum: (props.state.pageNum < 5
                 ? props.state.pageNum+1 
                 : props.state.pageNum),
             progress: (props.state.progress < 100 
@@ -126,16 +126,16 @@ const ProfileImage = (props) => {
                             onChange={handleFileInput}
                         />
                         <label htmlFor='raised-button-file'>
-                        <Badge
-                            overlap="circular"
-                            anchorOrigin={{ vertical: "top", horizontal: 'left' }}
-                            badgeContent={
-                              <CameraAltIcon sx={{color: 'text.secondary', width: 40, height: 40}}  />
-                            }
-                        >
-                            <Avatar alt="프로필 사진" src={selectedFile.previewUrl} 
-                                sx={{ width: 130, height: 130 }} />
-                        </Badge>
+                            <Badge
+                                overlap="circular"
+                                anchorOrigin={{ vertical: "top", horizontal: 'left' }}
+                                badgeContent={
+                                  <CameraAltIcon sx={{color: 'text.secondary', width: 40, height: 40}}  />
+                                }
+                            >
+                                <Avatar alt="프로필 사진" src={selectedFile.previewUrl} 
+                                    sx={{ width: 130, height: 130 }} />
+                            </Badge>
                         </label>
                     </form>
                     <FormControl component="fieldset" >

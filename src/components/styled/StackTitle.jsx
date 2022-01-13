@@ -14,7 +14,7 @@ export default function StackTitle(props) {
                     pt: 1,
                     pb: 1,
                     margin: 2,
-                    maxWidth: '100%',
+                    width: '100%',
                     height: 50,
                     display: 'flex',
                     alignItems: 'center',
@@ -30,7 +30,7 @@ export default function StackTitle(props) {
                     pb: 1,
                     px: 2,
                     margin: 2,
-                    maxWidth: '100%',
+                    width: '100%',
                     display: 'flex',
                 }}
             >
@@ -49,7 +49,7 @@ export default function StackTitle(props) {
                     pb: 1,
                     px: 2,
                     margin: 2,
-                    maxWidth: '100%',
+                    width: '100%',
                     display: 'flex',
                 }}
             >

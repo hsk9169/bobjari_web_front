@@ -1,21 +1,17 @@
 import React, { useState } from 'react';
-
 import createNickname from 'utils/create-nickname';
 import StackTitleWithProgress from 'components/styled/StackTitleWithProgress';
-import Nickname from 'components/SignUpComp/Nickname';
-import Gender from 'components/SignUpComp/Gender';
-import ProfileImage from 'components/SignUpComp/ProfileImage';
-import Role from 'components/SignUpComp/Role';
-
+import {Nickname, Gender, ProfileImage, Role, Age} from 'components/SignUpComp';
 
 const pageText = {
     title: [
         ['밥자리에서 사용할','닉네임을 설정해주세요'],
         ['성별을 선택해주세요'],
+        ['태어난 연도를 선택해주세요'],
         ['프로필 사진을 등록해주세요'],
         ['회원가입 완료!','원하는 활동을 선택해주세요']
     ],
-    subtitle: Array.from({length: 4}, () => []),
+    subtitle: Array.from({length: 5}, () => []),
 }
 
 const SignUp = (props) => {
@@ -23,7 +19,7 @@ const SignUp = (props) => {
     props.setBotNav(false)
 
     const initialNickname = createNickname();
-    const progressRatio = 25
+    const progressRatio = 20
   
 
     const [state, setState] = useState({
@@ -90,8 +86,10 @@ const SignUp = (props) => {
             case 1:
                 return (<Gender state={state} setState={setState} />)
             case 2:
-                return (<ProfileImage state={state} setState={setState} />)
+                return (<Age state={state} setState={setState} />)
             case 3:
+                return (<ProfileImage state={state} setState={setState} />)
+            case 4:
                 return (<Role state={state} setState={setState} onClick={handleDone} />)
             default:
                 break;

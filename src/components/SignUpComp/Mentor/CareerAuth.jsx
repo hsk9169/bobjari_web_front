@@ -41,7 +41,7 @@ const Root = styled('div')(({ theme }) => ({
 
 const CareerAuth = (props) => {
 
-    const progressRatio = 11
+    const progressRatio = 10
     const drawerBleeding = 56;
 
     const [temp, setTemp] = React.useState({
@@ -79,7 +79,7 @@ const CareerAuth = (props) => {
     const handleNext = () => {
         props.setState({
             ...props.state,
-            pageNum: (props.state.pageNum < 9 
+            pageNum: (props.state.pageNum < 10
                 ? props.state.pageNum+1 
                 : props.state.pageNum),
             progress: (props.state.progress < 100 

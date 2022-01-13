@@ -1,24 +1,11 @@
 import React, { useEffect } from 'react';
-
-import { addSession } from 'actions/index';
-import { connect } from 'react-redux';
-import { v1 as uuid } from 'uuid';
+import {saveJWT} from 'utils/handle-jwt'
+import PageBox from 'components/styled/PageBox'
+import CircularProgress from '@mui/material/CircularProgress';
 const axios = require('axios');
 const authInfo = require('constants/kakao-auth');
 
-const mapDispatchToProps = dispatch => {
-    return {
-        addSession: session => dispatch(addSession(session)),
-    };
-};
-
-const mapStateToProps = state => {
-    return {
-        api: state.api,
-    };
-}
-
-const KakaoCallbackComponent = (props) => {
+const KakaoCallback = (props) => {
 
     const accessCode = new URL(window.location.href).searchParams.get("code");
     
@@ -53,29 +40,26 @@ const KakaoCallbackComponent = (props) => {
                             try {
                                 retEmail = res.data.userInfo.email;
                             } catch {}
-                            console.log(res.data)
         
                             if (retEmail === profile.email) {
-                                console.log('request getting token');
                                 axios.get(process.env.REACT_APP_API_GET_TOKEN,
                                     { params: {
                                         email: retEmail,
                                     }
                                 })
-                                    .then(res => {
-                                        const token = res.data.token;
-                                        localStorage.setItem("accessToken", token.accessToken);
-                                        localStorage.setItem("refreshToken", token.refreshToken);
-                                        props.history.push({
-                                            pathname: '/bobjari',
-                                            data: {
-                                                email: profile.email,
-                                            }
-                                        });
-                                    })
-                                    .catch(err => {
-                                        console.log(err);
-                                    })
+                                .then(res => {
+                                    const tokens = res.data.token;
+                                    props.history.push({
+                                        pathname: '/main',
+                                        data: {
+                                            email: profile.email,
+                                        }
+                                    });
+                                    saveJWT(tokens)
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                })
                             } else {
                                 props.history.push({
                                     pathname: '/signup',
@@ -97,11 +81,15 @@ const KakaoCallbackComponent = (props) => {
 
     return (
         <div>
-            카카오콜백
+            <PageBox sx={{
+                display: 'flex',
+                width: '100%',
+                pt: 40,
+            }}>
+                <CircularProgress size={80} thickness={5} />
+            </PageBox>
         </div>
     );
 }
-
-const KakaoCallback = connect(mapStateToProps, mapDispatchToProps)(KakaoCallbackComponent);
 
 export default KakaoCallback;

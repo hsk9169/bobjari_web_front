@@ -7,6 +7,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button'
+import {getJWT} from 'utils/handle-jwt';
+
 
 const PublicRoute = ({ component: Component, restricted, context, ...rest }) => {
     const [isValid, setValid] = useState({
@@ -20,7 +22,7 @@ const PublicRoute = ({ component: Component, restricted, context, ...rest }) => 
             if (!isValid.initialized) { 
                 await axios.get(process.env.REACT_APP_API_VERIFY_TOKEN,
                     { headers: {
-                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                        Authorization: `Bearer ${getJWT().accessToken}`,
                     }})
                     .then(res => {
                         if (res.data === 'valid') {
@@ -45,7 +47,10 @@ const PublicRoute = ({ component: Component, restricted, context, ...rest }) => 
     const action = (props) => {
         if (isValid.access===true) {
             return (
-                <Component {...props} setBotNav={context.setBotNav} />
+                <Component {...props} 
+                    setBotNav={context.setBotNav} 
+                    setScreen={context.setScreen}
+                />
             )
         } else if (isValid.access===false) {
             return (

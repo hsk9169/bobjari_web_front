@@ -9,22 +9,27 @@ const helpText =
 
 const HashTag = (props) => {
 
-    const progressRatio = 11;
+    const progressRatio = 10;
 
-    const [input, setInput] = React.useState('');
+    const [input, setInput] = React.useState(props.state.title);
+    console.log(input)
 
     const handleInput = event => {
-        props.setState({
-            ...props.state,
-            hashtag: event.target.value
-        })
-        setInput(event.target.value)
+        if (input.length < 30) {
+            if (event.target.value.length > 30) {
+                setInput(event.target.value.slice(0,29))
+            } else {
+                setInput(event.target.value)
+            }
+            
+        } else {}
     }
 
     const handleNext = () => {
         props.setState({
             ...props.state,
-            pageNum: (props.state.pageNum < 9 
+            title: input,
+            pageNum: (props.state.pageNum < 10
                 ? props.state.pageNum+1 
                 : props.state.pageNum),
             progress: (props.state.progress < 100 
@@ -33,17 +38,26 @@ const HashTag = (props) => {
         })
     }
 
-
+    const handleBackspace = event => {
+        if (event.keyCode === 8) {
+            if (input.length >= 30) {
+                setInput(event.target.value.slice(0,-1))
+            }
+        }
+    }
 
     return (
         <div>
             <PageBox sx={{width:'100%',display: 'flex'}}>
                 <TextField 
+                    value={input}
                     variant="outlined"
+                    helperText={input.length+'/30자'}
                     multiline 
-                    rows={5} 
+                    rows={3} 
                     placeholder={helpText}
                     onChange={handleInput} 
+                    onKeyUp={handleBackspace}
                     sx={{width: '85%'}}
                 />
             </PageBox>

@@ -1,9 +1,7 @@
 import React from 'react';
-import { addSession } from '../actions/index';
-import { connect } from 'react-redux';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import { makeStyles } from '@mui/styles';
+import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MobileStepper from '@mui/material/MobileStepper';
@@ -22,18 +20,6 @@ import { EmojiProvider, Emoji } from 'react-apple-emojis';
 import emojiData from 'react-apple-emojis/lib/data.json';
 const authInfo = require('constants/kakao-auth');
 const imgUri = require('constants/image-uri');
-
-const mapDispatchToProps = dispatch => {
-    return {
-        addSession: session => dispatch(addSession(session)),
-    };
-};
-
-const mapStateToProps = state => {
-    return {
-        api: state.api,
-    };
-}
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -83,28 +69,12 @@ const Puller = styled(Box)(({ theme }) => ({
     left: 'calc(50% - 15px)',
 }));
 
-const useStyles = makeStyles({
-    root: {
-        background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-        border: 0,
-        borderRadius: 3,
-        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-        color: 'white',
-        height: 45,
-        width: 300,
-        padding: '0 30px',
-    },
-});
 
-const WelcomeComp = (props) => {
+const Welcome = (props) => {
 
     props.setBotNav(false)
-    
-    console.log('welcome')
 
     // Check if .env params got right
-
-    const classes = useStyles();
 
     const theme = useTheme();
     const [activeStep, setActiveStep] = React.useState(0);
@@ -144,40 +114,15 @@ const WelcomeComp = (props) => {
 
     const kakaoButtonHandler = async () => {
         window.location.assign(redirectUri());
-        /*
-        props.history.push({
-            pathname: '/signup/role',
-            data: {
-                email: 'bobjari_test@gmail.com',
-                age: 22,
-                gender: 'male',
-                nickname: '로보트태권브이',
-                profileImage: {
-                    data: 'https://w.namu.la/s/28027c57126faed6ad2426677a122ac53864e9fca93d64442af454a4bb397c3ac6467f258f151f0bb19b3c8b91609ae7cc8ab888a9b235670622ef1cb1fbc6df56bfd6011ccdef1401fb8ce52739c8e9fc85a22f858fdfd891e8b8522d4647c4',
-                    contentType: 'url',
-                },
-            },
-        });
-        */
     }
 
     const bobjariSignInButtonHandler = () => {
         props.history.push('/signin');
-        /*
-        props.history.push({
-            pathname: '/signup/role',
-            data: {
-                email: 'bobjari_test@gmail.com',
-                age: 22,
-                gender: 'male',
-                nickname: '로보트태권브이',
-                profileImage: {
-                    data: 'https://w.namu.la/s/28027c57126faed6ad2426677a122ac53864e9fca93d64442af454a4bb397c3ac6467f258f151f0bb19b3c8b91609ae7cc8ab888a9b235670622ef1cb1fbc6df56bfd6011ccdef1401fb8ce52739c8e9fc85a22f858fdfd891e8b8522d4647c4',
-                    contentType: 'url',
-                },
-            },
-        });
-        */
+    }
+
+    const handleVisitorEntering = () => {
+        props.history.push('/search')
+        props.setScreen('search')
     }
 
     return (
@@ -226,9 +171,8 @@ const WelcomeComp = (props) => {
                                     sx={{
                                         height: 255,
                                         display: 'block',
-                                        maxWidth: 400,
+                                        width: '100%',
                                         overflow: 'hidden',
-                                        margin: 2,
                                     }}
                                     src={steps.image}
                                     alt={steps.label1}
@@ -322,12 +266,12 @@ const WelcomeComp = (props) => {
                     <StyledBox
                         sx={{
                             display: 'flex',
-                            px: 2,
                             pb: 2,
                             height: '100%',
                             overflow: 'auto',
                             justifyContent: 'center',
                             alignItems: 'center',
+                            width: '100%',
                         }}
                     >
                         <Stack direction='column' spacing={1}>
@@ -338,24 +282,42 @@ const WelcomeComp = (props) => {
                                     }}
                                 />
                             </div>
-                            <div>
-                                <Button className={classes.root} onClick={bobjariSignInButtonHandler}>
-                                    <Typography variant='body1' sx={{ fontWeight: 'fontWeightMedium'}}>
-                                        밥자리 계정으로 시작하기&nbsp;
+                            <Button variant='outlined'
+                                onClick={bobjariSignInButtonHandler}
+                                sx={{width: '100%', height: 45}}
+                            >
+                                <Grid container>
+                                    <Grid item xs={3} sx={{display: 'flex',justifyContent:'flex-start'}}>
                                         <EmojiProvider data={emojiData}>
                                             <Emoji name="cooked-rice" width={25} />
                                         </EmojiProvider>
-                                    </Typography>
-                                </Button>
-                            </div>
+                                    </Grid>
+                                    <Grid item>
+                                        <Typography variant='body1' sx={{ fontWeight: 'fontWeightBold'}}>
+                                            밥자리 계정으로 시작하기
+                                        </Typography>
+                                    </Grid>
+                                </Grid>
+                            </Button>
                         </Stack>
                     </StyledBox>
+                    <Box
+                        sx={{ 
+                            width: '100%',
+                            display: 'flex',
+                            justifyContent: 'right'
+                        }}
+                    >
+                        <Button
+                            onClick={handleVisitorEntering}
+                        >
+                            둘러보기
+                        </Button>
+                    </Box>
                 </SwipeableDrawer>
             </Root>
         </div>
     );
 }
-
-const Welcome = connect(mapStateToProps, mapDispatchToProps)(WelcomeComp);
 
 export default Welcome;

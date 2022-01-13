@@ -11,7 +11,7 @@ import {jobs} from 'constants/job-corp-name'
 
 const Job = (props) => {
 
-    const progressRatio = 11
+    const progressRatio = 10
 
     const [disabled, setDisabled] = React.useState(
         (props.state.job==='' ? true : false)
@@ -47,7 +47,7 @@ const Job = (props) => {
     const handleNext = () => {
         props.setState({
             ...props.state,
-            pageNum: (props.state.pageNum < 9 
+            pageNum: (props.state.pageNum < 10
                 ? props.state.pageNum+1 
                 : props.state.pageNum),
             progress: (props.state.progress < 100 

@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import axios from 'axios';
 import Dialog from '@mui/material/Dialog';
@@ -7,8 +7,10 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button'
-
-const jwt = require('jsonwebtoken');
+import Box from '@mui/material/Box';
+import { useDispatch } from "react-redux";
+import { deleteSession } from "slices/session";
+import {getJWT, deleteJWT, checkJWTExp, verifyJWT} from 'utils/handle-jwt';
 
 const PrivateRoute = ({ component: Component, context, ...rest }) => {
     const [isValid, setValid] = useState({
@@ -16,13 +18,30 @@ const PrivateRoute = ({ component: Component, context, ...rest }) => {
         access: null,
     })
     const [dialogOpen, setDialogOpen] = useState(false);
+    const interval = useRef(null)
+    const dispatch = useDispatch();
+
+    const handleDialogClose = () => {
+        setValid({
+            ...isValid,
+            access: false,
+        })
+        context.setSessionTime({
+            expireTime: null, 
+            remainTime: null,
+        })
+        setDialogOpen(false);
+        context.setScreen('main')
+        action();
+        dispatch(deleteSession())
+    }
     
     useEffect( () => {
         async function start() {
             if (!isValid.initialized) {
                 await axios.get(process.env.REACT_APP_API_VERIFY_TOKEN,
                     { headers: {
-                        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                        Authorization: `Bearer ${getJWT().accessToken}`,
                     }})
                     .then(res => {
                         console.log('token check', res.data)
@@ -32,14 +51,7 @@ const PrivateRoute = ({ component: Component, context, ...rest }) => {
                                 initialized: true,
                                 access: true,
                             })
-                            jwt.verify(localStorage.getItem('accessToken'),
-                                'shhhhh', (err,decoded) => {
-                                    context.setSessionTime({
-                                        expireTime: decoded.exp, 
-                                        remainTime: decoded.exp - Math.floor(Date.now()/1000),
-                                    })
-                                }
-                            )   
+                            verifyJWT(context)
                         } else if (res.data === 'invalid') {
                             console.log('invalid')
                             setDialogOpen(true)                       
@@ -56,15 +68,27 @@ const PrivateRoute = ({ component: Component, context, ...rest }) => {
             setDialogOpen(true)
         }
 
+        interval.current = setInterval(() => {
+            const check = checkJWTExp(context.sessionTime.expireTime,
+                                      context.sessionTime.remainTime);
+            if (context.sessionTime.remainTime !== 0) {
+                context.setSessionTime({
+                    ...context.sessionTime,
+                    remainTime: check,
+                })
+            }
+        }, 1000)
+        return () => {
+            clearInterval(interval.current)
+        }
+
     }, [isValid, context])
 
     const action = (props) => {
         if (isValid.access===true) {
             return (
                 <Component {...props} 
-                    setBotNav={context.setBotNav}
-                    sessionTime={context.sessionTime}
-                    setSessionTime={context.setSessionTime}
+                    context={context}
                 />
             )
         } else if (isValid.access===false) {
@@ -74,18 +98,9 @@ const PrivateRoute = ({ component: Component, context, ...rest }) => {
         }
     }
 
-    const handleDialogClose = () => {
-        setValid({
-            ...isValid,
-            access: false,
-        })
-        context.setSessionTime({
-            expireTime: null, 
-            remainTime: null,
-        })
-        setDialogOpen(false);
-        context.setScreen('main')
-        action();
+    const clickSignOut = () => {
+        deleteJWT();
+        verifyJWT(context);
     }
     
     return (
@@ -93,6 +108,19 @@ const PrivateRoute = ({ component: Component, context, ...rest }) => {
             <Route {...rest}
                 render={action}
             />
+            <Box sx={{
+                width: '100%',
+                display: 'flex',
+                position: 'absolute',
+                top: 0,
+                alignItems: 'center',
+                justifyContent: 'right'
+            }}>
+                <p>session remained: {context.sessionTime.remainTime}sec</p>
+                <Button variant='contained' size='small'
+                    onClick={clickSignOut}
+                >SignOut</Button>
+            </Box>
             <Dialog
                 open={dialogOpen}
                 onClose={handleDialogClose}
@@ -100,7 +128,7 @@ const PrivateRoute = ({ component: Component, context, ...rest }) => {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {'로그인 세션 만료'}
+                    {'로그아웃'}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">

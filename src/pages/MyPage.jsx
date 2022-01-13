@@ -1,42 +1,74 @@
-import {useEffect, useRef} from 'react';
-import Box from '@mui/material/Box';
-import checkJWTExp from 'utils/check-jwt-exp';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import PageBox from 'components/styled/PageBox'
+import Grid from '@mui/material/Grid'
+import Divider from '@mui/material/Divider';
+import {useState} from 'react';
+import {getJWT, verifyJWT} from 'utils/handle-jwt'
+import {ProfileCard, ProfileInfo, ControlEtc} from 'components/MyPage/Mentee'
+import {useSelector} from 'react-redux'
+import {selectSessions} from 'slices/session';
+const axios = require('axios');
 
-const Mypage = (props) => {
-    const interval = useRef(null)
+const Mypage = ({context, history}) => {
 
-    props.setBotNav(true)
+    const [popUp, setPopUp] = useState('')
+    const session = useSelector(selectSessions)[1].session
+    context.setBotNav(true)
 
-    useEffect( () => {
-        interval.current = setInterval(() => {
-            const check = checkJWTExp(props.sessionTime.expireTime,
-                                      props.sessionTime.remainTime);
-            if (props.sessionTime.remainTime !== 0) {
-                props.setSessionTime({
-                    ...props.sessionTime,
-                    remainTime: check,
-                })
-            }
-        }, 1000)
-        return () => {
-            clearInterval(interval.current)
-        }
-    })
-    
+    const state = {
+        interests: session.interests,
+        imgUrl: session.profileImg.data,
+        nickname: session.userInfo.nickname,
+    }
+
+    const handleEdit = () => {
+        history.push('/mypage/edit')
+    }
+
     return (
         <div>
-            <h2>Mypage</h2>
-            <Box sx={{
-                width: '100%',
+            <PageBox sx={{width: '100%', pb: 4}}/>
+            <PageBox sx={{
                 display: 'flex',
-                position: 'absolute',
-                top: 0,
-                alignItems: 'center',
-                justifyContent: 'right'
-            }}>
-                <p>session remained: {props.sessionTime.remainTime}sec</p>
-            </Box>
-            
+                width: '100%',
+                }}
+            >
+                {session.role === 'mentee'
+                    ?<Grid container direction='column'>
+                        <Grid item>
+                            <ProfileCard state={state} editProfile={handleEdit}/>
+                        </Grid>
+                        <Grid item>
+                            <Divider />
+                        </Grid>
+                        <Grid item>
+                            <ProfileInfo />
+                        </Grid>
+                        <Grid item>
+                            <Divider />
+                        </Grid>
+                        <Grid item>
+                            <PageBox sx={{display: 'flex', p:3}}>
+                                <Button variant='outlined' 
+                                    sx={{width: '100%', height: 45, 
+                                        border: 2, borderRadius: 2}}>
+                                    <Typography variant='subtitle1' 
+                                        sx={{fontWeight: 'fontWeightBold'}}>
+                                        직업인으로 전환
+                                    </Typography>
+                                </Button>
+                            </PageBox>
+                        </Grid>
+                        <Grid item>
+                            <ControlEtc />
+                        </Grid>
+                    </Grid>
+                    :<h1>Mentor Page is on dev...</h1>
+                }
+
+            </PageBox>
+            <PageBox sx={{pb:7}} />
         </div>
     )
 }
