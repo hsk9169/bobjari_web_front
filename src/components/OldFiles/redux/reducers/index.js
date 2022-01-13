@@ -1,15 +1,10 @@
-import { ADD_SESSION, UPDATE_SESSION, DELETE_SESSION } from "constants/action-types";
+import { ADD_SESSION, UPDATE_SESSION, DELETE_SESSION } from "components/OldFiles/redux/action-types";
 
-/* Session
- ** role
- ** token
- */
 const initialState = {
     session: [],
-    
 };
 
-const rootReducer = (state = initialState, action) => {
+const sessionReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_SESSION:
             return {
@@ -20,7 +15,7 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 session: state.session.map(element => { 
-                    if(element.email === action.payload.email) {
+                    if (element.email === action.payload.email) {
                         element.accessToken = action.payload.accessToken;
                     }
                     return state;
@@ -29,11 +24,11 @@ const rootReducer = (state = initialState, action) => {
         case DELETE_SESSION:
             return {
                 ...state,
-                signupForm: []
+                session: [],
             };
         default:
             return state;
     }
 };
 
-export default rootReducer;
+export default sessionReducer;

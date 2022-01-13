@@ -16,7 +16,7 @@ const Gender = (props) => {
         femaleDisplay: (props.state.gender==='female' ? 'contained' : 'outlined'),
     });
 
-    const progressRatio = 25
+    const progressRatio = 20
 
     console.log(state)
 
@@ -47,7 +47,7 @@ const Gender = (props) => {
     const handleNext = () => {
         props.setState({
             ...props.state,
-            pageNum: (props.state.pageNum < 4 
+            pageNum: (props.state.pageNum < 5
                 ? props.state.pageNum+1 
                 : props.state.pageNum),
             progress: (props.state.progress < 100 

@@ -10,14 +10,33 @@ const helpText =
 const Introduce = (props) => {
 
 
-    const [input, setInput] = React.useState('');
+    const [input, setInput] = React.useState(props.state.introduce);
 
     const handleInput = event => {
-        props.setState({
-            ...props.state,
-            introduce: event.target.value
-        })
-        setInput(event.target.value)
+        if (input.length < 300) {
+            if (event.target.value.length > 300) {
+                const value = event.target.value.slice(0,299)
+                props.setState({
+                    ...props.state,
+                    introduce: value
+                })
+                setInput(value)
+            } else {
+                props.setState({
+                    ...props.state,
+                    introduce: event.target.value
+                })
+                setInput(event.target.value)
+            }
+        } else {}  
+    }
+
+    const handleBackspace = event => {
+        if (event.keyCode === 8) {
+            if (input.length >= 300) {
+                setInput(event.target.value.slice(0,-1))
+            }
+        }
     }
 
 
@@ -25,11 +44,14 @@ const Introduce = (props) => {
         <div>
             <PageBox sx={{width:'100%',display: 'flex'}}>
                 <TextField 
+                    value={input}
                     variant="outlined"
+                    helperText={input.length+'/300자'}
                     multiline 
                     rows={10} 
                     placeholder={helpText}
                     onChange={handleInput} 
+                    onKeyUp={handleBackspace}
                     sx={{width: '85%'}}
                 />
             </PageBox>

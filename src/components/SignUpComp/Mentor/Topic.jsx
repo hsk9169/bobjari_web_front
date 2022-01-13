@@ -4,23 +4,11 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import PageBox from 'components/styled/PageBox'
 import BobButton from 'components/styled/BobButton'
-
-const topicList = [
-    '직업 이점',
-    '직업 고충',
-    '하루 일과',
-    '직업선택 이유',
-    '자소서/면접',
-    '회사 정보',
-    '커리어 계획',
-    '직업 비전',
-    '마인드셋',
-    '라이프 스타일',
-];
+import {topicList} from 'constants/topics'
 
 const Topic = (props) => {
 
-    const progressRatio = 11
+    const progressRatio = 10
 
     const [disabled, setDisabled] = React.useState(
         (props.state.company==='' ? true : false)
@@ -77,7 +65,7 @@ const Topic = (props) => {
     const handleNext = () => {
         props.setState({
             ...props.state,
-            pageNum: (props.state.pageNum < 9 
+            pageNum: (props.state.pageNum < 10
                 ? props.state.pageNum+1 
                 : props.state.pageNum),
             progress: (props.state.progress < 100 

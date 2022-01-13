@@ -14,7 +14,9 @@ import PageBox from 'components/styled/PageBox';
 import {jobs} from 'constants/job-corp-name'
 import BobButtonWithEmoji from 'components/styled/BobButtonWithEmoji';
 import StackTitle from 'components/styled/StackTitle';
-
+import {saveJWT} from 'utils/handle-jwt'
+import { useDispatch } from "react-redux";
+import { addSession } from "slices/session";
 const axios = require('axios');
 
 const SignUpMentee = (props) => {
@@ -23,6 +25,7 @@ const SignUpMentee = (props) => {
     
     let jobList = [];
     let ref = React.createRef();
+    const dispatch = useDispatch();
 
     const [dialogOpen, setDialogOpen] = useState(false);
     const [open, setOpen] = React.useState(false);
@@ -69,7 +72,8 @@ const SignUpMentee = (props) => {
             }
         )
             .then(res => {
-                const retEmail = res.data;
+                dispatch(addSession(res.data))
+                const retEmail = res.data.userInfo.email;
                 if (retEmail === props.location.data.email) {
                     console.log('request getting token');
                     axios.get(process.env.REACT_APP_API_GET_TOKEN, 
@@ -78,11 +82,10 @@ const SignUpMentee = (props) => {
                             }
                         })
                         .then(res => {
-                            const token = res.data.token;
-                            localStorage.setItem("accessToken", token.accessToken);
-                            localStorage.setItem("refreshToken", token.refreshToken);
+                            const tokens = res.data.token;
+                            saveJWT(tokens)
                             props.history.push({
-                                pathname: '/service',
+                                pathname: '/main',
                                 data: {
                                     email: props.location.data.email,
                                 }

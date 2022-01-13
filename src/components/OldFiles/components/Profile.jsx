@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
@@ -11,13 +10,6 @@ import { red } from '@mui/material/colors';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import axios from 'axios';
 import { makeStyles } from '@mui/styles';
-
-
-const mapStateToProps = state => {
-  return {
-      session: state.session,
-  };
-}
 
 const useStyles = makeStyles({
     root: {
@@ -32,7 +24,7 @@ const useStyles = makeStyles({
     },
 });
 
-const ProfileComponent = props => {
+const Profile = props => {
 
     const classes = useStyles();
 
@@ -134,7 +126,5 @@ const ProfileComponent = props => {
         
   );
 }
-
-const Profile = connect(mapStateToProps)(ProfileComponent);
 
 export default Profile;

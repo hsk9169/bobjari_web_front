@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { v1 as uuid } from 'uuid';
 import FormControl from '@mui/material/FormControl';
 import Input from '@mui/material/Input'
@@ -11,13 +10,8 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import Fab from '@mui/material/Fab';
 import RefreshIcon from '@mui/icons-material/RotateLeft';
 import "../styles/styles.css";
+import {saveJWT} from 'utils/handle-jwt'
 const axios = require('axios');
-
-const mapStateToProps = state => {
-    return {
-        session: state.session,
-    };
-}
 
 const useStyles = makeStyles({
     root: {
@@ -32,7 +26,7 @@ const useStyles = makeStyles({
     },
 });
 
-const SignInAuthComponent = (props) => {
+const SignInAuth = (props) => {
     console.log(props.location.data.auth);
 
     const classes = useStyles();
@@ -74,9 +68,8 @@ const SignInAuthComponent = (props) => {
                                 }
                             })
                             .then(res => {
-                                const token = res.data.token;
-                                localStorage.setItem("accessToken", token.accessToken);
-                                localStorage.setItem("refreshToken", token.refreshToken);
+                                const tokens = res.data.token;
+                                saveJWT(tokens)
                                 props.history.push({
                                     pathname: '/bobjari',
                                     data: {
@@ -203,7 +196,5 @@ const SignInAuthComponent = (props) => {
         </Box>   
     );
 }
-
-const SignInAuth = connect(mapStateToProps)(SignInAuthComponent);
 
 export default SignInAuth;

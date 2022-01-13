@@ -2,11 +2,10 @@ import {Link} from 'react-router-dom'
 
 import Paper from '@mui/material/Paper'
 import HomeIconFilled from '@mui/icons-material/Home';
-import SearchIcon from '@mui/icons-material/Search';
-import ForumRoundedIcon from '@mui/icons-material/ForumRounded';
+import RiceBowlIcon from '@mui/icons-material/RiceBowl';
 import ProfileIconFilled  from '@mui/icons-material/Person';
 import HomeIconOutlined from '@mui/icons-material/HomeOutlined';
-import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
+import RiceBowlOutlinedIcon from '@mui/icons-material/RiceBowlOutlined';
 import ProfileIconOutlined from '@mui/icons-material/PersonOutlined';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
@@ -35,22 +34,11 @@ const BottomNavigator = (props) => {
                     component={Link}
                     to={
                         {
-                            pathname: '/search',
- 
+                            pathname: '/bob', 
                         }
                     }
-                    value='search'
-                    icon={<SearchIcon/>}
-                />
-                <BottomNavigationAction
-                    component={Link}
-                    to={
-                        {
-                            pathname: '/chat', 
-                        }
-                    }
-                    value='chat'
-                    icon={(props.page.value === 'chat') ? <ForumRoundedIcon /> : <ForumOutlinedIcon />}
+                    value='bob'
+                    icon={(props.page.value === 'bob') ? <RiceBowlIcon /> : <RiceBowlOutlinedIcon />}
                 />
                 <BottomNavigationAction
                     component={Link}

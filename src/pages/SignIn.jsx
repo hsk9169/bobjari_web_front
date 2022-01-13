@@ -1,30 +1,21 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ButtonBase from '@mui/material/ButtonBase';
 import EmailInput from 'components/SignInComp/EmailInput';
 import EmailAuth from 'components/SignInComp/EmailAuth';
-
-
+import {saveJWT} from 'utils/handle-jwt'
+import { useDispatch } from "react-redux";
+import { addSession } from "slices/session";
 const axios = require('axios');
-
 
 const pageTitle = [
     '밥자리 로그인',
     '인증번호 입력',
 ]
 
-const mapStateToProps = state => {
-    return {
-        session: state.session,
-    };
-}
-
-
-
-const SignInComponent = (props) => {
+const SignIn = (props) => {
 
     props.setBotNav(false)
 
@@ -39,10 +30,13 @@ const SignInComponent = (props) => {
 
     console.log(state);
 
+    const dispatch = useDispatch();
+
 
     const handleSignIn = async (event) => {
         event.preventDefault();
         if (state.auth === state.authInput) {
+
             await axios({
                 method: 'POST',
                 url: process.env.REACT_APP_API_SIGN_IN_BOB,
@@ -58,22 +52,21 @@ const SignInComponent = (props) => {
                     }
                     
                     if (retEmail === state.email) {
-                        console.log('request getting token');
+                        dispatch(addSession(res.data))
                         axios.get(process.env.REACT_APP_API_GET_TOKEN, 
                             { params: {
                                 email: retEmail
                                 }
                             })
                             .then(res => {
-                                const token = res.data.token;
-                                localStorage.setItem("accessToken", token.accessToken);
-                                localStorage.setItem("refreshToken", token.refreshToken);
+                                const tokens = res.data.token;
                                 props.history.push({
                                     pathname: '/main',
                                     data: {
                                         email: state.email,
                                     }
                                 });
+                                saveJWT(tokens)
                             })
                             .catch(err => {
                                 console.log(err);
@@ -87,6 +80,7 @@ const SignInComponent = (props) => {
                         });
                     }
                 })
+
             setState({
                 ...state,
                 errMsg: '',
@@ -176,7 +170,5 @@ const SignInComponent = (props) => {
         </div>
     );
 }
-
-const SignIn = connect(mapStateToProps)(SignInComponent);
 
 export default SignIn;

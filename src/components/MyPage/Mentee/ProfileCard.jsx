@@ -9,12 +9,9 @@ import Box from '@mui/material/Box';
 import { grey } from '@mui/material/colors'
 
 
-export default function ProfileCard(props) {
+const ProfileCard = (props) => {
 
     const [interests, setInterests] = useState('');
-    const handleProfile = () => {
-        
-    }
 
     useEffect ( () => {
         if (interests === '') {
@@ -32,8 +29,7 @@ export default function ProfileCard(props) {
                 sx={{
                   pt: 2,
                   p: 1.5,
-                  margin: 2,
-                  maxWidth: '100%',
+                  width: '100%',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -79,7 +75,7 @@ export default function ProfileCard(props) {
                             }}
                         >
                         <ButtonBase>
-                            <ArrowForward color='disabled' onClick={handleProfile} />
+                            <ArrowForward color='disabled' onClick={props.editProfile} />
                         </ButtonBase>
                         </Box>
                     </Grid>
@@ -87,3 +83,5 @@ export default function ProfileCard(props) {
             </Paper>
     );
 }
+
+export default ProfileCard;

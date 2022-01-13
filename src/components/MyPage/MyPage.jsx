@@ -10,7 +10,7 @@ import MentorProfileCard from './Mentor/ProfileCard';
 import MentorProfileInfo from './Mentor/ProfileInfo';
 import MentorControlEtc from './Mentor/ControlEtc';
 
-import MenteeProfileCard from './Mentee/ProfileCard';
+import MenteeProfileCard from './Mentee/ProfileEdit';
 import MenteeProfileInfo from './Mentee/ProfileInfo';
 import MenteeControlEtc from './Mentee/ControlEtc';
 

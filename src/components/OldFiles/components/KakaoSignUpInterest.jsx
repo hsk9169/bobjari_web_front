@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { addSession } from '../actions/index';
-import { connect } from 'react-redux';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -13,6 +11,7 @@ import { EmojiProvider, Emoji } from 'react-apple-emojis'
 import emojiData from 'react-apple-emojis/lib/data.json'
 import Search from '@mui/icons-material/Search';
 import { v1 as uuid } from 'uuid';
+import {saveJWT} from 'utils/handle-jwt'
 const axios = require('axios');
 
 const jobs = [
@@ -27,18 +26,6 @@ const jobs = [
     '공무원',
 ];
 
-const mapDispatchToProps = dispatch => {
-    return {
-        addSession: session => dispatch(addSession(session)),
-    };
-};
-
-const mapStateToProps = state => {
-    return {
-        api: state.api,
-    };
-};
-
 const useStyles = makeStyles({
     root: {
         background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
@@ -52,7 +39,7 @@ const useStyles = makeStyles({
     },
 });
 
-const KakaoSignUpInterestComp = (props) => {
+const KakaoSignUpInterest = (props) => {
 
     const classes = useStyles();
 
@@ -84,12 +71,11 @@ const KakaoSignUpInterestComp = (props) => {
         )
             .then(res => {
                 console.log(res);
-                const token = res.data.token;
-                if (token) {
+                const tokens = res.data.token;
+                if (tokens) {
                     const id = uuid();
-                    props.addSession({ token, id });
-                    localStorage.setItem("accessToken", token.accessToken);
-                    localStorage.setItem("refreshToken", token.refreshToken);
+                    //props.addSession({ token, id });
+                    saveJWT(tokens)
                     props.history.push({
                         pathname: '/profile',
                         data: {
@@ -183,7 +169,5 @@ const KakaoSignUpInterestComp = (props) => {
         </Box>
     );
 }
-
-const KakaoSignUpInterest = connect(mapStateToProps, mapDispatchToProps)(KakaoSignUpInterestComp);
 
 export default KakaoSignUpInterest;

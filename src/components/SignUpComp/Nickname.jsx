@@ -16,7 +16,7 @@ const Nickname = (props) => {
 
     const [disabled, setDisabled] = useState(true)
 
-    const progressRatio = 25
+    const progressRatio = 20
 
     const handleNicknameInput = (event) => {
         console.log(props.state)
@@ -61,7 +61,7 @@ const Nickname = (props) => {
     const handleNext = () => {
         props.setState({
             ...props.state,
-            pageNum: (props.state.pageNum < 4 
+            pageNum: (props.state.pageNum < 5
                 ? props.state.pageNum+1 
                 : props.state.pageNum),
             progress: (props.state.progress < 100 

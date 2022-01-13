@@ -14,13 +14,13 @@ const feeOption = [
 
 const Fee = (props) => {
 
-    const progressRatio = 11
+    const progressRatio = 10
     const [fee, setFee] = React.useState((props.state.fee.value ? props.state.fee.value : '0'));
 
     const handleNext = () => {
         props.setState({
             ...props.state,
-            pageNum: (props.state.pageNum < 9 
+            pageNum: (props.state.pageNum < 10
                 ? props.state.pageNum+1 
                 : props.state.pageNum),
             progress: (props.state.progress < 100 
