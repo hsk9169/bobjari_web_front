@@ -5,7 +5,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { PublicRoute, PrivateRoute } from './lib';
 
 import { Welcome, SignIn, SignUp, SignUpMentee, SignUpMentor, ErrorPage, NotFound, 
-        Main, Bob, Mypage, TestHome } from 'pages';
+        Main, Bob, Mypage } from 'pages';
 import {ProfileEdit} from 'components/MyPage/Mentee'
 import KakaoCallback from 'components/KakaoCallback';
 
@@ -34,8 +34,6 @@ const App = (props) => {
     return (
         <ErrorBoundary FallbackComponent={ErrorPage}>
             <Switch>  
-
-                <Route component={TestHome} path='/test' exact />
                 
                 <Route component={KakaoCallback} path='/auths/kakao/callback' exact />
 

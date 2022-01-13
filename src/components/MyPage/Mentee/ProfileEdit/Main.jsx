@@ -45,7 +45,9 @@ const ProfileEdit = ({context, history, drawerWindow}) => {
     };
 
     const [info, setInfo] = useState({
-        imgUrl: session.profileImg.data,
+        imgUrl: (session.profileImg.contentType==='url' 
+            ? session.profileImg.data
+            : `data:${session.profileImg.contentType};base64,${session.profileImg.data}`),
         imgType: session.profileImg.contentType,
         imgFile: null,
         nickname: session.userInfo.nickname,

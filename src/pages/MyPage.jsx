@@ -18,7 +18,9 @@ const Mypage = ({context, history}) => {
 
     const state = {
         interests: session.interests,
-        imgUrl: session.profileImg.data,
+        imgUrl: (session.profileImg.contentType==='url' 
+            ? session.profileImg.data
+            : `data:${session.profileImg.contentType};base64,${session.profileImg.data}`),
         nickname: session.userInfo.nickname,
     }
 

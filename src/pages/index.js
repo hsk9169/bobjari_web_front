@@ -8,4 +8,3 @@ export { default as Bob } from './Bob';
 export { default as Mypage } from './Mypage';
 export { default as ErrorPage } from './ErrorPage';
 export { default as NotFound } from './NotFound';
-export { default as TestHome } from './TestHome';

@@ -25,6 +25,8 @@ const Main = ({context}) => {
         setSearchInput(event.target.value)
     }
 
+    console.log('is end? ', isEnd)
+
     const handleSearch = async event => {
         if (event.key === 'Enter') {
             event.preventDefault();
