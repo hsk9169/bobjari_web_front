@@ -8,11 +8,9 @@ import RadioGroup from '@mui/material/RadioGroup';
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import Badge from "@mui/material/Badge";
 import { makeStyles } from '@mui/styles';
-
-
 import PageBox from 'components/styled/PageBox'
 import BobButton from 'components/styled/BobButton'
-
+import {blobToFile, compressImgFile} from 'utils/handle-imgFile'
 const imageUri = require('constants/image-uri')
 
 
@@ -38,12 +36,14 @@ const ProfileImage = (props) => {
         (props.state.profileImage==='' ? true : false))
     const [selectedFile, setSelectedFile] = useState({
         file: null,
+        compFile: null,
         previewUrl: props.state.profileImage,
         selectUrl: props.state.imageFileUrl,
         editEnable: true,
     });
-    console.log(selectedFile)
-
+    console.log('original image',selectedFile.file)
+    console.log('compressed image',selectedFile.compFile)
+    
     const progressRatio = 20
 
     const handleNext = () => {
@@ -80,14 +80,25 @@ const ProfileImage = (props) => {
         setDisabled((prefix==='' ? true : false));
     };
 
-    const handleFileInput = (event) => {
+    const handleFileInput = async (event) => {
         event.preventDefault();
 
         let file = event.target.files[0];
+        let compFile = null;
+
+        await compressImgFile(file)
+            .then(result => {
+                compFile = blobToFile(result, result.name);
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
         let reader = new FileReader();
         reader.onloadend = () => {
             setSelectedFile({
                 file: file,
+                compFile: compFile,
                 selectUrl: reader.result,
                 previewUrl: reader.result,
                 editEnable: true
@@ -95,7 +106,7 @@ const ProfileImage = (props) => {
             props.setState({
                 ...props.state,
                 imageFileUrl: reader.result,
-                selectedFile: file,
+                selectedFile: compFile,
             })
         }
         try {

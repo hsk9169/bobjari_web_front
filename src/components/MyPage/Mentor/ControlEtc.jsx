@@ -9,17 +9,10 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import VolumeUpOutlinedIcon from '@mui/icons-material/VolumeUpOutlined';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import HeadsetMicOutlinedIcon from '@mui/icons-material/HeadsetMicOutlined';
-import { grey } from '@mui/material/colors';
-       
+import { grey } from '@mui/material/colors';       
 import IOSSwitch from 'components/styled/IOSSwitch';
 
-
 export default function ControlEtc(props) {
-
-    const handleSwitch = event => {
-
-    }
-
 
     return (
             <Box component='div'
@@ -63,8 +56,8 @@ export default function ControlEtc(props) {
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={1}>
-                                    <IOSSwitch value={props.state.isMentor} color="secondary"
-                                        onChange={handleSwitch} />
+                                    <IOSSwitch checked={props.searchAllow} color="secondary"
+                                        onChange={props.handleAllowSearch} />
                                 </Grid>
                             </Grid>
                         </Paper>       

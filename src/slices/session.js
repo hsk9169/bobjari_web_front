@@ -14,13 +14,7 @@ const sessionSlice = createSlice({
             state.sessions.push({id: sessionId, session: action.payload})
         },
         updateSession: (state, action) => {
-            const userEmail = action.payload.userInfo.email;
-            state.sessions.map(el => {
-                if (el.session.userInfo.email === userEmail) {
-                    el.session = action.payload;
-                }
-                return state;
-            })
+            state.sessions[1].session = action.payload;
         },
         deleteSession: (state, action) => {
             state.sessions.splice(1,1);

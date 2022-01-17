@@ -10,9 +10,9 @@ import { addSession } from "slices/session";
 const axios = require('axios');
 
 
-const SignUpMentor = (props) => {
+const SignUpMentor = ({context, location, history}) => {
 
-    props.setBotNav(false)
+    context.setBotNav(false)
     
     const progressRatio = 10;
     
@@ -42,11 +42,11 @@ const SignUpMentor = (props) => {
         let formData = new FormData();
         
         const req = {
-            email: props.location.data.email,
-            age: props.location.data.age,
-            gender: props.location.data.gender,
-            nickname: props.location.data.nickname,
-            role: props.location.data.role,
+            email: location.data.email,
+            age: location.data.age,
+            gender: location.data.gender,
+            nickname: location.data.nickname,
+            role: location.data.role,
             job: state.job,
             company: state.company,
             years: state.years,
@@ -61,15 +61,15 @@ const SignUpMentor = (props) => {
             fee: state.fee,
         }
 
-        if (props.location.data.profileImage.contentType === 'url') {
+        if (location.data.profileImage.contentType === 'url') {
             formData.append(
                 'img', 
-                JSON.stringify(props.location.data.profileImage.data),
+                JSON.stringify(location.data.profileImage.data),
             );
         } else {
             formData.append(
                 'img', 
-                props.location.data.profileImage.file,
+                location.data.profileImage.file,
             );
         }
         try {
@@ -93,7 +93,7 @@ const SignUpMentor = (props) => {
             .then(res => {
                 dispatch(addSession(res.data))
                 const retEmail = res.data.userInfo.email;
-                if (retEmail === props.location.data.email) {
+                if (retEmail === location.data.email) {
                     console.log('request getting token');
                     axios.get(process.env.REACT_APP_API_GET_TOKEN, 
                         { params: {
@@ -103,10 +103,10 @@ const SignUpMentor = (props) => {
                         .then(res => {
                             const tokens = res.data.token;
                             saveJWT(tokens)
-                            props.history.push({
+                            history.push({
                                 pathname: '/main',
                                 data: {
-                                    email: props.location.data.email,
+                                    email: location.data.email,
                                 }
                             });
                         })
@@ -128,14 +128,14 @@ const SignUpMentor = (props) => {
         
         if (state.pageNum === 0) {
             const data = {
-                email: props.location.data.email,
-                age: props.location.data.age,
-                gender: props.location.data.gender,
-                nickname: props.location.data.nickname,
-                profileImage: props.location.data.profileImage,
-                role: props.location.data.role,    
+                email: location.data.email,
+                age: location.data.age,
+                gender: location.data.gender,
+                nickname: location.data.nickname,
+                profileImage: location.data.profileImage,
+                role: location.data.role,    
             };
-            props.history.push({
+            history.push({
                 pathname: '/signup',
                 data: data
             })

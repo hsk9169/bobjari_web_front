@@ -21,11 +21,11 @@ const Main = ({context}) => {
     const [pending, setPending] = useState(false)
     const [isEnd, setIsEnd] = useState(false)
 
+    console.log('mentors',mentors)
+
     const handleSearchInput = event => {
         setSearchInput(event.target.value)
     }
-
-    console.log('is end? ', isEnd)
 
     const handleSearch = async event => {
         if (event.key === 'Enter') {

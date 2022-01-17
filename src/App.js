@@ -4,9 +4,8 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 import { PublicRoute, PrivateRoute } from './lib';
 
-import { Welcome, SignIn, SignUp, SignUpMentee, SignUpMentor, ErrorPage, NotFound, 
-        Main, Bob, Mypage } from 'pages';
-import {ProfileEdit} from 'components/MyPage/Mentee'
+import { Welcome, SignInBob, SignUp, SignUpMentee, SignUpMentor, ErrorPage, NotFound, 
+        SignIn, Main, Bob, Mypage, MenteeProfileEdit } from 'pages';
 import KakaoCallback from 'components/KakaoCallback';
 
 import BottomNavigator from 'components/styled/BottomNavigator';
@@ -37,15 +36,17 @@ const App = (props) => {
                 
                 <Route component={KakaoCallback} path='/auths/kakao/callback' exact />
 
-                <PrivateRoute component={Main} path='/main' exact 
-                    context={privateContext} />
+                
                 <PrivateRoute component={Bob} path='/bob' exact 
                     context={privateContext} />
-                <PrivateRoute component={ProfileEdit} path='/mypage/edit' exact
+                <PrivateRoute component={MenteeProfileEdit} path='/mypage/edit' exact
                     context={privateContext} />
                 <PrivateRoute component={Mypage} path='/mypage' exact 
                     context={privateContext} />
 
+                <PublicRoute restricted={false} component={Main} 
+                    path='/main' exact 
+                    context={privateContext} />
                 <PublicRoute restricted={true} component={SignUpMentor} 
                     path='/signup/mentor' exact
                     context={publicContext} />
@@ -55,8 +56,8 @@ const App = (props) => {
                 <PublicRoute restricted={true} component={SignUp} 
                     path='/signup' exact
                     context={publicContext} />
-                <PublicRoute restricted={true} component={SignIn} 
-                    path='/signin' exact
+                <PublicRoute restricted={true} component={SignInBob} 
+                    path='/signin/bob' exact
                     context={publicContext} />
                 <PublicRoute restricted={true} component={Welcome} 
                     path='/' exact

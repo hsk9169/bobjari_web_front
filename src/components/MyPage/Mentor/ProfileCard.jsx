@@ -8,17 +8,17 @@ import Box from '@mui/material/Box';
 import { grey } from '@mui/material/colors'
 
 
-export default function ProfileCard(props) {
+const ProfileCard = (props) => {
 
-    const handleProfile = () => {
-    }
+    let imgUrl = (props.session.profileImg.contentType==='url' 
+        ? props.session.profileImg.data
+        : `data:${props.session.profileImg.contentType};base64,${props.session.profileImg.data}`)
 
     return (
             <Paper elevation={0}
                 sx={{
                   pt: 2,
                   p: 1.5,
-                  margin: 2,
                   maxWidth: '100%',
                   display: 'flex',
                   alignItems: 'center',
@@ -27,7 +27,7 @@ export default function ProfileCard(props) {
             >
                 <Grid container>
                     <Grid item xs={3.5}>
-                        <Avatar alt="프로필 사진" src={props.state.imgUrl} 
+                        <Avatar alt="프로필 사진" src={imgUrl} 
                             sx={{ width: 80, height: 80 }} />
                     </Grid>
                     <Grid item xs={7.5} container
@@ -41,7 +41,7 @@ export default function ProfileCard(props) {
                                 <Typography variant='h5' 
                                     sx={{ fontWeight: 'fontWeightBold' }}
                                 >
-                                    {props.state.nickname}
+                                    {props.session.userInfo.nickname}
                                 </Typography>
                             </Grid>
                             <Grid item>
@@ -51,7 +51,7 @@ export default function ProfileCard(props) {
                                         color: grey[700] 
                                     }}
                                 >
-                                    {props.state.career}
+                                    {props.session.careerInfo.company}
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -65,7 +65,10 @@ export default function ProfileCard(props) {
                             }}
                         >
                         <ButtonBase>
-                            <ArrowForward color='disabled' onClick={handleProfile} />
+                            <ArrowForward 
+                                color='disabled' 
+                                onClick={props.editProfile} 
+                            />
                         </ButtonBase>
                         </Box>
                     </Grid>
@@ -73,3 +76,5 @@ export default function ProfileCard(props) {
             </Paper>
     );
 }
+
+export default ProfileCard;

@@ -15,7 +15,7 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import PageBox from 'components/styled/PageBox'
 import StackTitle from 'components/styled/StackTitle'
 import ItemListPaper from 'components/styled/ItemListPaper';
-import {NicknameEdit, InterestEdit, GenderEdit, EmailEdit, PhoneEdit} from 'components/MyPage/Mentee'
+import {NicknameEdit, InterestEdit, GenderEdit, EmailEdit, PhoneEdit} from 'components/MyPage/Mentee/ProfileEdit'
 import {useSelector} from 'react-redux'
 import {selectSessions} from 'slices/session';
 const axios = require('axios');

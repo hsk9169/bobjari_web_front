@@ -19,9 +19,9 @@ import { useDispatch } from "react-redux";
 import { addSession } from "slices/session";
 const axios = require('axios');
 
-const SignUpMentee = (props) => {
+const SignUpMentee = ({context, location, history}) => {
 
-    props.setBotNav(false)
+    context.setBotNav(false)
     
     let jobList = [];
     let ref = React.createRef();
@@ -31,7 +31,7 @@ const SignUpMentee = (props) => {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
     const loading = open && options.length === 0;
-    console.log(props.location.data)
+    console.log(location.data)
 
     const handleJoin = (event) => {
         let formData = new FormData();
@@ -40,23 +40,23 @@ const SignUpMentee = (props) => {
 
         
         const req = {
-            email: props.location.data.email,
-            age: props.location.data.age,
-            gender: props.location.data.gender,
-            nickname: props.location.data.nickname,
-            role: props.location.data.role,
+            email: location.data.email,
+            age: location.data.age,
+            gender: location.data.gender,
+            nickname: location.data.nickname,
+            role: location.data.role,
             interests: jobList,
         }
 
-        if (props.location.data.profileImage.contentType === 'url') {
+        if (location.data.profileImage.contentType === 'url') {
             formData.append(
                 'img', 
-                JSON.stringify(props.location.data.profileImage.data),
+                JSON.stringify(location.data.profileImage.data),
             );
         } else {
             formData.append(
                 'img', 
-                props.location.data.profileImage.file,
+                location.data.profileImage.file,
             );
         }
 
@@ -74,7 +74,7 @@ const SignUpMentee = (props) => {
             .then(res => {
                 dispatch(addSession(res.data))
                 const retEmail = res.data.userInfo.email;
-                if (retEmail === props.location.data.email) {
+                if (retEmail === location.data.email) {
                     console.log('request getting token');
                     axios.get(process.env.REACT_APP_API_GET_TOKEN, 
                         { params: {
@@ -84,10 +84,10 @@ const SignUpMentee = (props) => {
                         .then(res => {
                             const tokens = res.data.token;
                             saveJWT(tokens)
-                            props.history.push({
+                            history.push({
                                 pathname: '/main',
                                 data: {
-                                    email: props.location.data.email,
+                                    email: location.data.email,
                                 }
                             });
                         })
@@ -107,19 +107,19 @@ const SignUpMentee = (props) => {
 
     const handleDialogButton = () => {
         setDialogOpen(false);
-        props.history.push('/welcome');
+        history.push('/');
     }
 
     const handleBack = () => {
         const data = {
-            email: props.location.data.email,
-            age: props.location.data.age,
-            gender: props.location.data.gender,
-            nickname: props.location.data.nickname,
-            profileImage: props.location.data.profileImage,
-            role: props.location.data.role,    
+            email: location.data.email,
+            age: location.data.age,
+            gender: location.data.gender,
+            nickname: location.data.nickname,
+            profileImage: location.data.profileImage,
+            role: location.data.role,    
         };
-        props.history.push({
+        history.push({
             pathname: '/signup',
             data: data
         })
