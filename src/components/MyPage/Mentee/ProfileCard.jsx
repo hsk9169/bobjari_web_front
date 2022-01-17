@@ -11,18 +11,13 @@ import { grey } from '@mui/material/colors'
 
 const ProfileCard = (props) => {
 
-    const [interests, setInterests] = useState('');
-
-    useEffect ( () => {
-        if (interests === '') {
-            let text = '관심직군: ';
-            text += props.state.interests[0];
-            if (props.state.interests.length > 1) {
-                text += '...'
-            }
-            setInterests(text);
-        }
-    }, [interests, setInterests, props])
+    let interests = '관심직군: ';
+    props.session.interests.map(el => {
+        interests = interests + el;
+    })
+    let imgUrl = (props.session.profileImg.contentType==='url' 
+        ? props.session.profileImg.data
+        : `data:${props.session.profileImg.contentType};base64,${props.session.profileImg.data}`)
 
     return (
             <Paper elevation={0}
@@ -37,7 +32,7 @@ const ProfileCard = (props) => {
             >
                 <Grid container>
                     <Grid item xs={3.5}>
-                        <Avatar alt="프로필 사진" src={props.state.imgUrl} 
+                        <Avatar alt="프로필 사진" src={imgUrl} 
                             sx={{ width: 80, height: 80 }} />
                     </Grid>
                     <Grid item xs={7.5} container
@@ -51,7 +46,7 @@ const ProfileCard = (props) => {
                                 <Typography variant='h5' 
                                     sx={{ fontWeight: 'fontWeightBold' }}
                                 >
-                                    {props.state.nickname}
+                                    {props.session.userInfo.nickname}
                                 </Typography>
                             </Grid>
                             <Grid item>
@@ -75,7 +70,10 @@ const ProfileCard = (props) => {
                             }}
                         >
                         <ButtonBase>
-                            <ArrowForward color='disabled' onClick={props.editProfile} />
+                            <ArrowForward 
+                                color='disabled' 
+                                onClick={props.editProfile} 
+                            />
                         </ButtonBase>
                         </Box>
                     </Grid>

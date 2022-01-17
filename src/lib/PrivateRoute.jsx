@@ -62,8 +62,7 @@ const PrivateRoute = ({ component: Component, context, ...rest }) => {
                     })
             } 
         }
-
-        start();
+        if (!dialogOpen) start();
         if (context.sessionTime.remainTime === 0) {
             setDialogOpen(true)
         }
@@ -82,7 +81,7 @@ const PrivateRoute = ({ component: Component, context, ...rest }) => {
             clearInterval(interval.current)
         }
 
-    }, [isValid, context])
+    }, [isValid, context, dialogOpen])
 
     const action = (props) => {
         if (isValid.access===true) {
@@ -108,19 +107,22 @@ const PrivateRoute = ({ component: Component, context, ...rest }) => {
             <Route {...rest}
                 render={action}
             />
-            <Box sx={{
-                width: '100%',
-                display: 'flex',
-                position: 'absolute',
-                top: 0,
-                alignItems: 'center',
-                justifyContent: 'right'
-            }}>
-                <p>session remained: {context.sessionTime.remainTime}sec</p>
-                <Button variant='contained' size='small'
-                    onClick={clickSignOut}
-                >SignOut</Button>
-            </Box>
+            {isValid.access 
+                ? <Box sx={{
+                    width: '100%',
+                    display: 'flex',
+                    position: 'absolute',
+                    top: 0,
+                    alignItems: 'center',
+                    justifyContent: 'right'
+                }}>
+                    <p>session remained: {context.sessionTime.remainTime}sec</p>
+                    <Button variant='contained' size='small'
+                        onClick={clickSignOut}
+                    >SignOut</Button>
+                </Box>
+                : null
+            }
             <Dialog
                 open={dialogOpen}
                 onClose={handleDialogClose}
@@ -128,11 +130,11 @@ const PrivateRoute = ({ component: Component, context, ...rest }) => {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {'로그아웃'}
+                    로그인 정보없음
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        로그인 페이지로 돌아가기
+                        로그인 후 사용가능한 서비스입니다
                     </DialogContentText>
                     <DialogActions>
                         <Button onClick={handleDialogClose}>확인</Button>

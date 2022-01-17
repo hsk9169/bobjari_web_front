@@ -14,27 +14,33 @@ const pageText = {
     subtitle: Array.from({length: 5}, () => []),
 }
 
-const SignUp = (props) => {
+const SignUp = ({context, location, history}) => {
 
-    props.setBotNav(false)
+    context.setBotNav(false)
 
     const initialNickname = createNickname();
     const progressRatio = 20
   
 
     const [state, setState] = useState({
-        email: (props.location.data.email ? props.location.data.email : ''),
-        age: (props.location.data.age ? props.location.data.age : ''),
-        gender: (props.location.data.gender ? props.location.data.gender : ''),
-        nickname: (props.location.data.nickname ? props.location.data.nickname : initialNickname),
-        nicknameCheck: (props.location.data.nickname ? true : null),
-        selectedFile: (props.location.data.profileImage ? props.location.data.profileImage.file : null),
-        imageFileUrl: (props.location.data.profileImage 
-            ? (props.location.data.profileImage.contentType === 'url' ? '' : props.location.data.profileImage.data) 
+        email: (location.data.email ? location.data.email : ''),
+        age: (location.data.age ? location.data.age : ''),
+        gender: (location.data.gender 
+            ? location.data.gender : ''),
+        nickname: (location.data.nickname 
+            ? location.data.nickname : initialNickname),
+        nicknameCheck: (location.data.nickname ? true : null),
+        selectedFile: (location.data.profileImage 
+            ? location.data.profileImage.file : null),
+        imageFileUrl: (location.data.profileImage 
+            ? (location.data.profileImage.contentType === 'url' 
+                ? '' : location.data.profileImage.data) 
             : ''),
-        profileImage: (props.location.data.profileImage ? props.location.data.profileImage.data : ''),
-        profileImageType: (props.location.data.profileImage ? props.location.data.profileImage.contentType : ''),
-        role: (props.location.data.role ? props.location.data.role : ''),
+        profileImage: (location.data.profileImage 
+            ? location.data.profileImage.data : ''),
+        profileImageType: (location.data.profileImage 
+            ? location.data.profileImage.contentType : ''),
+        role: (location.data.role ? location.data.role : ''),
         pageNum: 0,
         progress: progressRatio,
     })    
@@ -67,12 +73,12 @@ const SignUp = (props) => {
         };
 
         if (state.role === 'mentee') {
-            props.history.push({
+            history.push({
                 pathname: '/signup/mentee',
                 data: data,
             })
         } else if (state.role === 'mentor') {
-            props.history.push({
+            history.push({
                 pathname: '/signup/mentor',
                 data: data,
             })

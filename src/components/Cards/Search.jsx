@@ -27,7 +27,11 @@ const SearchCard = ({userInfo, careerInfo, profileImg, appointment}) => {
                 <Grid item>
                     <Grid container sx={{alignItems:'center'}}>
                         <Grid item xs={3}>
-                            <Avatar alt="프로필 사진" src={profileImg.data} 
+                            <Avatar alt="프로필 사진" 
+                                src={profileImg.contentType==='url'
+                                    ? profileImg.data
+                                    : `data:${profileImg.contentType};base64,${profileImg.data}`
+                                } 
                                 sx={{ width: 70, height: 70 }} />
                         </Grid>
                         <Grid item xs={5.5} container direction='column'
@@ -44,7 +48,7 @@ const SearchCard = ({userInfo, careerInfo, profileImg, appointment}) => {
                                 <Typography variant='subtitle2' 
                                     sx={{ fontWeight: 'fontWeightBold' }}
                                 >
-                                    1 - 3 년차 &#183; {careerInfo.company}
+                                    {careerInfo.years} 년차 &#183; {careerInfo.company}
                                 </Typography>
                             </Grid>
                             <Grid item container direction='row'

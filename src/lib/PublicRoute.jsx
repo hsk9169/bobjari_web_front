@@ -25,14 +25,22 @@ const PublicRoute = ({ component: Component, restricted, context, ...rest }) => 
                         Authorization: `Bearer ${getJWT().accessToken}`,
                     }})
                     .then(res => {
-                        if (res.data === 'valid') {
-                            setDialogOpen(true)
-                        } else if (res.data === 'invalid') {
+                        if (restricted) {
+                            if (res.data === 'valid') {
+                                setDialogOpen(true)
+                            } else if (res.data === 'invalid') {
+                                setValid({
+                                    initialized: true,
+                                    access: true,
+                                })
+                            }
+                        } else {
                             setValid({
                                 initialized: true,
                                 access: true,
                             })
                         }
+                        
                     })
                     .catch(err => {
                         console.log(err)
@@ -41,15 +49,14 @@ const PublicRoute = ({ component: Component, restricted, context, ...rest }) => 
         }
 
         start();
-
+        
     }, [restricted, isValid, setValid])
     
     const action = (props) => {
         if (isValid.access===true) {
             return (
                 <Component {...props} 
-                    setBotNav={context.setBotNav} 
-                    setScreen={context.setScreen}
+                    context={context}
                 />
             )
         } else if (isValid.access===false) {

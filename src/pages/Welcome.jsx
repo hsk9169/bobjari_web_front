@@ -9,11 +9,6 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import { Global } from '@emotion/react';
-import { styled } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import { grey } from '@mui/material/colors';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import { EmojiProvider, Emoji } from 'react-apple-emojis';
@@ -47,42 +42,14 @@ const steps = [
     },
 ];
 
-const drawerBleeding = 56;
 
-const Root = styled('div')(({ theme }) => ({
-    height: '100%',
-    backgroundColor:
-    theme.palette.mode === 'light' ? grey[100] : theme.palette.background.default,
-}));
-  
-const StyledBox = styled(Box)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'light' ? '#fff' : grey[800],
-}));
-  
-const Puller = styled(Box)(({ theme }) => ({
-    width: 30,
-    height: 6,
-    backgroundColor: theme.palette.mode === 'light' ? grey[300] : grey[900],
-    borderRadius: 3,
-    position: 'absolute',
-    top: 8,
-    left: 'calc(50% - 15px)',
-}));
+const Welcome = ({context, drawerWindow, history}) => {
 
-
-const Welcome = (props) => {
-
-    props.setBotNav(false)
-
-    // Check if .env params got right
+    context.setBotNav(false)
 
     const theme = useTheme();
     const [activeStep, setActiveStep] = React.useState(0);
     const maxSteps = steps.length;
-
-    // Drawer
-    const { drawerWindow } = props;
-    const [open, setOpen] = React.useState(false);
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -95,13 +62,6 @@ const Welcome = (props) => {
     const handleStepChange = (step) => {
         setActiveStep(step);
     };
-
-    const toggleDrawer = (newOpen) => () => {
-        setOpen(newOpen);
-    };
-    
-    // Swipeable Modal Contents
-    const container = drawerWindow !== undefined ? () => window.document.body : undefined;
 
     const redirectUri = () => {
         let baseUri = authInfo.BASE_URI;
@@ -117,12 +77,12 @@ const Welcome = (props) => {
     }
 
     const bobjariSignInButtonHandler = () => {
-        props.history.push('/signin');
+        history.push('/signin/bob');
     }
 
     const handleVisitorEntering = () => {
-        props.history.push('/search')
-        props.setScreen('search')
+        history.push('/main')
+        context.setScreen('main')
     }
 
     return (
@@ -211,111 +171,52 @@ const Welcome = (props) => {
                     }
                 />
             </Box>
-
-            <Root>
-                <CssBaseline />
-                <Global
-                    styles={{
-                        '.MuiDrawer-root > .MuiPaper-root': {
-                          height: `calc(30% - ${drawerBleeding}px)`,
-                          overflow: 'visible',
-                        },
-                    }}
-                />
-                <SwipeableDrawer
-                    container={container}
-                    anchor="bottom"
-                    open={open}
-                    onClose={toggleDrawer(false)}
-                    onOpen={toggleDrawer(true)}
-                    swipeAreaWidth={drawerBleeding}
-                    disableSwipeToOpen={false}
-                    ModalProps={{
-                        keepMounted: true,
-                    }}
-                >
-                    <StyledBox
-                        sx={{
-                            position: 'absolute',
-                            top: -drawerBleeding,
-                            borderTopLeftRadius: 8,
-                            borderTopRightRadius: 8,
-                            visibility: 'visible',
-                            right: 0,
-                            left: 0,
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }}
+            <Box
+                sx={{
+                    display: 'flex',
+                    pt: 6,
+                    height: '100%',
+                    overflow: 'auto',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '100%',
+                }}
+            >
+                <Stack direction='column' spacing={1}>
+                    <div>
+                        <img src={require('../contents/kakao_login_medium_wide.png').default} alt="카카오 로그인 버튼"
+                            onClick={() => {
+                                kakaoButtonHandler();
+                            }}
+                        />
+                    </div>
+                    <Button variant='contained'
+                        onClick={bobjariSignInButtonHandler}
+                        sx={{width: '100%', height: 45}}
                     >
-                        <Puller />
-                        <Typography sx={{ 
-                                        p: 2, 
-                                        color: 'text.secondary',
-                                        fontWeight: 'fontWeigntMedium',
-                                    }}
-                        >
-                            끌올해서 밥자리 시작&nbsp;
-                            <EmojiProvider data={emojiData}>
-                                <Emoji name="fire" width={16} />
-                                <Emoji name="fire" width={16} />
-                                <Emoji name="fire" width={16} />
-                            </EmojiProvider>
+                        <Grid container>
+                            <Grid item xs={2.5} sx={{display: 'flex',justifyContent:'flex-start'}}>
+                                <EmojiProvider data={emojiData}>
+                                    <Emoji name="cooked-rice" width={25} />
+                                </EmojiProvider>
+                            </Grid>
+                            <Grid item>
+                                <Typography variant='body1' sx={{ fontWeight: 'fontWeightBold'}}>
+                                    밥자리 계정으로 시작하기
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                    </Button>
+                    <Button variant='outlined'
+                        onClick={handleVisitorEntering}
+                        sx={{width: '100%', height: 45}}
+                    >
+                        <Typography variant='body1' sx={{ fontWeight: 'fontWeightBold'}}>
+                            비회원으로 둘러보기
                         </Typography>
-                    </StyledBox>
-                    <StyledBox
-                        sx={{
-                            display: 'flex',
-                            pb: 2,
-                            height: '100%',
-                            overflow: 'auto',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            width: '100%',
-                        }}
-                    >
-                        <Stack direction='column' spacing={1}>
-                            <div>
-                                <img src={require('../contents/kakao_login_medium_wide.png').default} alt="카카오 로그인 버튼"
-                                    onClick={() => {
-                                        kakaoButtonHandler();
-                                    }}
-                                />
-                            </div>
-                            <Button variant='outlined'
-                                onClick={bobjariSignInButtonHandler}
-                                sx={{width: '100%', height: 45}}
-                            >
-                                <Grid container>
-                                    <Grid item xs={3} sx={{display: 'flex',justifyContent:'flex-start'}}>
-                                        <EmojiProvider data={emojiData}>
-                                            <Emoji name="cooked-rice" width={25} />
-                                        </EmojiProvider>
-                                    </Grid>
-                                    <Grid item>
-                                        <Typography variant='body1' sx={{ fontWeight: 'fontWeightBold'}}>
-                                            밥자리 계정으로 시작하기
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
-                            </Button>
-                        </Stack>
-                    </StyledBox>
-                    <Box
-                        sx={{ 
-                            width: '100%',
-                            display: 'flex',
-                            justifyContent: 'right'
-                        }}
-                    >
-                        <Button
-                            onClick={handleVisitorEntering}
-                        >
-                            둘러보기
-                        </Button>
-                    </Box>
-                </SwipeableDrawer>
-            </Root>
+                    </Button>
+                </Stack>
+            </Box>
         </div>
     );
 }

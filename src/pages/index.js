@@ -1,10 +1,12 @@
 export { default as Welcome } from './Welcome';
-export { default as SignIn } from './SignIn';
+export { default as SignInBob } from './SignInBob';
 export { default as SignUp } from './SignUp';
 export { default as SignUpMentee } from './SignUpMentee';
 export { default as SignUpMentor } from './SignUpMentor';
+export { default as SignIn } from './SignIn';
 export { default as Main } from './Main';
 export { default as Bob } from './Bob';
 export { default as Mypage } from './Mypage';
+export { default as MenteeProfileEdit } from './MenteeProfileEdit'
 export { default as ErrorPage } from './ErrorPage';
 export { default as NotFound } from './NotFound';

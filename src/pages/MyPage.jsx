@@ -2,30 +2,65 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import PageBox from 'components/styled/PageBox'
 import Grid from '@mui/material/Grid'
-import Divider from '@mui/material/Divider';
+import CircularProgress from '@mui/material/CircularProgress';
 import {useState} from 'react';
 import {getJWT, verifyJWT} from 'utils/handle-jwt'
-import {ProfileCard, ProfileInfo, ControlEtc} from 'components/MyPage/Mentee'
-import {useSelector} from 'react-redux'
-import {selectSessions} from 'slices/session';
+import {MenteeMypage, MentorMypage} from 'components/MyPage'
+import {useSelector, useDispatch} from 'react-redux'
+import {selectSessions, updateSession, addSession} from 'slices/session';
 const axios = require('axios');
 
 const Mypage = ({context, history}) => {
 
-    const [popUp, setPopUp] = useState('')
+    const dispatch = useDispatch();
     const session = useSelector(selectSessions)[1].session
     context.setBotNav(true)
 
-    const state = {
-        interests: session.interests,
-        imgUrl: (session.profileImg.contentType==='url' 
-            ? session.profileImg.data
-            : `data:${session.profileImg.contentType};base64,${session.profileImg.data}`),
-        nickname: session.userInfo.nickname,
-    }
+    const [isChanging, setIsChanging] = useState(false)
 
     const handleEdit = () => {
         history.push('/mypage/edit')
+    }
+
+    const handleAllowSearch = async () => {
+        await axios.get(process.env.REACT_APP_API_USER_SEARCH_ALLOW_TOGGLE,
+            {
+                headers: {
+                    Authorization: `Bearer ${getJWT().accessToken}`,
+                },
+                params: {
+                    curState: session.searchAllow,
+                    email: session.userInfo.email,
+                },
+            })
+            .then(res => {
+                dispatch(updateSession(res.data))
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    // Update Mentee & Mentor 'role' as swap, and get res as changed role account
+    const handleRoleChange = async () => {
+        setIsChanging(true)
+        await axios.get(process.env.REACT_APP_API_USER_ROLE_CHANGE,
+            {
+                headers: {
+                    Authorization: `Bearer ${getJWT().accessToken}`,
+                },
+                params: {
+                    role: session.roleInfo.role,
+                    email: session.userInfo.email,
+                },
+            })
+            .then(res => {
+                dispatch(updateSession(res.data))
+                setIsChanging(false)
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     return (
@@ -36,37 +71,18 @@ const Mypage = ({context, history}) => {
                 width: '100%',
                 }}
             >
-                {session.role === 'mentee'
-                    ?<Grid container direction='column'>
-                        <Grid item>
-                            <ProfileCard state={state} editProfile={handleEdit}/>
-                        </Grid>
-                        <Grid item>
-                            <Divider />
-                        </Grid>
-                        <Grid item>
-                            <ProfileInfo />
-                        </Grid>
-                        <Grid item>
-                            <Divider />
-                        </Grid>
-                        <Grid item>
-                            <PageBox sx={{display: 'flex', p:3}}>
-                                <Button variant='outlined' 
-                                    sx={{width: '100%', height: 45, 
-                                        border: 2, borderRadius: 2}}>
-                                    <Typography variant='subtitle1' 
-                                        sx={{fontWeight: 'fontWeightBold'}}>
-                                        직업인으로 전환
-                                    </Typography>
-                                </Button>
-                            </PageBox>
-                        </Grid>
-                        <Grid item>
-                            <ControlEtc />
-                        </Grid>
-                    </Grid>
-                    :<h1>Mentor Page is on dev...</h1>
+                {session.roleInfo.role === 'mentee'
+                    ? <MenteeMypage 
+                        handleEdit={handleEdit} 
+                        handleRoleChange={handleRoleChange}
+                        isChanging={isChanging}
+                    />
+                    : <MentorMypage
+                        handleEdit={handleEdit} 
+                        handleRoleChange={handleRoleChange}
+                        handleAllowSearch={handleAllowSearch}
+                        isChanging={isChanging}
+                    />
                 }
 
             </PageBox>

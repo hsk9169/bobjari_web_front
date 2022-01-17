@@ -2,12 +2,16 @@ import React, { useEffect } from 'react';
 import {saveJWT} from 'utils/handle-jwt'
 import PageBox from 'components/styled/PageBox'
 import CircularProgress from '@mui/material/CircularProgress';
+import { useDispatch } from "react-redux";
+import { addSession } from "slices/session";
 const axios = require('axios');
 const authInfo = require('constants/kakao-auth');
 
 const KakaoCallback = (props) => {
 
     const accessCode = new URL(window.location.href).searchParams.get("code");
+
+    const dispatch = useDispatch();
     
 
     useEffect( () => {
@@ -42,6 +46,7 @@ const KakaoCallback = (props) => {
                             } catch {}
         
                             if (retEmail === profile.email) {
+                                dispatch(addSession(res.data))
                                 axios.get(process.env.REACT_APP_API_GET_TOKEN,
                                     { params: {
                                         email: retEmail,
@@ -76,7 +81,7 @@ const KakaoCallback = (props) => {
             getUserProfile(code);
         }           
         
-    }, [props, accessCode]);
+    }, [props, accessCode, dispatch]);
 
 
     return (
