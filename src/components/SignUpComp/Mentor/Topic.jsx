@@ -28,10 +28,10 @@ const Topic = (props) => {
     console.log(view)
 
     const handleTopic = idx => () => {
-        if (props.state.topics.filter(el => el===topicList[idx]).length > 0) {
+        if (props.state.topics.filter(el => el===idx).length > 0) {
             props.setState({
                 ...props.state,
-                topics: props.state.topics.filter(el => el!==topicList[idx]),
+                topics: props.state.topics.filter(el => el!==idx),
                 
             });
             setView({
@@ -47,7 +47,7 @@ const Topic = (props) => {
         } else {
             props.setState({
                 ...props.state,
-                topics: [...props.state.topics, topicList[idx]],
+                topics: [...props.state.topics, idx],
             });
             setView({
                 state: (view.state.map((element,index) => {

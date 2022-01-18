@@ -2,23 +2,13 @@ import * as React from 'react'
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Input from '@mui/material/Input';
 import PageBox   from 'components/styled/PageBox'
 import BobButton from 'components/styled/BobButton'
-
-const yearsOption = [
-    '1 - 3 년차',
-    '4 - 6 년차',
-    '7 - 9 년차',
-    '10 - 12 년차',
-    '13 - 15 년차',
-    '15 년차 이상',
-]
+import {yearsList} from 'constants/career-years'
 
 const Fee = (props) => {
 
     const progressRatio = 10
-    const [years, setYears] = React.useState((props.state.years ? props.state.years : 0));
 
     const handleNext = () => {
         props.setState({
@@ -43,7 +33,7 @@ const Fee = (props) => {
         <div>
             <PageBox sx={{pt: 4, display:'flex'}}>
                 <Stack direction='column' spacing={2} sx={{width:'85%'}}>
-                    {yearsOption.map((el,idx) => (
+                    {yearsList.map((el,idx) => (
                         <Button variant={props.state.years===idx ? 'contained' : 'outlined'} 
                             onClick={handleSelect(idx)} 
                             sx={{width: '100%', height:60}}

@@ -20,51 +20,54 @@ const Main = ({context}) => {
     const [queryId, setQueryId] = useState(0)
     const [pending, setPending] = useState(false)
     const [isEnd, setIsEnd] = useState(false)
-
-    console.log('mentors',mentors)
+    const numGet = 10;
 
     const handleSearchInput = event => {
         setSearchInput(event.target.value)
+        setQueryId(0)
     }
 
     const handleSearch = async event => {
         if (event.key === 'Enter') {
             event.preventDefault();
-            setQueryId(0)
             setIsEnd(false)
             if (searchInput === '') {
                 setMentors([])
                 setResultText('No Result')
                 setPending(false)
             } else {
-                await axios.get(process.env.REACT_APP_API_MENTORS_GET,
-                    { 
-                        headers: {
-                            Authorization: `Bearer ${getJWT().accessToken}`,
-                        },
-                        params: {
-                            keyword: searchInput,
-                            startIdx: queryId,
-                            num: 5,
-                        },
-                    })
-                    .then(res => {
-                        if (res.data === 'invalid') {
-                            verifyJWT(context)
-                        } else {
-                            if (res.data.length > 0) {
-                                setMentors(res.data)
-                                setQueryId(res.data.length)
-                                setResultText('')
+                if (queryId === 0) {
+                    await axios.get(process.env.REACT_APP_API_MENTORS_GET,
+                        { 
+                            headers: {
+                                Authorization: `Bearer ${getJWT().accessToken}`,
+                            },
+                            params: {
+                                keyword: searchInput,
+                                startIdx: queryId,
+                                num: numGet,
+                            },
+                        })
+                        .then(res => {
+                            if (res.data === 'invalid') {
+                                verifyJWT(context)
                             } else {
-                                setMentors([])
-                                setResultText('No Result')
+                                if (res.data.length > 0) {
+                                    setMentors(res.data)
+                                    setQueryId(res.data.length)
+                                    setResultText('')
+                                } else {
+                                    setMentors([])
+                                    setResultText('No Result')
+                                }
                             }
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                } else {
+                    setIsEnd(true)
+                }
             }
         }
     }
@@ -88,7 +91,7 @@ const Main = ({context}) => {
                         params: {
                             keyword: searchInput,
                             startIdx: queryId,
-                            num: 5,
+                            num: numGet,
                         },
                     })
                     .then(res => {

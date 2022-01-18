@@ -209,7 +209,7 @@ const Welcome = ({context, drawerWindow, history}) => {
                     </Button>
                     <Button variant='outlined'
                         onClick={handleVisitorEntering}
-                        sx={{width: '100%', height: 45}}
+                        sx={{width: '100%', height: 45, border: 1.5}}
                     >
                         <Typography variant='body1' sx={{ fontWeight: 'fontWeightBold'}}>
                             비회원으로 둘러보기

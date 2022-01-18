@@ -12,9 +12,12 @@ import { grey } from '@mui/material/colors'
 const ProfileCard = (props) => {
 
     let interests = '관심직군: ';
-    props.session.interests.map(el => {
-        interests = interests + el;
-    })
+    try {
+        props.session.interests.map(el => {
+            interests = interests + el;
+        })
+    } catch {}
+    
     let imgUrl = (props.session.profileImg.contentType==='url' 
         ? props.session.profileImg.data
         : `data:${props.session.profileImg.contentType};base64,${props.session.profileImg.data}`)

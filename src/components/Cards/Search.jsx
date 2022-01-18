@@ -9,6 +9,8 @@ import { red, grey } from '@mui/material/colors';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import PageBox from 'components/styled/PageBox'
 import {topicList} from 'constants/topics'
+import {yearsList} from 'constants/career-years'
+
 
 const SearchCard = ({userInfo, careerInfo, profileImg, appointment}) => {
 
@@ -48,7 +50,7 @@ const SearchCard = ({userInfo, careerInfo, profileImg, appointment}) => {
                                 <Typography variant='subtitle2' 
                                     sx={{ fontWeight: 'fontWeightBold' }}
                                 >
-                                    {careerInfo.years} 년차 &#183; {careerInfo.company}
+                                    {yearsList[careerInfo.years]} &#183; {careerInfo.company}
                                 </Typography>
                             </Grid>
                             <Grid item container direction='row'
@@ -102,7 +104,7 @@ const SearchCard = ({userInfo, careerInfo, profileImg, appointment}) => {
                         <Typography variant='subtitle2' 
                             sx={{pl: 1, pr: 1, fontWeight: 'fontWeightBold'}}
                         >
-                            {careerInfo.introduce}
+                            {careerInfo.title}
                         </Typography>
                     </PageBox>
                 </Grid>
@@ -114,12 +116,27 @@ const SearchCard = ({userInfo, careerInfo, profileImg, appointment}) => {
                             display: 'flex',
                         }}
                     >
-                        <Grid container direction='row' spacing={1}>
-                            {careerInfo.topics.map(idx => (
-                                <Grid item>
-                                    <Chip label={topicList[idx]} variant="outlined" sx={{fontWeight: 'fontWeightBold'}}/>
+                        <Grid container direction='row' spacing={1}
+                            sx={{alignItems: 'center', display: 'flex'}}>
+                            {careerInfo.topics.map((el, idx) => {
+                                if (idx < 3) {
+                                    return (
+                                        <Grid item>
+                                            <Chip label={topicList[el]} variant="outlined" sx={{fontWeight: 'fontWeightBold'}}/>
+                                        </Grid>
+                                    )
+                                } else {
+                                    return (null)
+                                }
+                            })}
+                            {careerInfo.topics.length > 3 
+                                ?<Grid item>
+                                    <Typography variant='subtitle1' color='text.secondary'>
+                                        +{careerInfo.topics.length - 3}
+                                    </Typography>
                                 </Grid>
-                            ))}
+                                : null        
+                            }
                         </Grid>
                     </PageBox>
                 </Grid>
