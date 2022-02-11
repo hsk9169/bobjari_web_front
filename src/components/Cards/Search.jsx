@@ -122,7 +122,9 @@ const SearchCard = ({userInfo, careerInfo, profileImg, appointment}) => {
                                 if (idx < 3) {
                                     return (
                                         <Grid item>
-                                            <Chip label={topicList[el]} variant="outlined" sx={{fontWeight: 'fontWeightBold'}}/>
+                                            <Chip label={topicList[el]} 
+                                                variant="outlined" 
+                                                sx={{fontWeight: 'fontWeightBold'}}/>
                                         </Grid>
                                     )
                                 } else {

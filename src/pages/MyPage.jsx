@@ -1,14 +1,10 @@
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import PageBox from 'components/styled/PageBox'
-import Grid from '@mui/material/Grid'
-import CircularProgress from '@mui/material/CircularProgress';
 import {useState} from 'react';
 import {getJWT, verifyJWT} from 'utils/handle-jwt'
 import {MenteeMypage, MentorMypage} from 'components/MyPage'
 import {useSelector, useDispatch} from 'react-redux'
-import {selectSessions, updateSession, addSession} from 'slices/session';
-const axios = require('axios');
+import {selectSessions, changeSessionRole, toggleSessionSearchAllow} from 'slices/session';
+const axios = require('axios')
 
 const Mypage = ({context, history}) => {
 
@@ -30,11 +26,11 @@ const Mypage = ({context, history}) => {
                 },
                 params: {
                     curState: session.searchAllow,
-                    email: session.userInfo.email,
+                    email: session.profile.email,
                 },
             })
             .then(res => {
-                dispatch(updateSession(res.data))
+                dispatch(toggleSessionSearchAllow(res.data))
             })
             .catch(err => {
                 console.log(err)
@@ -50,12 +46,16 @@ const Mypage = ({context, history}) => {
                     Authorization: `Bearer ${getJWT().accessToken}`,
                 },
                 params: {
-                    role: session.roleInfo.role,
-                    email: session.userInfo.email,
+                    role: session.role,
+                    email: session.profile.email,
                 },
             })
             .then(res => {
-                dispatch(updateSession(res.data))
+                try {
+                    if (res.data !== session.role) {
+                        dispatch(changeSessionRole(res.data))
+                    }                
+                } catch {}
                 setIsChanging(false)
             })
             .catch(err => {
@@ -71,7 +71,7 @@ const Mypage = ({context, history}) => {
                 width: '100%',
                 }}
             >
-                {session.roleInfo.role === 'mentee'
+                {session.role === 'mentee'
                     ? <MenteeMypage 
                         handleEdit={handleEdit} 
                         handleRoleChange={handleRoleChange}

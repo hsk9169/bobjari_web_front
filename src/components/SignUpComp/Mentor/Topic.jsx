@@ -10,9 +10,6 @@ const Topic = (props) => {
 
     const progressRatio = 10
 
-    const [disabled, setDisabled] = React.useState(
-        (props.state.company==='' ? true : false)
-    );
     const [view, setView] = React.useState({
         state: (props.state.topics.length!==0 
             ? (topicList.map(el => {
@@ -97,7 +94,7 @@ const Topic = (props) => {
                 </Grid>
             </PageBox>
             <PageBox sx={{pt: 3, display: 'flex'}}>
-                <BobButton title='다 음' onClick={handleNext} disabled={disabled} />
+                <BobButton title='다 음' onClick={handleNext} />
             </PageBox>
         </div>
     )

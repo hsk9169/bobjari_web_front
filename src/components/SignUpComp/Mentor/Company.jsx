@@ -13,10 +13,6 @@ const Company = (props) => {
 
     const progressRatio = 10
 
-    const [disabled, setDisabled] = React.useState(
-        (props.state.company==='' ? true : false)
-    )
-
     const handleAddCompany = event => {
         let company;
         if (event.target.innerText &&
@@ -24,14 +20,14 @@ const Company = (props) => {
             company = event.target.innerText;
             props.setState({
                 ...props.state,
-                company: [...props.state.company, company],
+                company: company,
             });
         } else if (event.target.value &&
             event.target.value.replace(/ /g,'').length > 0) {
             company = event.target.value;
             props.setState({
                 ...props.state,
-                company: [...props.state.company, company],
+                company: company,
             });
         }
     }
@@ -39,8 +35,7 @@ const Company = (props) => {
     const handleDeleteCompany = select => event => {
         props.setState({
             ...props.state,
-            job: [...props.state.company.filter((el) => 
-                    el !== select)]
+            company: ''
         })
     }
 
@@ -89,12 +84,12 @@ const Company = (props) => {
             </PageBox>
             <PageBox sx={{p:3,display: 'flex'}}>
                 <RemovableList 
-                    list={props.state.company}
+                    list={(props.state.company === '' ? [] : [props.state.company])}
                     handleDelete={handleDeleteCompany}
                 />
             </PageBox>
             <PageBox sx={{pt: 3, display: 'flex'}}>
-                <BobButton title='다 음' onClick={handleNext} disabled={disabled} />
+                <BobButton title='다 음' onClick={handleNext} />
             </PageBox>
         </div>
     )

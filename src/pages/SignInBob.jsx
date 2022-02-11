@@ -38,15 +38,15 @@ const SignInBob = ({context, history}) => {
 
             await axios({
                 method: 'POST',
-                url: process.env.REACT_APP_API_SIGN_IN_BOB,
+                url: process.env.REACT_APP_API_SIGNIN_BOB,
                 data: {
                     email: state.email,
                 }
-                })
+            })
                 .then(res => {
                     let retEmail = null;
                     try {
-                        retEmail = res.data.userInfo.email;
+                        retEmail = res.data.profile.email;
                     } catch {
                     }
                     
@@ -80,11 +80,6 @@ const SignInBob = ({context, history}) => {
                         });
                     }
                 })
-
-            setState({
-                ...state,
-                errMsg: '',
-            })
         } else {
             const msg = '인증번호 불일치, 다시 입력해주세요';
             setState({

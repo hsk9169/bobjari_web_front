@@ -111,6 +111,7 @@ const CareerAuth = (props) => {
                         ...props.state,
                         authSelect: temp.select,
                         authFile: temp.inputFile,
+                        isAuth: true,
                     })
                 } 
                 break;
@@ -120,6 +121,7 @@ const CareerAuth = (props) => {
                         ...props.state,
                         authSelect: temp.select,
                         authFile: temp.inputFile,
+                        isAuth: true,
                     })
                 } 
                 break;
@@ -129,6 +131,7 @@ const CareerAuth = (props) => {
                         ...props.state,
                         authSelect: temp.select,
                         authFile: temp.inputFile,
+                        isAuth: true,
                     })
                 } 
                 break;

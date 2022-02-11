@@ -34,7 +34,7 @@ const KakaoCallback = (props) => {
                     
                     axios({
                         method: 'POST',
-                        url: process.env.REACT_APP_API_SIGN_IN_KAKAO,
+                        url: process.env.REACT_APP_API_SIGNIN_KAKAO,
                         data: {
                             email: profile.email,
                         }
@@ -42,7 +42,7 @@ const KakaoCallback = (props) => {
                         .then(res => {
                             let retEmail = null;
                             try {
-                                retEmail = res.data.userInfo.email;
+                                retEmail = res.data.profile.email;
                             } catch {}
         
                             if (retEmail === profile.email) {

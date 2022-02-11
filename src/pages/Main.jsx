@@ -37,11 +37,8 @@ const Main = ({context}) => {
                 setPending(false)
             } else {
                 if (queryId === 0) {
-                    await axios.get(process.env.REACT_APP_API_MENTORS_GET,
+                    await axios.get(process.env.REACT_APP_API_MENTOR_SEARCH,
                         { 
-                            headers: {
-                                Authorization: `Bearer ${getJWT().accessToken}`,
-                            },
                             params: {
                                 keyword: searchInput,
                                 startIdx: queryId,
@@ -187,10 +184,10 @@ const Main = ({context}) => {
                     {mentors.map(el => (
                         <Grid item>
                             <SearchCard 
-                                userInfo={el.userInfo} 
-                                profileImg={el.profileImg} 
-                                careerInfo={el.careerInfo}
-                                appointment={el.appointment}
+                                userInfo={el.profile} 
+                                profileImg={el.profileImage} 
+                                careerInfo={el.mentor.career}
+                                appointment={el.mentor.preference}
                             />
                         </Grid>
                     ))}
