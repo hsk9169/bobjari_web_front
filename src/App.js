@@ -7,6 +7,7 @@ import { PublicRoute, PrivateRoute } from './lib';
 import { Welcome, SignInBob, SignUp, SignUpMentee, SignUpMentor, ErrorPage, NotFound, 
         SignIn, Main, Bob, Mypage, MenteeProfileEdit } from 'pages';
 import KakaoCallback from 'components/KakaoCallback';
+import ChatRoom from 'components/ChatRoom/Main'
 
 import BottomNavigator from 'components/styled/BottomNavigator';
 
@@ -35,7 +36,7 @@ const App = (props) => {
             <Switch>  
                 
                 <Route component={KakaoCallback} path='/auths/kakao/callback' exact />
-
+                <Route component={ChatRoom} path='/room/:id' />
                 
                 <PrivateRoute component={Bob} path='/bob' exact 
                     context={privateContext} />

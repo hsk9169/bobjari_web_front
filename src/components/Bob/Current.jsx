@@ -1,8 +1,17 @@
+import {useState} from 'react'
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    useParams
+} from 'react-router-dom'
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import PageBox from 'components/styled/PageBox'
 import Typography from '@mui/material/Typography';
-
+import ChatRoom from 'components/ChatRoom/Main'
+import {PrivateRoute} from 'lib'
 
 const Current = (props) => {
 
@@ -26,6 +35,18 @@ const Current = (props) => {
                             검색하기
                         </Typography>
                     </Button>
+                </Grid>
+
+
+                <Grid item>
+                    <Link to='/room/1'>
+                        room1
+                    </Link>
+                </Grid>
+                <Grid item>
+                    <Link to='/room/2'>
+                        room2
+                    </Link>
                 </Grid>
             </Grid>
         </PageBox>
