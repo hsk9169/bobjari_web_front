@@ -9,7 +9,7 @@ const initialManageState = {
     }
 }
 
-const manageSlice = createSlice({
+const manageReducer = createSlice({
     name: 'manage',
     initialState: initialManageState,
     reducers: {
@@ -26,6 +26,6 @@ const manageSlice = createSlice({
     }
 })
 
-export const {updateBotNav, updateNavScreen, updateSessionTime} = manageSlice.actions
+export const {updateBotNav, updateNavScreen, updateSessionTime} = manageReducer.actions
 export const selectManage = (state) => state.manage
-export default manageSlice.reducer
+export default manageReducer.reducer

@@ -3,8 +3,7 @@ import {useSelector} from 'react-redux'
 import {useHistory} from 'react-router-dom'
 import PageBox from 'components/styled/PageBox'
 import Stack from '@mui/material/Stack'
-import Divider from '@mui/material/Divider'
-import Typography from '@mui/material/Typography'
+import {getJWT} from 'utils/handle-jwt'
 import {selectSessions} from 'slices/session'
 import {BobSkeleton, BobMessage} from 'components/Cards'
 import NoBob from './NoBob'
@@ -31,8 +30,11 @@ const Chat = (props) => {
                 const param = session.role === 'mentee'
                             ? {menteeId: session.mentee.id}
                             : {mentorId: session.mentor.id}
-                axios.get(api,
+                await axios.get(api,
                     {
+                        headers: {
+                            Authorization: `Bearer ${getJWT().accessToken}`,
+                        },
                         params: param,
                     })
                     .then(res => {

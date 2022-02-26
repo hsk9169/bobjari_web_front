@@ -1,6 +1,6 @@
 import PageBox from 'components/styled/PageBox'
 import {useState} from 'react';
-import {getJWT, verifyJWT} from 'utils/handle-jwt'
+import {getJWT} from 'utils/handle-jwt'
 import {MenteeMypage, MentorMypage} from 'components/MyPage'
 import {useSelector, useDispatch} from 'react-redux'
 import {selectSessions, changeSessionRole, toggleSessionSearchAllow} from 'slices/session';

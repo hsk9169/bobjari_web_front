@@ -10,10 +10,14 @@ import './index.css'
 import App from './App';
 import * as serviceWorker from './serviceWorkerRegistration';
 
+const persistor = persistStore(store)
+
 ReactDOM.render(
   <BrowserRouter>
     <Provider store={store}>
-      <App />
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
     </Provider>
   </BrowserRouter>
   
