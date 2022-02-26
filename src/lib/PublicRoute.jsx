@@ -8,14 +8,23 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button'
 import {getJWT} from 'utils/handle-jwt';
+import {useDispatch} from 'react-redux'
+import { updateBotNav } from 'slices/manage';
 
 
-const PublicRoute = ({ component: Component, restricted, context, ...rest }) => {
+const PublicRoute = ({ component: Component, restricted, botNav, ...rest }) => {
+
+    console.log('Public Route')
+
+    const dispatch = useDispatch()
+
     const [isValid, setValid] = useState({
         initialized: false,
         access: null,
     })
     const [dialogOpen, setDialogOpen] = useState(false);
+
+    
 
     useEffect( () => {
         async function start() {
@@ -47,6 +56,8 @@ const PublicRoute = ({ component: Component, restricted, context, ...rest }) => 
                     })
             }
         }
+        
+        dispatch(updateBotNav(botNav))
 
         start();
         
@@ -55,9 +66,7 @@ const PublicRoute = ({ component: Component, restricted, context, ...rest }) => 
     const action = (props) => {
         if (isValid.access===true) {
             return (
-                <Component {...props} 
-                    context={context}
-                />
+                <Component {...props} />
             )
         } else if (isValid.access===false) {
             return (

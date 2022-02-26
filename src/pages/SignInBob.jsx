@@ -8,6 +8,7 @@ import EmailAuth from 'components/SignInComp/EmailAuth';
 import {saveJWT} from 'utils/handle-jwt'
 import { useDispatch } from "react-redux";
 import { addSession } from "slices/session";
+
 const axios = require('axios');
 
 const pageTitle = [
@@ -16,8 +17,6 @@ const pageTitle = [
 ]
 
 const SignInBob = ({context, history}) => {
-
-    context.setBotNav(false)
 
     const [state, setState] = React.useState({
         email: '',

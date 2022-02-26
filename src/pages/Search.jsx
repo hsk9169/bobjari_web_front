@@ -1,28 +1,55 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
+import {SearchInputBar, RecentSearchKeywords, SortFilterBar,
+        SortDrawer, FilterDrawer, MentorSearchResult} from 'components/Search'
 import PageBox from 'components/styled/PageBox'
-import {getJWT, verifyJWT} from 'utils/handle-jwt'
+import Stack from '@mui/material/Stack'
+import { styled } from '@mui/material/styles';
+import { grey } from '@mui/material/colors';
+import Drawer from '@mui/material/Drawer';
+import CssBaseline from '@mui/material/CssBaseline';
+import { Global } from '@emotion/react';
 import {useDispatch} from 'react-redux'
-import { updateSessionTime } from 'slices/manage';
-import {SearchBar} from 'components/MainScreen'
-
+import {getJWT, verifyJWT} from 'utils/handle-jwt'
+import {updateSessionTime} from 'slices/manage'
 
 const axios = require('axios');
 
 
-const Main = (props) => {
+const Root = styled('div')(({ theme }) => ({
+    height: '100%',
+    backgroundColor:
+    theme.palette.mode === 'light' ? grey[100] : theme.palette.background.default,
+}));
+
+const Search = ({history}) => {
 
     const dispatch = useDispatch()
 
-    const [mentors, setMentors] = useState([])
     const [searchInput, setSearchInput] = useState('')
-    const [resultText, setResultText] = useState('')
     const [queryId, setQueryId] = useState(0)
     const [pending, setPending] = useState(false)
     const [isEnd, setIsEnd] = useState(false)
+    const [resultText, setResultText] = useState('')
+    const [mentors, setMentors] = useState([])
+    const [drawerType, setDrawerType] = useState('')
+    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [filterSel, setFilterSel] = useState(new Array(5).fill(false))
+
     const numGet = 10;
+
+
+    const handleClickBack = () => {
+        history.push('/main')
+    }
+
+    const handleSearchInput = event => {
+        setSearchInput(event.target.value)
+        setQueryId(0)
+    }
 
     const handleSearch = async event => {
         if (event.key === 'Enter') {
+            console.log('search')
             event.preventDefault();
             setIsEnd(false)
             if (searchInput === '') {
@@ -64,6 +91,20 @@ const Main = (props) => {
             }
         }
     }
+
+    const handleClickSort = () => {
+        setDrawerType('sort')
+        setDrawerOpen(true)
+    }
+
+    const handleClickFilter = () => {
+        setDrawerType('filter')
+        setDrawerOpen(true)
+    }
+
+    const toggleDrawer = (newOpen) => () => {
+        setDrawerOpen(newOpen);
+    };
 
     const infiniteScroll = async () => {
         let scrollHeight = Math.max(
@@ -111,31 +152,69 @@ const Main = (props) => {
         }
     }
 
-    const handleClickSearch = () => {
-        props.history.push('/main/search')
-    }
-    
+    useEffect( () => {
+        window.addEventListener('scroll', infiniteScroll)
+        return () => window.removeEventListener('scroll', infiniteScroll)
+    })
 
     return (
-        
         <div>
-
-            <PageBox sx={{
-                    display: 'flex',
-                    width: '100%',
-                    justifyContent: 'flex-start',
-                    p: 2,
-                    pt: 6,
-                    background: 'linear-gradient(to bottom, #c5cae9, #fafafa)'
-                }}
-            >
-                <SearchBar
-                    handleClickSearch={handleClickSearch}
+        <PageBox sx={{p: 2, display: 'flex'}}>
+            <Stack direction='column' spacing={2}
+                sx={{width: '100%'}}>   
+                <SearchInputBar
+                    onClickBack={handleClickBack}
+                    searchInput={searchInput} 
+                    onSearchInput={handleSearchInput}
+                    onSearchClick={handleSearch}
                 />
-            </PageBox>
-            <PageBox sx={{pb:7}} />
+                <RecentSearchKeywords />
+                <SortFilterBar 
+                    filterSel={filterSel}
+                    onClickSort={handleClickSort}
+                    onClickFilter={handleClickFilter}
+                    setFilterSel={setFilterSel}
+                />
+                <MentorSearchResult 
+                    mentors={mentors}
+                    pending={pending}
+                    resultText={resultText}
+                />
+            </Stack>
+        </PageBox>
+
+
+
+        <Root>
+        <CssBaseline />
+            <Global
+                styles={{
+                    '.MuiDrawer-root > .MuiPaper-root': {
+                      height: drawerType === 'sort' ? '50%' : '90%',
+                      overflow: 'hidden',
+                    },
+                    '.MuiDrawer-paper': {
+                        borderTopLeftRadius: 24,
+                        borderTopRightRadius: 24,
+                    }
+                }}
+            />
+            <Drawer
+                anchor="bottom"
+                open={drawerOpen}
+                onClose={toggleDrawer(false)}
+                onOpen={toggleDrawer(true)}
+                ModalProps={{
+                    keepMounted: true,
+                }}
+            > 
+                {drawerType === 'sort' 
+                ? <SortDrawer onClickClose={toggleDrawer(false)} /> 
+                : <FilterDrawer onClickClose={toggleDrawer(false)} />}
+            </Drawer>
+        </Root>
         </div>
     )
 }
 
-export default Main;
+export default Search

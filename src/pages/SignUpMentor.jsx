@@ -12,8 +12,6 @@ const axios = require('axios');
 
 const SignUpMentor = ({context, location, history}) => {
 
-    context.setBotNav(false)
-    
     const progressRatio = 10;
     
     const [state, setState] = useState({

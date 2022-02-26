@@ -1,13 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { logger } from 'redux-logger';
-import { sessionSlice } from "slices";
+import { sessionSlice, manageSlice } from "slices";
 
-const sessionStore = configureStore({
+const store = configureStore({
     reducer: {
         session: sessionSlice,
+        manage: manageSlice
     },
     middleware: (getDefaultMiddleware) => 
         getDefaultMiddleware().concat(logger),
 });
 
-export default sessionStore;
+export default store;

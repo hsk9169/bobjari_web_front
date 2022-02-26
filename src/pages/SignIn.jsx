@@ -7,11 +7,10 @@ import { EmojiProvider, Emoji } from 'react-apple-emojis';
 import emojiData from 'react-apple-emojis/lib/data.json';
 import PageBox from 'components/styled/PageBox'
 import StackTitle from 'components/styled/StackTitle'
+
 const authInfo = require('constants/kakao-auth');
 
 const SignIn = ({context, history}) => {
-
-    context.setBotNav(false)
 
     const redirectUri = () => {
         let baseUri = authInfo.BASE_URI;

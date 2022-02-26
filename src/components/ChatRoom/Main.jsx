@@ -1,50 +1,158 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import PageBox from 'components/styled/PageBox'
-import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid'
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import useChat from 'utils/handle-chat'
+import {TopBar, ChatInput, Messages} from 'components/ChatRoom'
+const axios = require('axios');
 
-import useChat from 'utils/useChat'
+const ChatRoom = ({location, history}) => {
 
-const ChatRoom = ({match}) => {
-    const id = match.params.id
-    console.log(id)
-    const {messages, sendMessage} = useChat(id)
+    const { innerHeight: height} = window;
+    const [alertVPos, setAlertVPos] = useState(null)
+    const [messageVPos, setMessageVPos] = useState(null)
+    const [roomInfo, setRoomInfo] = useState(location.data.roomInfo)
+    const [chatList, setChatList] = useState(null)
     const [newMessage, setNewMessage] = useState('')
-    console.log('message', messages)
+    const [isPending, setIsPending] = useState(false)
+    const [queryId, setQueryId] = useState(0)
+    const [openAlert, setOpenAlert] = useState(false)
+
+    const {rcvMessage, sendMessage, response} = useChat(roomInfo.id)
+
+    const handleBack = () => {
+        history.push('/bob')
+    }
 
     const handleTextInput = event => {
         setNewMessage(event.target.value)
     }
 
-    const handleButton = () => {
-        sendMessage(newMessage)
-        setNewMessage('')
+    const handleSendMessage = () => {
+        if (newMessage.length > 0) {
+            sendMessage(newMessage)
+            if (response) {
+                setNewMessage('')
+            }
+            else {
+                setOpenAlert(true)
+            }
+        }
     }
 
+    const handleGetMoreMessages = async () => {
+        setIsPending(true)
+        await axios.get(process.env.REACT_APP_API_CHAT,
+            {
+                params: {
+                    bobjariId: roomInfo.id,
+                    startIdx: queryId,
+                    num: 50,
+                },
+            })
+            .then(res => {
+                const messages = res.data
+                if (messages.length > 0) {
+                    setChatList([
+                            ...messages.reverse(), 
+                            ...chatList
+                        ])
+                    setQueryId(queryId + messages.length)
+                    setIsPending(false)
+                } else {
+                    setIsPending(null)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }    
+    
+    const handleCloseAlert = (reason) => {
+        if (reason === 'clickaway') {
+            return
+        }
+        setOpenAlert(false)
+    }
+    
+    useEffect(() => {
+        async function getRecentMessages() {
+            await axios.get(process.env.REACT_APP_API_CHAT,
+                    {
+                        params: {
+                            bobjariId: roomInfo.id,
+                            startIdx: queryId,
+                            num: 50,
+                        },
+                    })
+                    .then(res => {
+                        const messages = res.data
+                        setIsPending(false)
+                        setChatList([
+                            ...messages.reverse(), 
+                        ])
+                        setQueryId(messages.length)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+        }
+        getRecentMessages()
+    }, [])
+
+    
+    
+
     return (
+        <div>
         <PageBox sx={{display:'flex'}}>
             <Grid container direction='column'>
                 <Grid item>
-                    <PageBox sx={{display:'flex'}}>
-                        <TextField value={newMessage} sx={{width: '80%'}}
-                            onChange={handleTextInput}/>
-                        <Button onClick={handleButton}>send</Button>
-                    </PageBox>
+                    <TopBar 
+                        nickname={(roomInfo.mentee.user !== undefined
+                                ? roomInfo.mentee.user.profile.nickname
+                                : roomInfo.mentor.user.profile.nickname)}
+                        handleBack={handleBack}
+                        setMessageVPos={setMessageVPos}
+                    />
                 </Grid>
-                <Grid item container direction='column'>
-                    {messages.map((el) => (
-                        <Grid item>
-                            <Typography varient='body1'>
-                                {el.senderId} : {el.body}
-                            </Typography>
-                        </Grid>
-                    ))}
+                
+                <Grid item>
+                    <Messages
+                        rcvMessage={rcvMessage}
+                        chatList={chatList}
+                        getMoreMessages={handleGetMoreMessages}
+                        isPending={isPending}
+                        roomInfo={roomInfo}
+                        topPosition={messageVPos}
+                        height={height - messageVPos - alertVPos}
+                    />
                 </Grid>
             </Grid>
-            
+            <ChatInput
+                setAlertHeight={setAlertVPos}
+                input={newMessage}
+                onTextInput={handleTextInput}
+                onButton={handleSendMessage}
+            />
+            <Snackbar open={openAlert} 
+                autoHideDuration={1500} 
+                onClose={handleCloseAlert}
+            >
+                <Alert onClose={handleCloseAlert} 
+                    severity='error' 
+                    sx={{width: '100%', 
+                        position: 'absolute', 
+                        bottom: alertVPos, 
+                        left: 0, 
+                        right: 0}}
+                >
+                    메세지 전송 실패!
+                </Alert>
+            </Snackbar>
         </PageBox>
+        </div>
     )
 
 }

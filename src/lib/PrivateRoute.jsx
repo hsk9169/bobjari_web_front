@@ -8,32 +8,41 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box';
-import { useDispatch } from "react-redux";
+
+import { useDispatch, useSelector } from "react-redux";
 import { deleteSession } from "slices/session";
+import { selectManage, updateBotNav, updateSessionTime } from 'slices/manage'
+
 import {getJWT, deleteJWT, checkJWTExp, verifyJWT} from 'utils/handle-jwt';
 
-const PrivateRoute = ({ component: Component, context, ...rest }) => {
+const PrivateRoute = ({ component: Component, botNav, ...rest }) => {
     const [isValid, setValid] = useState({
         initialized: false,
         access: null,
     })
     const [dialogOpen, setDialogOpen] = useState(false);
-    const interval = useRef(null)
     const dispatch = useDispatch();
+    const manage = useSelector(selectManage)
+    dispatch(updateBotNav(botNav))
+
+    console.log('Private Route')
 
     const handleDialogClose = () => {
         setValid({
             ...isValid,
             access: false,
         })
-        context.setSessionTime({
-            expireTime: null, 
+        dispatch(updateSessionTime({
+            expireTime: null,
             remainTime: null,
-        })
+        }))
         setDialogOpen(false);
-        context.setScreen('main')
         action();
         dispatch(deleteSession())
+    }
+
+    const handleClick = () => {
+        console.log('private route level click')
     }
     
     useEffect( () => {
@@ -46,12 +55,13 @@ const PrivateRoute = ({ component: Component, context, ...rest }) => {
                     .then(res => {
                         console.log('token check', res.data)
                         if (res.data === 'valid') {
-                            console.log('valid')
                             setValid({
                                 initialized: true,
                                 access: true,
                             })
-                            verifyJWT(context)
+                            let obj = {expireTime: null, remainTime: null}
+                            verifyJWT(obj)
+                            dispatch(updateSessionTime(obj))
                         } else if (res.data === 'invalid') {
                             console.log('invalid')
                             setDialogOpen(true)                       
@@ -63,32 +73,19 @@ const PrivateRoute = ({ component: Component, context, ...rest }) => {
             } 
         }
         if (!dialogOpen) start();
-        if (context.sessionTime.remainTime === 0) {
+        if (manage.sessionTime.remainTime === 0) {
             setDialogOpen(true)
         }
-
-        interval.current = setInterval(() => {
-            const check = checkJWTExp(context.sessionTime.expireTime,
-                                      context.sessionTime.remainTime);
-            if (context.sessionTime.remainTime !== 0) {
-                context.setSessionTime({
-                    ...context.sessionTime,
-                    remainTime: check,
-                })
-            }
-        }, 1000)
-        return () => {
-            clearInterval(interval.current)
-        }
-
-    }, [isValid, context, dialogOpen])
+        
+        window.addEventListener('click', handleClick)
+        return () => window.removeEventListener('click', handleClick)
+        
+    }, [isValid, dialogOpen, manage, dispatch])
 
     const action = (props) => {
         if (isValid.access===true) {
             return (
-                <Component {...props} 
-                    context={context}
-                />
+                <Component {...props} />
             )
         } else if (isValid.access===false) {
             return (
@@ -96,33 +93,12 @@ const PrivateRoute = ({ component: Component, context, ...rest }) => {
             )
         }
     }
-
-    const clickSignOut = () => {
-        deleteJWT();
-        verifyJWT(context);
-    }
     
     return (
         <div>
             <Route {...rest}
                 render={action}
             />
-            {isValid.access 
-                ? <Box sx={{
-                    width: '100%',
-                    display: 'flex',
-                    position: 'absolute',
-                    top: 0,
-                    alignItems: 'center',
-                    justifyContent: 'right'
-                }}>
-                    <p>session remained: {context.sessionTime.remainTime}sec</p>
-                    <Button variant='contained' size='small'
-                        onClick={clickSignOut}
-                    >SignOut</Button>
-                </Box>
-                : null
-            }
             <Dialog
                 open={dialogOpen}
                 onClose={handleDialogClose}

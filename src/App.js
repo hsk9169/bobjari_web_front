@@ -5,71 +5,45 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { PublicRoute, PrivateRoute } from './lib';
 
 import { Welcome, SignInBob, SignUp, SignUpMentee, SignUpMentor, ErrorPage, NotFound, 
-        SignIn, Main, Bob, Mypage, MenteeProfileEdit } from 'pages';
+        SignIn, Main, Bob, Mypage, MenteeProfileEdit, Search } from 'pages';
+import MainRoutes from 'routes/MainRoutes'
 import KakaoCallback from 'components/KakaoCallback';
 import ChatRoom from 'components/ChatRoom/Main'
 
 import BottomNavigator from 'components/styled/BottomNavigator';
 
+import {useSelector} from 'react-redux'
+import { selectManage } from 'slices/manage';
+
 const App = (props) => {
-    const [value, setValue] = useState('main')
-    const [isVisible, setIsVisible] = useState(false)
-    const [sessionTime, setSessionTime] = useState({
-        expireTime: null,
-        reaminTime: null,
-    })
-
-    let privateContext = {
-        setBotNav: setIsVisible,
-        setScreen: setValue,
-        sessionTime: sessionTime,
-        setSessionTime: setSessionTime,
-    }
-
-    let publicContext = {
-        setBotNav: setIsVisible,
-        setScreen: setValue,
-    }
+    const manage = useSelector(selectManage)
     
     return (
         <ErrorBoundary FallbackComponent={ErrorPage}>
             <Switch>  
                 
                 <Route component={KakaoCallback} path='/auths/kakao/callback' exact />
-                <Route component={ChatRoom} path='/room/:id' />
                 
-                <PrivateRoute component={Bob} path='/bob' exact 
-                    context={privateContext} />
-                <PrivateRoute component={MenteeProfileEdit} path='/mypage/edit' exact
-                    context={privateContext} />
-                <PrivateRoute component={Mypage} path='/mypage' exact 
-                    context={privateContext} />
+                <PrivateRoute component={ChatRoom} path='/room' exact botNav={false} />
+                <PrivateRoute component={Bob} path='/bob' exact botNav={true} />
+                <PrivateRoute component={MenteeProfileEdit} path='/mypage/edit' exact botNav={false} />
+                <PrivateRoute component={Mypage} path='/mypage' exact botNav={true} />
 
-                <PublicRoute restricted={false} component={Main} 
-                    path='/main' exact 
-                    context={privateContext} />
+                <PublicRoute restricted={false} component={MainRoutes} 
+                    path='/main' botNav={true} />
                 <PublicRoute restricted={true} component={SignUpMentor} 
-                    path='/signup/mentor' exact
-                    context={publicContext} />
+                    path='/signup/mentor' exact botNav={false} />
                 <PublicRoute restricted={true} component={SignUpMentee} 
-                    path='/signup/mentee' exact
-                    context={publicContext} />
+                    path='/signup/mentee' exact botNav={false} />
                 <PublicRoute restricted={true} component={SignUp} 
-                    path='/signup' exact
-                    context={publicContext} />
+                    path='/signup' exact botNav={false} />
                 <PublicRoute restricted={true} component={SignInBob} 
-                    path='/signin/bob' exact
-                    context={publicContext} />
+                    path='/signin/bob' exact botNav={false} />
                 <PublicRoute restricted={true} component={Welcome} 
-                    path='/' exact
-                    context={publicContext} />
+                    path='/' exact botNav={false} />
             </Switch>
-            {isVisible
+            {manage.botNav
                 ? <BottomNavigator
-                    page={{
-                        value: value,
-                        setValue: setValue,
-                    }}
                     history={props.history}
                 /> 
                 : null

@@ -17,11 +17,10 @@ import StackTitle from 'components/styled/StackTitle';
 import {saveJWT} from 'utils/handle-jwt'
 import { useDispatch } from "react-redux";
 import { addSession } from "slices/session";
+
 const axios = require('axios');
 
 const SignUpMentee = ({context, location, history}) => {
-
-    context.setBotNav(false)
     
     let jobList = [];
     let ref = React.createRef();

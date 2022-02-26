@@ -10,14 +10,19 @@ import ProfileIconOutlined from '@mui/icons-material/PersonOutlined';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 
+import {useSelector, useDispatch} from 'react-redux'
+import {selectManage, updateNavScreen} from 'slices/manage'
+
 
 const BottomNavigator = (props) => {
+    const dispatch = useDispatch()
+    const manage = useSelector(selectManage)
     
     return (
         <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
-            <BottomNavigation value={props.page.value} 
+            <BottomNavigation value={manage.navScreen} 
                 onChange={(event, newValue) => {
-                    props.page.setValue(newValue);
+                    dispatch(updateNavScreen(newValue))
                 }}
             >
                 <BottomNavigationAction
@@ -28,7 +33,7 @@ const BottomNavigator = (props) => {
                         }
                     }
                     value='main'
-                    icon={(props.page.value === 'main') ? <HomeIconFilled /> : <HomeIconOutlined />}
+                    icon={(manage.navScreen === 'main') ? <HomeIconFilled /> : <HomeIconOutlined />}
                 />
                 <BottomNavigationAction
                     component={Link}
@@ -38,7 +43,7 @@ const BottomNavigator = (props) => {
                         }
                     }
                     value='bob'
-                    icon={(props.page.value === 'bob') ? <RiceBowlIcon /> : <RiceBowlOutlinedIcon />}
+                    icon={(manage.navScreen === 'bob') ? <RiceBowlIcon /> : <RiceBowlOutlinedIcon />}
                 />
                 <BottomNavigationAction
                     component={Link}
@@ -48,7 +53,7 @@ const BottomNavigator = (props) => {
                         }
                     }
                     value='mypage'
-                    icon={(props.page.value === 'mypage') ? <ProfileIconFilled /> : <ProfileIconOutlined />}
+                    icon={(manage.navScreen === 'mypage') ? <ProfileIconFilled /> : <ProfileIconOutlined />}
                 />
             </BottomNavigation>
         </Paper>

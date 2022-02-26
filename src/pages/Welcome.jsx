@@ -13,6 +13,9 @@ import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import { EmojiProvider, Emoji } from 'react-apple-emojis';
 import emojiData from 'react-apple-emojis/lib/data.json';
+import {useDispatch} from 'react-redux'
+import {updateBotNav, updateNavScreen} from 'slices/manage'
+
 const authInfo = require('constants/kakao-auth');
 const imgUri = require('constants/image-uri');
 
@@ -45,11 +48,13 @@ const steps = [
 
 const Welcome = ({context, drawerWindow, history}) => {
 
-    context.setBotNav(false)
-
     const theme = useTheme();
     const [activeStep, setActiveStep] = React.useState(0);
     const maxSteps = steps.length;
+
+    const dispatch = useDispatch()
+    dispatch(updateBotNav(false))
+    dispatch(updateNavScreen('main'))
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -82,14 +87,14 @@ const Welcome = ({context, drawerWindow, history}) => {
 
     const handleVisitorEntering = () => {
         history.push('/main')
-        context.setScreen('main')
+        dispatch(updateNavScreen('main'))
     }
 
     return (
         <div>
             <Box sx={{height: 60}}></Box>
             <Box sx={{ 
-                    maxWidth: 400, 
+                    width: '100%', 
                     flexGrow: 1,
                 }}
             >
@@ -141,41 +146,11 @@ const Welcome = ({context, drawerWindow, history}) => {
                         </div>
                     ))}
                 </AutoPlaySwipeableViews>
-                <MobileStepper  
-                    steps={maxSteps}  
-                    position="static" 
-                    activeStep={activeStep}   
-                    nextButton={  
-                        <Button 
-                            size="small"  
-                            onClick={handleNext}  
-                            disabled={activeStep === maxSteps - 1}
-                        >   
-                            Next  
-                            {theme.direction === 'rtl' ? (
-                              <KeyboardArrowLeft />
-                            ) : (
-                              <KeyboardArrowRight />
-                            )}
-                        </Button>
-                    }
-                    backButton={
-                        <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-                            {theme.direction === 'rtl' ? (
-                                <KeyboardArrowRight />
-                            ) : (
-                                <KeyboardArrowLeft />
-                            )}
-                            Back
-                        </Button>
-                    }
-                />
             </Box>
             <Box
                 sx={{
                     display: 'flex',
                     pt: 6,
-                    height: '100%',
                     overflow: 'auto',
                     justifyContent: 'center',
                     alignItems: 'center',

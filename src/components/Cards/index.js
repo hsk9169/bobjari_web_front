@@ -1,3 +1,5 @@
 export {default as SearchCard} from './Search'
 export {default as ProposeCard} from './Propose'
 export {default as HistoryCard} from './History'
+export {default as BobSkeleton} from './BobSkeleton'
+export {default as BobMessage} from './BobMessage'

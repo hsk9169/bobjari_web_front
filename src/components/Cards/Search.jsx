@@ -12,17 +12,13 @@ import {topicList} from 'constants/topics'
 import {yearsList} from 'constants/career-years'
 
 
-const SearchCard = ({userInfo, careerInfo, profileImg, appointment}) => {
+const SearchCard = ({nickname, careerInfo, profileImg, fee}) => {
 
     return (
         <Paper elevation={3}
             sx={{
               p: 2,
-              width: 'inherit',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 3,
+              borderRadius: 3
             }}
         >
             <Grid container direction='column'>
@@ -43,7 +39,7 @@ const SearchCard = ({userInfo, careerInfo, profileImg, appointment}) => {
                                 <Typography variant='subtitle1' 
                                     sx={{ fontWeight: 'fontWeightBold' }}
                                 >
-                                    {userInfo.nickname} &#183; {careerInfo.job}
+                                    {nickname} &#183; {careerInfo.job}
                                 </Typography>
                             </Grid>
                             <Grid item>
@@ -72,7 +68,6 @@ const SearchCard = ({userInfo, careerInfo, profileImg, appointment}) => {
                             </Grid>
                         </Grid>
                         <Grid item xs={3.5} sx={{
-                            height: '100%',
                             alignItems: 'flex-end',
                             justifyContent:'flex-end',
                             }}
@@ -87,7 +82,7 @@ const SearchCard = ({userInfo, careerInfo, profileImg, appointment}) => {
                                     1시간
                                 </Typography>
                                 <Typography variant='BUTTON TEXT' sx={{fontWeight: 'fontWeightBold'}}>
-                                    {appointment.fee.value}원
+                                    {fee.value}원
                                 </Typography>
                             </Stack>
                         </Grid>

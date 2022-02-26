@@ -4,13 +4,14 @@ import {getJWT, verifyJWT} from 'utils/handle-jwt'
 import {MenteeMypage, MentorMypage} from 'components/MyPage'
 import {useSelector, useDispatch} from 'react-redux'
 import {selectSessions, changeSessionRole, toggleSessionSearchAllow} from 'slices/session';
+import {updateBotNav} from 'slices/manage'
 const axios = require('axios')
 
-const Mypage = ({context, history}) => {
+const Mypage = ({history}) => {
 
     const dispatch = useDispatch();
     const session = useSelector(selectSessions)[1].session
-    context.setBotNav(true)
+    dispatch(updateBotNav(true))
 
     const [isChanging, setIsChanging] = useState(false)
 
@@ -65,7 +66,6 @@ const Mypage = ({context, history}) => {
 
     return (
         <div>
-            <PageBox sx={{width: '100%', pb: 4}}/>
             <PageBox sx={{
                 display: 'flex',
                 width: '100%',

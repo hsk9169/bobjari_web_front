@@ -1,2 +1,1 @@
-export { default as sessionStore } from './session';
-export { default as socketStore } from './socket';
+export { default as store } from './store';
