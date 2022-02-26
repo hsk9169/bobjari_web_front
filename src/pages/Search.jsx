@@ -37,6 +37,7 @@ const Search = ({history}) => {
 
     const numGet = 10;
 
+    console.log(mentors)
 
     const handleClickBack = () => {
         history.push('/main')

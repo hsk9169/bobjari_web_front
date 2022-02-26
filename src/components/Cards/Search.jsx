@@ -12,13 +12,14 @@ import {topicList} from 'constants/topics'
 import {yearsList} from 'constants/career-years'
 
 
-const SearchCard = ({nickname, careerInfo, profileImg, fee}) => {
+const SearchCard = ({nickname, careerInfo, profileImg, fee, title}) => {
 
     return (
         <Paper elevation={3}
             sx={{
               p: 2,
-              borderRadius: 3
+              borderRadius: 3,
+              width: '100%',
             }}
         >
             <Grid container direction='column'>
@@ -99,7 +100,7 @@ const SearchCard = ({nickname, careerInfo, profileImg, fee}) => {
                         <Typography variant='subtitle2' 
                             sx={{pl: 1, pr: 1, fontWeight: 'fontWeightBold'}}
                         >
-                            {careerInfo.title}
+                            {title}
                         </Typography>
                     </PageBox>
                 </Grid>

@@ -83,24 +83,27 @@ const ChatRoom = ({location, history}) => {
     useEffect(() => {
         async function getRecentMessages() {
             await axios.get(process.env.REACT_APP_API_CHAT,
-                    {
-                        params: {
-                            bobjariId: roomInfo.id,
-                            startIdx: queryId,
-                            num: 50,
-                        },
-                    })
-                    .then(res => {
-                        const messages = res.data
-                        setIsPending(false)
-                        setChatList([
-                            ...messages.reverse(), 
-                        ])
-                        setQueryId(messages.length)
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
+                {
+                    headers: {
+                        Authorization: `Bearer ${getJWT().accessToken}`,
+                    },
+                    params: {
+                        bobjariId: roomInfo.id,
+                        startIdx: queryId,
+                        num: 50,
+                    },
+                })
+                .then(res => {
+                    const messages = res.data
+                    setIsPending(false)
+                    setChatList([
+                        ...messages.reverse(), 
+                    ])
+                    setQueryId(messages.length)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
         }
         getRecentMessages()
     }, [])

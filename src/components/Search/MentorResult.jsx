@@ -20,13 +20,13 @@ const MentorResult = (props) => {
                         pt: 2,
                         display: 'flex',
                         width: '100%',
-                        justifyContent: 'flex-start'
                     }}>
                     <SearchCard 
                         nickname={el.user.profile.nickname} 
                         profileImg={el.user.profile.image} 
                         careerInfo={el.career}
                         fee={el.details.preference.fee}
+                        title={el.title}
                     />
                 </Grid>
             ))}

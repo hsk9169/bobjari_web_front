@@ -8,7 +8,7 @@ export { default as Main } from './Main';
 export { default as Search } from './Search';
 export { default as MentorDetails } from './MentorDetails';
 export { default as Bob } from './Bob';
-export { default as Mypage } from './Mypage';
+export { default as Mypage } from './MyPage';
 export { default as MenteeProfileEdit } from './MenteeProfileEdit'
 export { default as ErrorPage } from './ErrorPage';
 export { default as NotFound } from './NotFound';
