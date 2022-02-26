@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid'
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import useChat from 'utils/handle-chat'
+import {getJWT} from 'utils/handle-jwt'
 import {TopBar, ChatInput, Messages} from 'components/ChatRoom'
 const axios = require('axios');
 
@@ -45,6 +46,9 @@ const ChatRoom = ({location, history}) => {
         setIsPending(true)
         await axios.get(process.env.REACT_APP_API_CHAT,
             {
+                headers: {
+                    Authorization: `Bearer ${getJWT().accessToken}`,
+                },
                 params: {
                     bobjariId: roomInfo.id,
                     startIdx: queryId,
