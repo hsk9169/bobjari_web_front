@@ -19,7 +19,7 @@ export const getJWT = () => {
 
 export const verifyJWT = (obj) => {
     jwt.verify(localStorage.getItem('accessToken'),
-        'shhhhh', (err,decoded) => {
+        process.env.REACT_APP_JWT_SECRET_KEY, (err,decoded) => {
             if (decoded) {
                 obj.expireTime = decoded.exp
                 obj.remainTime = decoded.exp - Math.floor(Date.now()/1000)

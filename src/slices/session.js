@@ -4,7 +4,7 @@ const initialSessionState = {
     sessions: [{id: 1, session: []}],
 };
 
-const sessionSlice = createSlice({
+const sessionReducer = createSlice({
     name: 'session',
     initialState: initialSessionState,
     reducers: {
@@ -29,6 +29,6 @@ const sessionSlice = createSlice({
 });
 
 export const { addSession, updateSession, changeSessionRole, 
-            toggleSessionSearchAllow, deleteSession } = sessionSlice.actions;
+            toggleSessionSearchAllow, deleteSession } = sessionReducer.actions;
 export const selectSessions = (state) => state.session.sessions;
-export default sessionSlice.reducer;
+export default sessionReducer.reducer;
