@@ -1,7 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import {combineReducers} from 'redux';
 import { logger } from 'redux-logger';
-import { sessionReducer, manageReducer } from "slices";
+import { 
+    sessionReducer, 
+    manageReducer, 
+    searchPageReducer 
+} from "slices";
 // REDUX-PERSIST
 import storage from 'redux-persist/lib/storage'
 import {
@@ -19,6 +23,7 @@ import CryptoJS from 'crypto-js'
 const rootReducer = combineReducers({
     session: sessionReducer,
     manage: manageReducer,
+    searchPage: searchPageReducer,
 })
 
 const encrypt = createTransform(
@@ -45,7 +50,7 @@ const persistConfig = {
     version: 1,
     storage,
     transforms: [encrypt],
-    //blacklist: ['']
+    //blacklist: ['manage', 'searchPage'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

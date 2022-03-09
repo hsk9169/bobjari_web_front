@@ -30,7 +30,8 @@ const Messages = (props) => {
         } else if (props.chatList !== null) {
             if (arraySize.chatList !== props.chatList.length) {
                 // fix at button
-                messageRef.current.scrollTop = messageRef.current.scrollHeight - height
+                messageRef.current.scrollTop = 
+                    messageRef.current.scrollHeight - height
                 setHeight(messageRef.current.scrollHeight)
                 setArraySize({...arraySize, chatList: props.chatList.length})
             }
@@ -56,10 +57,19 @@ const Messages = (props) => {
         let time
         time = new Date(el.createdAt).toLocaleString().split('. ')[3].slice(0,-3)
 
-        if ((session.role === 'mentee' && el.author === session.mentee.id) ||
-            (session.role === 'mentor' && el.author === session.mentor.id)) {
+        if ((session.role === 'mentee' && 
+            el.author === session.mentee.id) ||
+            (session.role === 'mentor' && 
+            el.author === session.mentor.id)) 
+        {
             return (
-                <Box sx={{width: '100%', display: 'flex', justifyContent: 'flex-end'}}>
+                <Box 
+                    sx={{
+                        width: '100%', 
+                        display: 'flex', 
+                        justifyContent: 'flex-end'
+                    }}
+                >
                     <ChatSend
                         message={el.message}
                         time={time}
@@ -68,7 +78,13 @@ const Messages = (props) => {
             )
         } else {
             return (
-                <Box sx={{width: '100%', display: 'flex', justifyContent: 'flex-start'}}>
+                <Box 
+                    sx={{
+                        width: '100%', 
+                        display: 'flex', 
+                        justifyContent: 'flex-start'
+                    }}
+                >
                     <ChatRecv
                         image={session.role === 'mentee'
                                 ? props.roomInfo.mentor.user.profile.image
@@ -84,10 +100,19 @@ const Messages = (props) => {
     const renderChat = (el) => {
         const time = new Date(el.date).toLocaleString().split('. ')[3].slice(0,-3)
         
-        if ((session.role === 'mentee' && el.senderId === session.mentee.id) ||
-            (session.role === 'mentor' && el.senderId === session.mentor.id)) {
+        if ((session.role === 'mentee' && 
+            el.senderId === session.mentee.id) ||
+            (session.role === 'mentor' && 
+            el.senderId === session.mentor.id)) 
+        {
             return (
-                <Box sx={{width: '100%', display: 'flex', justifyContent: 'flex-end'}}>
+                <Box 
+                    sx={{
+                        width: '100%', 
+                        display: 'flex', 
+                        justifyContent: 'flex-end'
+                    }}
+                >
                     <ChatSend
                         message={el.body}
                         time={time}
@@ -96,7 +121,13 @@ const Messages = (props) => {
             )
         } else {
             return (
-                <Box sx={{width: '100%', display: 'flex', justifyContent: 'flex-start'}}>
+                <Box 
+                    sx={{
+                        width: '100%', 
+                        display: 'flex', 
+                        justifyContent: 'flex-start'
+                    }}
+                >
                     <ChatRecv
                         image={session.role === 'mentee'
                                 ? props.roomInfo.mentor.user.profile.image
@@ -130,7 +161,8 @@ const Messages = (props) => {
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
-                    <CircularProgress size={50} thickness={5} />
+                    <CircularProgress size={50} thickness={5}
+                        sx={{color: '#f75910'}} />
                 </Box>
             </ListItem>
         :

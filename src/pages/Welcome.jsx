@@ -1,20 +1,14 @@
-import React from 'react';
+import {useState} from 'react';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import MobileStepper from '@mui/material/MobileStepper';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
-import { EmojiProvider, Emoji } from 'react-apple-emojis';
-import emojiData from 'react-apple-emojis/lib/data.json';
 import {useDispatch} from 'react-redux'
-import {updateBotNav, updateNavScreen} from 'slices/manage'
+import {updateNavScreen} from 'slices/manage'
 
 const authInfo = require('constants/kakao-auth');
 const imgUri = require('constants/image-uri');
@@ -49,20 +43,9 @@ const steps = [
 const Welcome = ({context, drawerWindow, history}) => {
 
     const theme = useTheme();
-    const [activeStep, setActiveStep] = React.useState(0);
-    const maxSteps = steps.length;
+    const [activeStep, setActiveStep] = useState(0);
 
     const dispatch = useDispatch()
-    dispatch(updateBotNav(false))
-    dispatch(updateNavScreen('main'))
-
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
 
     const handleStepChange = (step) => {
         setActiveStep(step);
@@ -107,7 +90,8 @@ const Welcome = ({context, drawerWindow, history}) => {
                       margin: 2,
                     }}
                 >
-                    <Typography variant='h4' sx={{ fontWeight: 'fontWeightBold'}}>
+                    <Typography variant='h4' 
+                        sx={{ fontWeight: 'fontWeightBold'}}>
                         {steps[activeStep].label1}<br/>
                         {steps[activeStep].label2}
                     </Typography>
@@ -167,26 +151,34 @@ const Welcome = ({context, drawerWindow, history}) => {
                     </div>
                     <Button variant='contained'
                         onClick={bobjariSignInButtonHandler}
-                        sx={{width: '100%', height: 45}}
+                        sx={{
+                            width: '100%', 
+                            height: 45,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: '#f75910'
+                        }}
                     >
-                        <Grid container>
-                            <Grid item xs={2.5} sx={{display: 'flex',justifyContent:'flex-start'}}>
-                                <EmojiProvider data={emojiData}>
-                                    <Emoji name="cooked-rice" width={25} />
-                                </EmojiProvider>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant='body1' sx={{ fontWeight: 'fontWeightBold'}}>
-                                    밥자리 계정으로 시작하기
-                                </Typography>
-                            </Grid>
-                        </Grid>
+                        <Typography variant='body1' 
+                            sx={{ fontWeight: 'fontWeightBold'}}>
+                            밥자리 계정으로 시작하기
+                        </Typography>
                     </Button>
                     <Button variant='outlined'
                         onClick={handleVisitorEntering}
-                        sx={{width: '100%', height: 45, border: 1.5}}
+                        sx={{
+                            width: '100%', 
+                            height: 45, 
+                            border: 1.5,
+                            borderColor: '#000000'
+                        }}
                     >
-                        <Typography variant='body1' sx={{ fontWeight: 'fontWeightBold'}}>
+                        <Typography variant='body1' 
+                            sx={{ 
+                                fontWeight: 'fontWeightBold',
+                                color: '#000000'
+                            }}>
                             비회원으로 둘러보기
                         </Typography>
                     </Button>

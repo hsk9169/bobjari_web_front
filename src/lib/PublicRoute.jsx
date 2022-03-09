@@ -34,22 +34,14 @@ const PublicRoute = ({ component: Component, restricted, botNav, ...rest }) => {
                         Authorization: `Bearer ${getJWT().accessToken}`,
                     }})
                     .then(res => {
-                        if (restricted) {
-                            if (res.data === 'valid') {
-                                setDialogOpen(true)
-                            } else if (res.data === 'invalid') {
-                                setValid({
-                                    initialized: true,
-                                    access: true,
-                                })
-                            }
-                        } else {
+                        if (res.data === 'valid') {
+                            setDialogOpen(true)
+                        } else if (res.data === 'invalid') {
                             setValid({
                                 initialized: true,
                                 access: true,
                             })
-                        }
-                        
+                        }                        
                     })
                     .catch(err => {
                         console.log(err)
@@ -59,9 +51,16 @@ const PublicRoute = ({ component: Component, restricted, botNav, ...rest }) => {
         
         dispatch(updateBotNav(botNav))
 
-        start();
+        if (!restricted) {
+            setValid({
+                initialized: true,
+                access: true,
+            })
+        } else {
+            start();
+        }
         
-    }, [restricted, isValid, setValid])
+    }, [botNav])
     
     const action = (props) => {
         if (isValid.access===true) {

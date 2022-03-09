@@ -12,15 +12,17 @@ import {topicList} from 'constants/topics'
 import {yearsList} from 'constants/career-years'
 
 
-const SearchCard = ({nickname, careerInfo, profileImg, fee, title}) => {
+const SearchCard = ({nickname, careerInfo, profileImg, 
+                    fee, title, onClick}) => {
 
     return (
-        <Paper elevation={3}
+        <Paper elevation={2}
             sx={{
               p: 2,
               borderRadius: 3,
               width: '100%',
             }}
+            onClick={onClick}
         >
             <Grid container direction='column'>
                 <Grid item>

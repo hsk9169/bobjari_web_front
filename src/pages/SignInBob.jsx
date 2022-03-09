@@ -50,11 +50,11 @@ const SignInBob = ({context, history}) => {
                     }
                     
                     if (retEmail === state.email) {
-                        console.log(res.data)
                         dispatch(addSession(res.data))
                         axios.get(process.env.REACT_APP_API_GET_TOKEN, 
-                            { params: {
-                                email: retEmail
+                            { 
+                                params: {
+                                    email: retEmail
                                 }
                             })
                             .then(res => {

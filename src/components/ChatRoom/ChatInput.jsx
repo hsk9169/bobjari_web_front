@@ -17,10 +17,22 @@ const ChatInput = (props) => {
     
 
     return (
-        <Grid container direction='column' ref={ref}
-            sx={{p:2, position: 'fixed', bottom: 0, left: 0, right: 0}}>
+        <Grid container 
+            ref={ref}
+            direction='column' 
+            sx={{
+                p:2, 
+                position: 'fixed', 
+                bottom: 0, 
+                left: 0, 
+                right: 0
+            }}
+        >
             <Grid item>
-                <FormControl sx={{width: '100%'}} variant="outlined">
+                <FormControl 
+                    sx={{width: '100%'}} 
+                    variant="outlined"
+                >
                     <OutlinedInput
                         value={props.input}
                         placeholder='메시지를 입력해주세요.'
@@ -28,10 +40,9 @@ const ChatInput = (props) => {
                         endAdornment={
                             <InputAdornment position="end">
                                 <SendIcon
-                                  aria-label="toggle password visibility"
-                                  onClick={props.onButton}
-                                  edge="end"
-                                  color='primary'
+                                    onClick={props.onButton}
+                                    edge="end"
+                                    sx={{color: '#f75910'}}
                                 />
                             </InputAdornment>
                         }

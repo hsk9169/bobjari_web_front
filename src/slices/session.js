@@ -20,7 +20,7 @@ const sessionReducer = createSlice({
             state.sessions[1].session.role = action.payload;
         },
         toggleSessionSearchAllow: (state, action) => {
-            state.sessions[1].session.searchAllow = action.payload;
+            state.sessions[1].session.mentor.searchAllow = action.payload;
         },
         deleteSession: (state, action) => {
             state.sessions.splice(1,1);

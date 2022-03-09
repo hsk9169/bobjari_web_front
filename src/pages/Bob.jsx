@@ -1,22 +1,44 @@
 import {useState} from 'react'
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import PageBox from 'components/styled/PageBox'
 import Typography from '@mui/material/Typography';
 import Badge from '@mui/material/Badge';
+import { styled } from '@mui/material/styles';
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
+import { withStyles } from "@material-ui/core/styles";
 
 import {Chat, Like, Calendar} from 'components/Bob'
 import {selectSessions} from 'slices/session'
+import {selectManage, updateBobTab} from 'slices/manage'
 
-const Bob = () => {
+const BobTabs = styled(Tabs)({
+    borderBottom: '1px solid #e8e8e8',
+    '& .MuiTabs-indicator': {
+      backgroundColor: '#f75910',
+    },
+});
 
+const styles = theme => ({
+    customBadge: {
+        backgroundColor: '#f75910',
+        color: 'white',
+    }
+})
+
+const Bob = (props) => {
+
+    const { classes } = props
+
+    const dispatch = useDispatch()
     const session = useSelector(selectSessions)[1].session
+    const manage = useSelector(selectManage)
 
-    const [tabNum, setTabNum] = useState(0)
+    const [tabNum, setTabNum] = useState(manage.bobTab)
 
     const handleChange = (event, newVal) => {
         setTabNum(newVal)
+        dispatch(updateBobTab(newVal))
     }
 
     const renderList = () => {
@@ -41,21 +63,24 @@ const Bob = () => {
                 pt: 5,
             }}
         >
-            <Typography variant='h4' sx={{fontWeight: 'fontWeightBold'}}>
+            <Typography variant='h4' 
+                sx={{fontWeight: 'fontWeightBold'}}>
                 밥자리
             </Typography>
         </PageBox>
         <PageBox sx={{display: 'flex', width: '100%'}}>
-            <Tabs 
+            <BobTabs 
                 value={tabNum} 
                 onChange={handleChange}
                 textColor='inherit'
-                indicatorColor='secondary'
                 variant='fullWidth'
                 sx={{width: '100%'}}
             >
                 <Tab label={
-                    <Badge color="secondary" variant="dot" invisible={tabNum===0 ? true : false}>
+                    <Badge variant="dot" 
+                        classes={{ badge: classes.customBadge }}
+                        invisible={tabNum===0 ? true : false}
+                    >
                         <Typography variant='subtitle1' sx={{fontWeight: 'fontWeightBold'}}>
                             나의 밥자리
                         </Typography>
@@ -63,14 +88,16 @@ const Bob = () => {
                     } 
                 />
                 <Tab label={
-                    <Badge color="secondary" badgeContent={12}>
+                    <Badge badgeContent={12}
+                        classes={{ badge: classes.customBadge }}
+                    >
                         <Typography variant='subtitle1' sx={{fontWeight: 'fontWeightBold'}}>
                             {session.role === 'mentee' ? '찜한 밥자리' : '밥자리 달력'}
                         </Typography>
                     </Badge>
                     } 
                 />
-            </Tabs>
+            </BobTabs>
         </PageBox>
 
         {(renderList())}
@@ -80,4 +107,4 @@ const Bob = () => {
     
 }
 
-export default Bob;
+export default withStyles(styles)(Bob);

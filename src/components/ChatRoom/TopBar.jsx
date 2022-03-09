@@ -21,11 +21,21 @@ const TopBar = (props) => {
             <Grid item container sx={{p: 2}}>
                 <Grid item xs={1}>
                     <ButtonBase>
-                        <ArrowBackIosIcon color='disabled' onClick={props.handleBack} />
+                        <ArrowBackIosIcon 
+                            color='disabled' 
+                            onClick={props.handleBack} 
+                        />
                     </ButtonBase>
                 </Grid>
-                <Grid item xs={10} sx={{display: 'flex', justifyContent: 'center'}}>
-                    <Typography variant='h6' sx={{fontWeight: 'fontWeightBold'}}>
+                <Grid item xs={10} 
+                    sx={{
+                        display: 'flex', 
+                        justifyContent: 'center'
+                    }}
+                >
+                    <Typography variant='h6' 
+                        sx={{fontWeight: 'fontWeightBold'}}
+                    >
                         {props.nickname}
                     </Typography>
                 </Grid>

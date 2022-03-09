@@ -6,7 +6,7 @@ import Stack from '@mui/material/Stack'
 import {getJWT} from 'utils/handle-jwt'
 import {selectSessions} from 'slices/session'
 import {BobSkeleton, BobMessage} from 'components/Cards'
-import NoBob from './NoBob'
+import NoList from './NoList'
 const axios = require('axios')
 
 const Chat = (props) => {
@@ -19,7 +19,9 @@ const Chat = (props) => {
 
     const numSkeleton = new Array(3).fill('')
 
-    console.log(bobjariList)
+    const handleClickSearch = () => {
+        history.push('/main/search')
+    }
 
     useEffect(() => {
         async function getBobjariList() {
@@ -74,8 +76,13 @@ const Chat = (props) => {
     }, [])
 
     return (
+        <>
         <PageBox sx={{display: 'flex'}}>
-            <Stack sx={{width: '100%', display: 'flex', justifyContent:'center'}}>
+            <Stack sx={{
+                width: '100%', 
+                display: 'flex', 
+                justifyContent:'center'
+            }}>
             {!initialized
                 ? numSkeleton.map( el => (
                     <BobSkeleton />
@@ -99,7 +106,7 @@ const Chat = (props) => {
                             lineExceeded={lineExceeded[idx]}
                             handleClick={() => {
                                 history.push({
-                                    pathname: '/room',
+                                    pathname: '/chat',
                                     data: {
                                         roomInfo: el,
                                     }
@@ -108,10 +115,15 @@ const Chat = (props) => {
                         />
                     ))
                 :
-                    <NoBob title='진행 중인 밥자리가 없습니다.' />
+                    <NoList 
+                        title='진행 중인 밥자리가 없습니다.'
+                        onClick={handleClickSearch} 
+                    />
             }
             </Stack>
         </PageBox>
+        <PageBox sx={{pb:7}} />
+        </>
     )
 }
 

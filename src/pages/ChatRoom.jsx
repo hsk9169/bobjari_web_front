@@ -23,7 +23,7 @@ const ChatRoom = ({location, history}) => {
     const {rcvMessage, sendMessage, response} = useChat(roomInfo.id)
 
     const handleBack = () => {
-        history.push('/bob')
+        history.goBack()
     }
 
     const handleTextInput = event => {

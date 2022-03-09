@@ -23,7 +23,7 @@ const PrivateRoute = ({ component: Component, botNav, ...rest }) => {
     const [dialogOpen, setDialogOpen] = useState(false);
     const dispatch = useDispatch();
     const manage = useSelector(selectManage)
-    dispatch(updateBotNav(botNav))
+    
 
     console.log('Private Route')
 
@@ -41,9 +41,7 @@ const PrivateRoute = ({ component: Component, botNav, ...rest }) => {
         dispatch(deleteSession())
     }
 
-    const handleClick = () => {
-        console.log('private route level click')
-    }
+    
     
     useEffect( () => {
         async function start() {
@@ -76,11 +74,11 @@ const PrivateRoute = ({ component: Component, botNav, ...rest }) => {
         if (manage.sessionTime.remainTime === 0) {
             setDialogOpen(true)
         }
+        dispatch(updateBotNav(botNav))
         
-        window.addEventListener('click', handleClick)
-        return () => window.removeEventListener('click', handleClick)
         
-    }, [isValid, dialogOpen, manage, dispatch])
+        
+    }, [isValid, dialogOpen, manage, dispatch, botNav])
 
     const action = (props) => {
         if (isValid.access===true) {

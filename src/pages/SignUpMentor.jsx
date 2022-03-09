@@ -32,6 +32,8 @@ const SignUpMentor = ({context, location, history}) => {
         pageNum: 0,
         progress: progressRatio,
     })
+
+    console.log(state)
     const dispatch = useDispatch();
 
     const handleJoin = (event) => {

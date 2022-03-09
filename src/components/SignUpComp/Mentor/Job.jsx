@@ -17,6 +17,7 @@ const Job = (props) => {
         let job;
         if (event.target.innerText &&
             props.state.job.indexOf(event.target.innerText) === -1) {
+            // 목록에서 선택
             job = event.target.innerText;
             props.setState({
                 ...props.state,
@@ -24,6 +25,7 @@ const Job = (props) => {
             });
         } else if (event.target.value &&
             event.target.value.replace(/ /g,'').length > 0) {
+            // 직접 입력 (enter)
             job = event.target.value;
             props.setState({
                 ...props.state,

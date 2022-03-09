@@ -20,14 +20,14 @@ const Mypage = ({history}) => {
     }
 
     const handleAllowSearch = async () => {
-        await axios.get(process.env.REACT_APP_API_USER_SEARCH_ALLOW_TOGGLE,
+        await axios.get(process.env.REACT_APP_API_MENTOR_SEARCH_ALLOW_TOGGLE,
             {
                 headers: {
                     Authorization: `Bearer ${getJWT().accessToken}`,
                 },
                 params: {
-                    curState: session.searchAllow,
-                    email: session.profile.email,
+                    curState: session.mentor.searchAllow,
+                    mentorId: session.mentor.id,
                 },
             })
             .then(res => {
@@ -48,7 +48,7 @@ const Mypage = ({history}) => {
                 },
                 params: {
                     role: session.role,
-                    email: session.profile.email,
+                    userId: session.id,
                 },
             })
             .then(res => {

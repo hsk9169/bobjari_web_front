@@ -25,6 +25,7 @@ const Company = (props) => {
         } else if (event.target.value &&
             event.target.value.replace(/ /g,'').length > 0) {
             company = event.target.value;
+            console.log(company)
             props.setState({
                 ...props.state,
                 company: company,

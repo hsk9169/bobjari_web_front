@@ -1,10 +1,7 @@
-import {useState} from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import PageBox from 'components/styled/PageBox'
 import ButtonBase from '@mui/material/ButtonBase';
 import ArrowBack from '@mui/icons-material/ArrowBackIos';
 
@@ -12,7 +9,7 @@ import ArrowBack from '@mui/icons-material/ArrowBackIos';
 const InputBar = (props) => {
 
     return (
-        <Grid container sx={{p:1}}>
+        <Grid container>
             <Grid item
                 sx={{
                     width: '10%',
@@ -51,6 +48,7 @@ const InputBar = (props) => {
                             <TextField
                                 fullWidth
                                 variant='standard'
+                                autoFocus
                                 InputProps={{ disableUnderline: true }}
                                 placeholder='직업명, 직군, 회사 등'
                                 value={props.searchInput}

@@ -14,7 +14,7 @@ const MentorResult = (props) => {
                     {props.resultText}
                 </Typography>
             </Grid>
-            {props.mentors.map(el => (
+            {props.mentors.map( (el,idx) => (
                 <Grid item 
                     sx={{
                         pt: 2,
@@ -27,6 +27,11 @@ const MentorResult = (props) => {
                         careerInfo={el.career}
                         fee={el.details.preference.fee}
                         title={el.title}
+                        onClick={() => {
+                            const scrollTop = 
+                                document.documentElement.scrollTop
+                            props.onClickMentor(idx, scrollTop)
+                        }}
                     />
                 </Grid>
             ))}

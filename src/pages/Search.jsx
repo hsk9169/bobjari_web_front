@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import {SearchInputBar, RecentSearchKeywords, SortFilterBar,
         SortDrawer, FilterDrawer, MentorSearchResult} from 'components/Search'
 import PageBox from 'components/styled/PageBox'
@@ -8,9 +8,10 @@ import { grey } from '@mui/material/colors';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Global } from '@emotion/react';
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {getJWT, verifyJWT} from 'utils/handle-jwt'
 import {updateSessionTime} from 'slices/manage'
+import {saveSearchPage, deleteSearchPage, selectSearchPage} from 'slices/searchPage'
 
 const axios = require('axios');
 
@@ -23,29 +24,40 @@ const Root = styled('div')(({ theme }) => ({
 
 const Search = ({history}) => {
 
+    const searchPage = useSelector(selectSearchPage)
     const dispatch = useDispatch()
 
-    const [searchInput, setSearchInput] = useState('')
-    const [queryId, setQueryId] = useState(0)
+    const [searchInput, setSearchInput] = useState(searchPage.keyword)
+    const [queryId, setQueryId] = useState(searchPage.queryId)
     const [pending, setPending] = useState(false)
     const [isEnd, setIsEnd] = useState(false)
     const [resultText, setResultText] = useState('')
-    const [mentors, setMentors] = useState([])
+    const [mentors, setMentors] = useState(searchPage.mentorList)
     const [drawerType, setDrawerType] = useState('')
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [filterSel, setFilterSel] = useState(new Array(5).fill(false))
 
     const numGet = 10;
 
-    console.log(mentors)
 
     const handleClickBack = () => {
-        history.push('/main')
+        dispatch(deleteSearchPage())
+        history.goBack()
     }
 
     const handleSearchInput = event => {
         setSearchInput(event.target.value)
         setQueryId(0)
+    }
+
+    const handleClickMentor = (id, scrollTop) => {
+        dispatch(saveSearchPage({
+            scrollTop: scrollTop,
+            keyword: searchInput,
+            queryId: queryId,
+            mentorList: mentors,
+        }))
+        history.push(`/main/mentor/${mentors[id].id}`)
     }
 
     const handleSearch = async event => {
@@ -105,7 +117,7 @@ const Search = ({history}) => {
 
     const toggleDrawer = (newOpen) => () => {
         setDrawerOpen(newOpen);
-    };
+    }
 
     const infiniteScroll = async () => {
         let scrollHeight = Math.max(
@@ -118,7 +130,7 @@ const Search = ({history}) => {
         if (scrollTop + clientHeight === scrollHeight) {
             setPending(true)
             if (!isEnd) {
-                await axios.get(process.env.REACT_APP_API_MENTORS_GET,
+                await axios.get(process.env.REACT_APP_API_MENTOR_SEARCH,
                     { 
                         headers: {
                             Authorization: `Bearer ${getJWT().accessToken}`,
@@ -154,13 +166,20 @@ const Search = ({history}) => {
     }
 
     useEffect( () => {
+        window.scrollTo({
+            top: searchPage.scrollTop,
+            behavior: 'instant'
+        })
+    }, [])
+
+    useEffect( () => {
         window.addEventListener('scroll', infiniteScroll)
         return () => window.removeEventListener('scroll', infiniteScroll)
     })
 
     return (
-        <div>
-        <PageBox sx={{p: 2, display: 'flex'}}>
+        <>
+        <PageBox sx={{p:2, display: 'flex'}}>
             <Stack direction='column' spacing={2}
                 sx={{width: '100%'}}>   
                 <SearchInputBar
@@ -169,17 +188,20 @@ const Search = ({history}) => {
                     onSearchInput={handleSearchInput}
                     onSearchClick={handleSearch}
                 />
-                <RecentSearchKeywords />
-                <SortFilterBar 
+                {mentors.length === 0
+                ? <RecentSearchKeywords />
+                : <SortFilterBar 
                     filterSel={filterSel}
                     onClickSort={handleClickSort}
                     onClickFilter={handleClickFilter}
                     setFilterSel={setFilterSel}
                 />
+                }
                 <MentorSearchResult 
                     mentors={mentors}
                     pending={pending}
                     resultText={resultText}
+                    onClickMentor={handleClickMentor}
                 />
             </Stack>
         </PageBox>
@@ -214,7 +236,7 @@ const Search = ({history}) => {
                 : <FilterDrawer onClickClose={toggleDrawer(false)} />}
             </Drawer>
         </Root>
-        </div>
+        </>
     )
 }
 

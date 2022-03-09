@@ -30,7 +30,7 @@ const ChatSend = (props) => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    backgroundColor: '#0091ea',
+                    backgroundColor: '#f75910',
                     borderRadius: 2,
                 }}>
                     <Typography variant='h7'

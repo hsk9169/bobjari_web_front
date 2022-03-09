@@ -33,15 +33,6 @@ const options = {
     level: 4, //지도의 레벨(확대, 축소 정도)
 };
 
-const imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 마커이미지의 주소입니다    
-        imageSize = new window.kakao.maps.Size(44, 49),
-        imageOverSize = new window.kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
-        imageOption = {offset: new window.kakao.maps.Point(20, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-        
-// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-const markerOverImage = new window.kakao.maps.MarkerImage(imageSrc, imageOverSize, imageOption);
-
 
 const Location = (props) => {
 
@@ -54,7 +45,6 @@ const Location = (props) => {
         prevSelect: null,
         cafe: null,
     })
-    console.log(temp)
 
     // Drawer
     const { drawerWindow } = props;
@@ -84,7 +74,7 @@ const Location = (props) => {
                 }
             }
             for (let i=0; i<data.length; i++) {
-                addMarker(data[i], markerImage);
+                addMarker(data[i]);
                 bounds.extend(new window.kakao.maps.LatLng(data[i].y, data[i].x));
             }
             mapState.map.setBounds(bounds);
@@ -92,13 +82,12 @@ const Location = (props) => {
         } else {console.log('keyword search failed',status)}
     }
 
-    const addMarker = (place, image) => {
+    const addMarker = (place) => {
         
         // 마커를 생성합니다
         const marker = new window.kakao.maps.Marker({
             position: new window.kakao.maps.LatLng(place.y, place.x), 
             clickable: true,
-            image: image // 마커이미지 설정 
         });
         marker.setMap(mapState.map);
         setMarkers(markers => [...markers, marker]);
@@ -159,14 +148,14 @@ const Location = (props) => {
                                                             props.state.locations[idx].x));
         if (temp.prevSelect !== null) {
             removeMarker(temp.prevSelect);
-            addMarker(props.locations[temp.prevSelect], markerImage);
+            addMarker(props.locations[temp.prevSelect]);
         }
         props.setState({
             ...props.state,
             prevSelect: idx,
         })
         removeMarker(idx);
-        addMarker(props.state.locations[idx], markerOverImage);
+        addMarker(props.state.locations[idx]);
     }
 
     const handleClick = () => {
