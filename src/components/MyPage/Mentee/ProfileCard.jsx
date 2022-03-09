@@ -12,12 +12,15 @@ import { grey } from '@mui/material/colors'
 const ProfileCard = (props) => {
 
     let interests = '관심직군: ';
-    props.session.interests.map(el => {
-        interests = interests + el;
-    })
-    let imgUrl = (props.session.profileImg.contentType==='url' 
-        ? props.session.profileImg.data
-        : `data:${props.session.profileImg.contentType};base64,${props.session.profileImg.data}`)
+    try {
+        props.session.mentee.interests.map(el => {
+            interests = interests + el;
+        })
+    } catch {}
+    
+    let imgUrl = (props.session.profile.image.contentType==='url' 
+        ? props.session.profile.image.data
+        : `data:${props.session.profile.image.contentType};base64,${props.session.profile.image.data}`)
 
     return (
             <Paper elevation={0}
@@ -46,7 +49,7 @@ const ProfileCard = (props) => {
                                 <Typography variant='h5' 
                                     sx={{ fontWeight: 'fontWeightBold' }}
                                 >
-                                    {props.session.userInfo.nickname}
+                                    {props.session.profile.nickname}
                                 </Typography>
                             </Grid>
                             <Grid item>

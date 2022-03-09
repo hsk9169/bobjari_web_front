@@ -10,14 +10,29 @@ import ProfileIconOutlined from '@mui/icons-material/PersonOutlined';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 
+import {useSelector, useDispatch} from 'react-redux'
+import {selectManage, updateNavScreen, updateBobTab} from 'slices/manage'
+
 
 const BottomNavigator = (props) => {
+    const dispatch = useDispatch()
+    const manage = useSelector(selectManage)
     
     return (
-        <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
-            <BottomNavigation value={props.page.value} 
+        <Paper 
+            sx={{ 
+                position: 'fixed', 
+                bottom: 0, 
+                left: 0, 
+                right: 0,
+            }} 
+            elevation={10}
+        >
+            <BottomNavigation 
+                value={manage.navScreen} 
                 onChange={(event, newValue) => {
-                    props.page.setValue(newValue);
+                    dispatch(updateNavScreen(newValue))
+                    dispatch(updateBobTab(0))
                 }}
             >
                 <BottomNavigationAction
@@ -28,7 +43,11 @@ const BottomNavigator = (props) => {
                         }
                     }
                     value='main'
-                    icon={(props.page.value === 'main') ? <HomeIconFilled /> : <HomeIconOutlined />}
+                    icon={(manage.navScreen === 'main') 
+                    ? <HomeIconFilled 
+                        sx={{color: '#000000'}}/> 
+                    : <HomeIconOutlined 
+                        sx={{color: '#000000'}}/>}
                 />
                 <BottomNavigationAction
                     component={Link}
@@ -38,7 +57,11 @@ const BottomNavigator = (props) => {
                         }
                     }
                     value='bob'
-                    icon={(props.page.value === 'bob') ? <RiceBowlIcon /> : <RiceBowlOutlinedIcon />}
+                    icon={(manage.navScreen === 'bob') 
+                    ? <RiceBowlIcon 
+                        sx={{color: '#000000'}}/>  
+                    : <RiceBowlOutlinedIcon 
+                        sx={{color: '#000000'}}/>}
                 />
                 <BottomNavigationAction
                     component={Link}
@@ -48,7 +71,11 @@ const BottomNavigator = (props) => {
                         }
                     }
                     value='mypage'
-                    icon={(props.page.value === 'mypage') ? <ProfileIconFilled /> : <ProfileIconOutlined />}
+                    icon={(manage.navScreen === 'mypage') 
+                    ? <ProfileIconFilled
+                        sx={{color: '#000000'}}/> 
+                    : <ProfileIconOutlined 
+                        sx={{color: '#000000'}}/>}
                 />
             </BottomNavigation>
         </Paper>

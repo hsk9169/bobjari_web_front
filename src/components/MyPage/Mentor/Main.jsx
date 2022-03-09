@@ -48,7 +48,7 @@ const Main = (props) => {
             </Grid>
             <Grid item>
                 <ControlEtc 
-                    searchAllow={session.searchAllow} 
+                    searchAllow={session.mentor.searchAllow} 
                     handleAllowSearch={props.handleAllowSearch}
                 />
             </Grid>

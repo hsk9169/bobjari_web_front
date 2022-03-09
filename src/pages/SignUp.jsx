@@ -16,8 +16,6 @@ const pageText = {
 
 const SignUp = ({context, location, history}) => {
 
-    context.setBotNav(false)
-
     const initialNickname = createNickname();
     const progressRatio = 20
   

@@ -5,8 +5,13 @@ export { default as SignUpMentee } from './SignUpMentee';
 export { default as SignUpMentor } from './SignUpMentor';
 export { default as SignIn } from './SignIn';
 export { default as Main } from './Main';
+export { default as Search } from './Search';
+export { default as MentorDetails } from './MentorDetails';
+export { default as MentorPropose } from './MentorPropose';
 export { default as Bob } from './Bob';
-export { default as Mypage } from './Mypage';
+export { default as ChatRoom } from './ChatRoom';
+export { default as Mypage } from './MyPage';
 export { default as MenteeProfileEdit } from './MenteeProfileEdit'
 export { default as ErrorPage } from './ErrorPage';
 export { default as NotFound } from './NotFound';
+export { default as Test } from './Test';

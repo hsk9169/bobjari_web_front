@@ -30,9 +30,9 @@ const Nickname = (props) => {
         event.preventDefault();
         let ret;
         await axios({
-            method: 'POST',
+            method: 'GET',
             url: process.env.REACT_APP_API_CHECK_NICKNAME,
-            data: {
+            params: {
                 nickname: props.state.nickname,
             }})
             .then(res => {

@@ -10,9 +10,9 @@ import { grey } from '@mui/material/colors'
 
 const ProfileCard = (props) => {
 
-    let imgUrl = (props.session.profileImg.contentType==='url' 
-        ? props.session.profileImg.data
-        : `data:${props.session.profileImg.contentType};base64,${props.session.profileImg.data}`)
+    let imgUrl = (props.session.profile.image.contentType==='url' 
+        ? props.session.profile.image.data
+        : `data:${props.session.profile.image.contentType};base64,${props.session.profile.image.data}`)
 
     return (
             <Paper elevation={0}
@@ -41,7 +41,7 @@ const ProfileCard = (props) => {
                                 <Typography variant='h5' 
                                     sx={{ fontWeight: 'fontWeightBold' }}
                                 >
-                                    {props.session.userInfo.nickname}
+                                    {props.session.profile.nickname}
                                 </Typography>
                             </Grid>
                             <Grid item>
@@ -51,7 +51,7 @@ const ProfileCard = (props) => {
                                         color: grey[700] 
                                     }}
                                 >
-                                    {props.session.careerInfo.company}
+                                    {props.session.mentor.career.company}
                                 </Typography>
                             </Grid>
                         </Grid>

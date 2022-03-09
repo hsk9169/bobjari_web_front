@@ -12,13 +12,11 @@ const axios = require('axios');
 
 const SignUpMentor = ({context, location, history}) => {
 
-    context.setBotNav(false)
-    
     const progressRatio = 10;
     
     const [state, setState] = useState({
-        job: [],
-        company: [],
+        job: '',
+        company: '',
         years: null,
         topics: [],
         schedules: [],
@@ -34,6 +32,8 @@ const SignUpMentor = ({context, location, history}) => {
         pageNum: 0,
         progress: progressRatio,
     })
+
+    console.log(state)
     const dispatch = useDispatch();
 
     const handleJoin = (event) => {
@@ -84,7 +84,7 @@ const SignUpMentor = ({context, location, history}) => {
             formData.append(key, JSON.stringify(value));
         }
 
-        axios.post(process.env.REACT_APP_API_MENTOR_JOIN,
+        axios.post(process.env.REACT_APP_API_USER_JOIN,
             formData, { headers: {
                 'Content-Type': 'multipart/form-data'
                 }
@@ -92,9 +92,8 @@ const SignUpMentor = ({context, location, history}) => {
         )
             .then(res => {
                 dispatch(addSession(res.data))
-                const retEmail = res.data.userInfo.email;
+                const retEmail = res.data.profile.email;
                 if (retEmail === location.data.email) {
-                    console.log('request getting token');
                     axios.get(process.env.REACT_APP_API_GET_TOKEN, 
                         { params: {
                             email: retEmail,

@@ -8,6 +8,7 @@ import EmailAuth from 'components/SignInComp/EmailAuth';
 import {saveJWT} from 'utils/handle-jwt'
 import { useDispatch } from "react-redux";
 import { addSession } from "slices/session";
+
 const axios = require('axios');
 
 const pageTitle = [
@@ -16,8 +17,6 @@ const pageTitle = [
 ]
 
 const SignInBob = ({context, history}) => {
-
-    context.setBotNav(false)
 
     const [state, setState] = React.useState({
         email: '',
@@ -38,24 +37,24 @@ const SignInBob = ({context, history}) => {
 
             await axios({
                 method: 'POST',
-                url: process.env.REACT_APP_API_SIGN_IN_BOB,
+                url: process.env.REACT_APP_API_SIGNIN_BOB,
                 data: {
                     email: state.email,
                 }
-                })
+            })
                 .then(res => {
                     let retEmail = null;
                     try {
-                        retEmail = res.data.userInfo.email;
+                        retEmail = res.data.profile.email;
                     } catch {
                     }
                     
                     if (retEmail === state.email) {
-                        console.log(res.data)
                         dispatch(addSession(res.data))
                         axios.get(process.env.REACT_APP_API_GET_TOKEN, 
-                            { params: {
-                                email: retEmail
+                            { 
+                                params: {
+                                    email: retEmail
                                 }
                             })
                             .then(res => {
@@ -80,11 +79,6 @@ const SignInBob = ({context, history}) => {
                         });
                     }
                 })
-
-            setState({
-                ...state,
-                errMsg: '',
-            })
         } else {
             const msg = '인증번호 불일치, 다시 입력해주세요';
             setState({

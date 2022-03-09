@@ -13,25 +13,23 @@ const Job = (props) => {
 
     const progressRatio = 10
 
-    const [disabled, setDisabled] = React.useState(
-        (props.state.job==='' ? true : false)
-    )
-
     const handleAddJob = event => {
         let job;
         if (event.target.innerText &&
             props.state.job.indexOf(event.target.innerText) === -1) {
+            // 목록에서 선택
             job = event.target.innerText;
             props.setState({
                 ...props.state,
-                job: [...props.state.job, job],
+                job: job,
             });
         } else if (event.target.value &&
             event.target.value.replace(/ /g,'').length > 0) {
+            // 직접 입력 (enter)
             job = event.target.value;
             props.setState({
                 ...props.state,
-                job: [...props.state.job, job],
+                job: job,
             });
         }
     }
@@ -39,8 +37,7 @@ const Job = (props) => {
     const handleDeleteJob = select => event => {
         props.setState({
             ...props.state,
-            job: [...props.state.job.filter((el) => 
-                    el !== select)]
+            job: ''
         })
     }
 
@@ -89,12 +86,12 @@ const Job = (props) => {
             </PageBox>
             <PageBox sx={{p:3,display: 'flex'}}>
                 <RemovableList 
-                    list={props.state.job}
+                    list={(props.state.job === '' ? [] : [props.state.job])}
                     handleDelete={handleDeleteJob}
                 />
             </PageBox>
             <PageBox sx={{pt: 4, display: 'flex'}}>
-                <BobButton title='다 음' onClick={handleNext} disabled={disabled} />
+                <BobButton title='다 음' onClick={handleNext}/>
             </PageBox>
         </div>
     )

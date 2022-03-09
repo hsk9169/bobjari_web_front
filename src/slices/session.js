@@ -4,7 +4,7 @@ const initialSessionState = {
     sessions: [{id: 1, session: []}],
 };
 
-const sessionSlice = createSlice({
+const sessionReducer = createSlice({
     name: 'session',
     initialState: initialSessionState,
     reducers: {
@@ -16,12 +16,19 @@ const sessionSlice = createSlice({
         updateSession: (state, action) => {
             state.sessions[1].session = action.payload;
         },
+        changeSessionRole: (state, action) => {
+            state.sessions[1].session.role = action.payload;
+        },
+        toggleSessionSearchAllow: (state, action) => {
+            state.sessions[1].session.mentor.searchAllow = action.payload;
+        },
         deleteSession: (state, action) => {
             state.sessions.splice(1,1);
         }
     }
 });
 
-export const { addSession, updateSession, deleteSession } = sessionSlice.actions;
+export const { addSession, updateSession, changeSessionRole, 
+            toggleSessionSearchAllow, deleteSession } = sessionReducer.actions;
 export const selectSessions = (state) => state.session.sessions;
-export default sessionSlice.reducer;
+export default sessionReducer.reducer;

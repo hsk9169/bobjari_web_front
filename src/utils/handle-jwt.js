@@ -17,22 +17,20 @@ export const getJWT = () => {
     return tokens;
 }
 
-export const verifyJWT = async (context) => {
+export const verifyJWT = (obj) => {
     jwt.verify(localStorage.getItem('accessToken'),
-        'shhhhh', (err,decoded) => {
+        process.env.REACT_APP_JWT_SECRET_KEY, (err,decoded) => {
             if (decoded) {
-                context.setSessionTime({
-                    expireTime: decoded.exp, 
-                    remainTime: decoded.exp - Math.floor(Date.now()/1000),
-                })
+                obj.expireTime = decoded.exp
+                obj.remainTime = decoded.exp - Math.floor(Date.now()/1000)
             } else {
-                context.setSessionTime({
-                    expireTime: null,
-                    remainTime: 0,
-                })
+                obj.expireTime = null
+                obj.remainTime = 0
             }
+            return obj
         }
     )
+    
 };
 
 export const checkJWTExp = (expire, remain) => {

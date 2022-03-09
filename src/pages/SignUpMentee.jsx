@@ -17,11 +17,10 @@ import StackTitle from 'components/styled/StackTitle';
 import {saveJWT} from 'utils/handle-jwt'
 import { useDispatch } from "react-redux";
 import { addSession } from "slices/session";
+
 const axios = require('axios');
 
 const SignUpMentee = ({context, location, history}) => {
-
-    context.setBotNav(false)
     
     let jobList = [];
     let ref = React.createRef();
@@ -31,7 +30,6 @@ const SignUpMentee = ({context, location, history}) => {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
     const loading = open && options.length === 0;
-    console.log(location.data)
 
     const handleJoin = (event) => {
         let formData = new FormData();
@@ -65,7 +63,7 @@ const SignUpMentee = ({context, location, history}) => {
             formData.append(key, JSON.stringify(value));
         }
 
-        axios.post(process.env.REACT_APP_API_MENTEE_JOIN,
+        axios.post(process.env.REACT_APP_API_USER_JOIN,
             formData, { headers: {
                 'Content-Type': 'multipart/form-data'
                 }
@@ -73,9 +71,8 @@ const SignUpMentee = ({context, location, history}) => {
         )
             .then(res => {
                 dispatch(addSession(res.data))
-                const retEmail = res.data.userInfo.email;
+                const retEmail = res.data.profile.email;
                 if (retEmail === location.data.email) {
-                    console.log('request getting token');
                     axios.get(process.env.REACT_APP_API_GET_TOKEN, 
                         { params: {
                             email: retEmail,

@@ -1,74 +1,55 @@
-import React, { useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import { PublicRoute, PrivateRoute } from './lib';
 
 import { Welcome, SignInBob, SignUp, SignUpMentee, SignUpMentor, ErrorPage, NotFound, 
-        SignIn, Main, Bob, Mypage, MenteeProfileEdit } from 'pages';
+        SignIn, MentorPropose, ChatRoom, Test } from 'pages';
+import { MainRoutes, BobRoutes, MyPageRoutes } from 'routes'
 import KakaoCallback from 'components/KakaoCallback';
 
 import BottomNavigator from 'components/styled/BottomNavigator';
 
+import {useSelector} from 'react-redux'
+import { selectManage } from 'slices/manage';
+
 const App = (props) => {
-    const [value, setValue] = useState('main')
-    const [isVisible, setIsVisible] = useState(false)
-    const [sessionTime, setSessionTime] = useState({
-        expireTime: null,
-        reaminTime: null,
-    })
+    const manage = useSelector(selectManage)
 
-    let privateContext = {
-        setBotNav: setIsVisible,
-        setScreen: setValue,
-        sessionTime: sessionTime,
-        setSessionTime: setSessionTime,
-    }
-
-    let publicContext = {
-        setBotNav: setIsVisible,
-        setScreen: setValue,
-    }
-    
     return (
         <ErrorBoundary FallbackComponent={ErrorPage}>
             <Switch>  
                 
-                <Route component={KakaoCallback} path='/auths/kakao/callback' exact />
-
+                <Route component={KakaoCallback} 
+                    path='/auths/kakao/callback' exact />
+                <PrivateRoute component={MentorPropose}
+                    path='/propose' exact botNav={false} />
                 
-                <PrivateRoute component={Bob} path='/bob' exact 
-                    context={privateContext} />
-                <PrivateRoute component={MenteeProfileEdit} path='/mypage/edit' exact
-                    context={privateContext} />
-                <PrivateRoute component={Mypage} path='/mypage' exact 
-                    context={privateContext} />
+                <PrivateRoute component={ChatRoom} 
+                    path='/chat' exact botNav={false} />
+                <PrivateRoute component={MyPageRoutes} 
+                    path='/mypage' exact botNav={true} />
+                <PrivateRoute component={BobRoutes} 
+                    path='/bob' exact botNav={true} />
+                <PublicRoute restricted={false} component={MainRoutes} 
+                    path='/main' botNav={true} />
 
-                <PublicRoute restricted={false} component={Main} 
-                    path='/main' exact 
-                    context={privateContext} />
                 <PublicRoute restricted={true} component={SignUpMentor} 
-                    path='/signup/mentor' exact
-                    context={publicContext} />
+                    path='/signup/mentor' exact botNav={false} />
                 <PublicRoute restricted={true} component={SignUpMentee} 
-                    path='/signup/mentee' exact
-                    context={publicContext} />
+                    path='/signup/mentee' exact botNav={false} />
                 <PublicRoute restricted={true} component={SignUp} 
-                    path='/signup' exact
-                    context={publicContext} />
+                    path='/signup' exact botNav={false} />
                 <PublicRoute restricted={true} component={SignInBob} 
-                    path='/signin/bob' exact
-                    context={publicContext} />
+                    path='/signin/bob' exact botNav={false} />
                 <PublicRoute restricted={true} component={Welcome} 
-                    path='/' exact
-                    context={publicContext} />
+                    path='/' exact botNav={false} />
+
+                <Route component={Test} path='/test' exact />
             </Switch>
-            {isVisible
+            
+            {manage.botNav
                 ? <BottomNavigator
-                    page={{
-                        value: value,
-                        setValue: setValue,
-                    }}
                     history={props.history}
                 /> 
                 : null

@@ -45,15 +45,15 @@ const ProfileEdit = ({context, history, drawerWindow}) => {
     };
 
     const [info, setInfo] = useState({
-        imgUrl: (session.profileImg.contentType==='url' 
-            ? session.profileImg.data
-            : `data:${session.profileImg.contentType};base64,${session.profileImg.data}`),
-        imgType: session.profileImg.contentType,
+        imgUrl: (session.profileImage.contentType==='url' 
+            ? session.profileImage.data
+            : `data:${session.profileImage.contentType};base64,${session.profileImage.data}`),
+        imgType: session.profileImage.contentType,
         imgFile: null,
-        nickname: session.userInfo.nickname,
-        interest: session.interests[0],
-        gender: (session.userInfo.gender==='male' ? '남성' : '여성'),
-        email: session.userInfo.email,
+        nickname: session.profile.nickname,
+        interest: session.mentee.interests[0],
+        gender: (session.profile.gender==='male' ? '남성' : '여성'),
+        email: session.profile.email,
         phone: '010-1234-5678',
     });
 

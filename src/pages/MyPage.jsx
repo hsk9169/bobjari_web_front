@@ -1,20 +1,17 @@
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import PageBox from 'components/styled/PageBox'
-import Grid from '@mui/material/Grid'
-import CircularProgress from '@mui/material/CircularProgress';
 import {useState} from 'react';
-import {getJWT, verifyJWT} from 'utils/handle-jwt'
+import {getJWT} from 'utils/handle-jwt'
 import {MenteeMypage, MentorMypage} from 'components/MyPage'
 import {useSelector, useDispatch} from 'react-redux'
-import {selectSessions, updateSession, addSession} from 'slices/session';
-const axios = require('axios');
+import {selectSessions, changeSessionRole, toggleSessionSearchAllow} from 'slices/session';
+import {updateBotNav} from 'slices/manage'
+const axios = require('axios')
 
-const Mypage = ({context, history}) => {
+const Mypage = ({history}) => {
 
     const dispatch = useDispatch();
     const session = useSelector(selectSessions)[1].session
-    context.setBotNav(true)
+    dispatch(updateBotNav(true))
 
     const [isChanging, setIsChanging] = useState(false)
 
@@ -23,18 +20,18 @@ const Mypage = ({context, history}) => {
     }
 
     const handleAllowSearch = async () => {
-        await axios.get(process.env.REACT_APP_API_USER_SEARCH_ALLOW_TOGGLE,
+        await axios.get(process.env.REACT_APP_API_MENTOR_SEARCH_ALLOW_TOGGLE,
             {
                 headers: {
                     Authorization: `Bearer ${getJWT().accessToken}`,
                 },
                 params: {
-                    curState: session.searchAllow,
-                    email: session.userInfo.email,
+                    curState: session.mentor.searchAllow,
+                    mentorId: session.mentor.id,
                 },
             })
             .then(res => {
-                dispatch(updateSession(res.data))
+                dispatch(toggleSessionSearchAllow(res.data))
             })
             .catch(err => {
                 console.log(err)
@@ -50,12 +47,16 @@ const Mypage = ({context, history}) => {
                     Authorization: `Bearer ${getJWT().accessToken}`,
                 },
                 params: {
-                    role: session.roleInfo.role,
-                    email: session.userInfo.email,
+                    role: session.role,
+                    userId: session.id,
                 },
             })
             .then(res => {
-                dispatch(updateSession(res.data))
+                try {
+                    if (res.data !== session.role) {
+                        dispatch(changeSessionRole(res.data))
+                    }                
+                } catch {}
                 setIsChanging(false)
             })
             .catch(err => {
@@ -65,13 +66,12 @@ const Mypage = ({context, history}) => {
 
     return (
         <div>
-            <PageBox sx={{width: '100%', pb: 4}}/>
             <PageBox sx={{
                 display: 'flex',
                 width: '100%',
                 }}
             >
-                {session.roleInfo.role === 'mentee'
+                {session.role === 'mentee'
                     ? <MenteeMypage 
                         handleEdit={handleEdit} 
                         handleRoleChange={handleRoleChange}
