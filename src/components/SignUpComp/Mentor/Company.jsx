@@ -1,8 +1,8 @@
 import * as React from 'react'
 import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
 import Autocomplete from '@mui/material/Autocomplete';
 import Search from '@mui/icons-material/Search';
-import PageBox       from 'components/styled/PageBox'
 import BobButton     from 'components/styled/BobButton'
 import RemovableList from 'components/styled/RemovableList';
 
@@ -54,8 +54,23 @@ const Company = (props) => {
 
 
     return (
-        <div>
-            <PageBox sx={{display: 'flex',p:2}}>
+        <Grid item container
+            direction='column'
+            sx={{
+                width: '100%',
+                display: 'flex', 
+                p: 2,
+            }}
+        >
+            <Grid item
+                sx={{
+                    width: '100%',
+                    pt: 4,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}
+            >
                 <Autocomplete
                     id="companySelect"
                     options={corps}
@@ -64,35 +79,66 @@ const Company = (props) => {
                     clearOnBlur
                     onChange={handleAddCompany}
                     renderInput={(params) => (
-                        <PageBox sx={{ 
-                            display: 'flex', 
-                            alignItems: 'flex-end',
-                            overflow: 'auto'
-                        }}>
-                            <Search sx={{ color: 'action.active', mr: 1, my: 0.5}} />
-                            <TextField
-                                {...params}
-                                variant="standard"
-                                label="회사명 검색"
-                                sx={{
-                                    width:'inherit'
-                                }}
-                            />
-                        </PageBox>
+                        <Grid container 
+                            sx={{ 
+                                width: '100%',
+                                display: 'flex',
+                                alignItems: 'flex-end'
+                            }}
+                        >
+                            <Grid item
+                                sx={{width: '10%'}}
+                            >
+                                <Search 
+                                    sx={{ 
+                                        color: 'action.active', 
+                                        mr: 1, my: 0.5
+                                    }} 
+                                />
+                            </Grid>
+                            <Grid item
+                                sx={{width: '90%'}}
+                            >
+                                <TextField
+                                    {...params}
+                                    variant="standard"
+                                    label="회사명 검색"
+                                    sx={{
+                                        width:'inherit'
+                                    }}
+                                />
+                            </Grid>
+                        </Grid>
                     )}
                     sx={{width: '100%'}}
                 />
-            </PageBox>
-            <PageBox sx={{p:3,display: 'flex'}}>
+            </Grid>
+            <Grid item container
+                direction='column'
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                }}
+            >
                 <RemovableList 
                     list={(props.state.company === '' ? [] : [props.state.company])}
                     handleDelete={handleDeleteCompany}
                 />
-            </PageBox>
-            <PageBox sx={{pt: 3, display: 'flex'}}>
-                <BobButton title='다 음' onClick={handleNext} />
-            </PageBox>
-        </div>
+            </Grid>
+
+            <Grid item 
+                sx={{
+                    width: '100%',
+                    pt: 4
+                }}
+            >
+                <BobButton 
+                    onClick={handleNext}
+                    disabled={false}
+                    title={'다 음'}
+                />
+            </Grid>
+        </Grid>
     )
 }
 

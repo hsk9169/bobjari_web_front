@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import ButtonBase from '@mui/material/ButtonBase';
+import Button from '@mui/material/Button';
 import AddBoxIcon from '@mui/icons-material/AddBoxOutlined';
 import { Global } from '@emotion/react';
 import { styled } from '@mui/material/styles';
@@ -18,7 +18,7 @@ import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 import InputBase from '@mui/material/InputBase'
 import Typography from '@mui/material/Typography'
-import PageBox from 'components/styled/PageBox'
+import NormalButton from 'components/styled/NormalButton'
 import BobButton from 'components/styled/BobButton'
 
 const Root = styled('div')(({ theme }) => ({
@@ -37,7 +37,7 @@ const options = {
 const Location = (props) => {
 
     const progressRatio = 10
-    const drawerBleeding = 56;
+    const height = window.innerHeight
 
     const [temp, setTemp] = React.useState({
         keyword: '',
@@ -206,60 +206,98 @@ const Location = (props) => {
 
 
     return (
-        <div>
-            <PageBox sx={{pl:3,justifyContent:'left'}}>
+        <>
+        <Grid item container
+            direction='column'
+            sx={{
+                width: '100%',
+                display: 'flex', 
+                p: 2,
+            }}
+        >
+            <Grid item
+                sx={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                }}
+            >
                 <ButtonBase>
-                    <AddBoxIcon onClick={toggleDrawer(true)}
-                        sx={{color:'text.secondary', width: 50, height: 50}}/>
-                </ButtonBase>
-            </PageBox>
-            <PageBox sx={{p:3,display:'flex'}}>
-                <PageBox sx={{width:'100%'}}>
-                    <TransitionGroup>
-                        {props.state.cafes.map((el,idx) => (
-                            <Collapse key={idx} >
-                                <Stack direction='row' spacing={2} sx={{margin:1}}>
-                                    <Button variant='outlined' 
-                                        endIcon={
-                                            <DeleteIcon
-                                                onClick={handleDelete(idx)}
-                                                color='error'
-                                            />
-                                        } 
-                                        sx={{width: '100%', height: 60}}
-                                    >
-                                        <Grid container direction='column' spacing={0}>
-                                            <Grid item>
-                                                <Typography variant='subtitle1'
-                                                    sx={{ 
-                                                        color: 'black',
-                                                        fontWeight: 'fontWeightBold',
-                                                    }}
-                                                >
-                                                    {el.place_name}
-                                                </Typography>
-                                            </Grid>
-                                            <Grid item>
-                                                <Typography variant='subtitle1'
-                                                    sx={{ 
-                                                        color: 'black',
-                                                        fontWeight: 'fontWeightMedium',
-                                                    }}
-                                                >
-                                                    {el.address_name}
-                                                </Typography>
-                                            </Grid>
+                    <AddBoxIcon 
+                        onClick={toggleDrawer(true)}
+                        sx={{
+                            color:'text.secondary', 
+                            width: 50, 
+                            height: 50
+                        }}
+                    />
+                </ButtonBase>                
+            </Grid>
+                
+ 
+            <Grid item container 
+                sx={{
+                    width: '100%',
+                    p:3,
+                    display:'flex',
+                    justifyContent: 'center'
+                }}
+            >        
+                <TransitionGroup>
+                    {props.state.cafes.map((el,idx) => (
+                        <Collapse key={idx} >
+                            <Stack direction='row' spacing={2} sx={{margin:1}}>
+                                <Button variant='outlined' 
+                                    endIcon={
+                                        <DeleteIcon
+                                            onClick={handleDelete(idx)}
+                                            color='error'
+                                        />
+                                    } 
+                                    sx={{width: '100%', height: 60}}
+                                >
+                                    <Grid container direction='column' spacing={0}>
+                                        <Grid item>
+                                            <Typography variant='subtitle1'
+                                                sx={{ 
+                                                    color: 'black',
+                                                    fontWeight: 'fontWeightBold',
+                                                }}
+                                            >
+                                                {el.place_name}
+                                            </Typography>
                                         </Grid>
-                                    </Button>
-                                </Stack>       
-                            </Collapse>
-                        ))}
-                    </TransitionGroup>
-                </PageBox>
-            </PageBox>
-            <PageBox sx={{pt: 4, display: 'flex'}}>
-                <BobButton title='다 음' onClick={handleNext} />
-            </PageBox>
+                                        <Grid item>
+                                            <Typography variant='subtitle1'
+                                                sx={{ 
+                                                    color: 'black',
+                                                    fontWeight: 'fontWeightMedium',
+                                                }}
+                                            >
+                                                {el.address_name}
+                                            </Typography>
+                                        </Grid>
+                                    </Grid>
+                                </Button>
+                            </Stack>       
+                        </Collapse>
+                    ))}
+                </TransitionGroup>
+            </Grid>
+
+            <Grid item 
+                sx={{
+                    width: '100%',
+                    pt: 4
+                }}
+            >
+                <BobButton 
+                    onClick={handleNext}
+                    disabled={false}
+                    title={'다 음'}
+                />
+            </Grid>
+        </Grid>
 
 
         <Root>
@@ -267,7 +305,7 @@ const Location = (props) => {
                 <Global
                     styles={{
                         '.MuiDrawer-root > .MuiPaper-root': {
-                          height: '95%',
+                          height: '80%',
                           overflow: 'hidden',
                         },
                         '.MuiDrawer-paper': {
@@ -285,14 +323,13 @@ const Location = (props) => {
                     ModalProps={{
                         keepMounted: true,
                     }}
-                    sx={{overflow: 'auto',}}
+                    sx={{overflow: 'auto'}}
                 > 
                     <Box
                         ref={mapContainer}
                         sx={{
-                            border:1,
                             width: '100%',
-                            minHeight: 770,
+                            height: height,
                             overflow: 'auto',
                             display: 'flex',
                             justifyContent: 'center',
@@ -361,7 +398,12 @@ const Location = (props) => {
                                                 <Grid container alignItems='center'>
                                                     <Grid items xs>
                                                         <Grid container direction='column' spacing={1}>
-                                                            <Typography variant='subtitle' color='blue'>
+                                                            <Typography variant='subtitle'
+                                                                sx={{
+                                                                    color: '#000000',
+                                                                    fontWeight: 'fontWeightBold'
+                                                                }}
+                                                            >
                                                                 {location.place_name}
                                                             </Typography>
                                                             <Typography variant='body2' color='grey'>
@@ -370,10 +412,15 @@ const Location = (props) => {
                                                         </Grid>
                                                     </Grid>
                                                     <Grid item>
-                                                        <Button variant='contained'
-                                                            onClick={handleSelect(idx)}>
+                                                        <NormalButton 
+                                                            myColor='#f75910'
+                                                            variant='contained'
+                                                            onClick={handleSelect(idx)}
+                                                            sx={{
+                                                                backgroundColor: '#f75910'
+                                                            }}>
                                                             장소 선택
-                                                        </Button>
+                                                        </NormalButton>
                                                     </Grid>
                                                 </Grid>
                                             </Paper>
@@ -385,7 +432,7 @@ const Location = (props) => {
                     </Box>
                 </Drawer>
             </Root>
-        </div>
+        </>
     )
 }
 

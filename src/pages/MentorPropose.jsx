@@ -6,7 +6,8 @@ import DialogContent from '@mui/material/DialogContent';
 import CheckIcon from '@mui/icons-material/Check';
 import {Schedule, Location, Propose} from 'components/Proposal'
 import {getJWT} from 'utils/handle-jwt'
-
+import {useSelector} from 'react-redux'
+import { selectBasePath } from 'slices/basePath'
 const axios = require('axios')
 
 const MentorPropose = (props) => {
@@ -20,6 +21,7 @@ const MentorPropose = (props) => {
 
     const [dialogOpen, setDialogOpen] = useState(false)
     const [isPending, setIsPending] = useState(false)
+    const basePath = useSelector(selectBasePath)   
 
     const handleNext = () => {
         setStep(step + 1)
@@ -56,7 +58,7 @@ const MentorPropose = (props) => {
         })
 
         setIsPending(true)        
-        await axios.post(process.env.REACT_APP_API_BOBJARI,
+        await axios.post(basePath.path + process.env.REACT_APP_API_BOBJARI,
             {
                 menteeId: props.location.data.menteeId,
                 mentorId: props.location.data.mentorId,

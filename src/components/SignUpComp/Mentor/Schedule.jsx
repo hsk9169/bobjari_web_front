@@ -182,70 +182,104 @@ const Schedule = (props) => {
         : undefined;
 
     return (
-
-        <div>
-                
-
- 
-            <PageBox sx={{pl:3,justifyContent:'left'}}>
+        <>
+        <Grid item container
+            direction='column'
+            sx={{
+                width: '100%',
+                display: 'flex', 
+                p: 2,
+            }}
+        >
+            <Grid item
+                sx={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                }}
+            >
                 <ButtonBase>
-                    <AddBoxIcon onClick={handleAddButton}
-                        sx={{color:'text.secondary', width: 50, height: 50}}/>
-                </ButtonBase>
-            </PageBox>
-            <PageBox sx={{p:3,display:'flex'}}>
-                <PageBox sx={{width:'100%'}}>
-                    <TransitionGroup>
-                        {props.state.schedList.map((el,idx) => (
-                            <Collapse key={idx} >
-                                <Stack direction='row' spacing={2} sx={{margin:1}}>
-                                    <Button variant='outlined' 
-                                        endIcon={
-                                            <DeleteIcon
-                                                onClick={handleDeleteSchedule(idx)}
-                                                color='error'
-                                            />
-                                        } 
-                                        startIcon={
-                                            <EditIcon
-                                                onClick={handleSelectSchedule(idx)}
-                                                color='success'
-                                            />
-                                        }
-                                        sx={{width: '100%', height: 60}}
-                                    >
-                                        <Grid container direction='column' spacing={0}>
-                                            <Grid item>
-                                                <Typography variant='subtitle1'
-                                                    sx={{ 
-                                                        color: 'black',
-                                                        fontWeight: 'fontWeightBold',
-                                                    }}
-                                                >
-                                                    {el.title}
-                                                </Typography>
-                                            </Grid>
-                                            <Grid item>
-                                                <Typography variant='subtitle1'
-                                                    sx={{ 
-                                                        color: 'black',
-                                                        fontWeight: 'fontWeightMedium',
-                                                    }}
-                                                >
-                                                    {el.detail}
-                                                </Typography>
-                                            </Grid>
+                    <AddBoxIcon 
+                        onClick={handleAddButton}
+                        sx={{
+                            color:'text.secondary', 
+                            width: 50, 
+                            height: 50
+                        }}
+                    />
+                </ButtonBase>                
+            </Grid>
+                
+ 
+            <Grid item container 
+                sx={{
+                    width: '100%',
+                    p:3,
+                    display:'flex',
+                    justifyContent: 'center'
+                }}
+            >
+                <TransitionGroup >
+                    {props.state.schedList.map((el,idx) => (
+                        <Collapse key={idx}>
+                            <Stack direction='row' spacing={2}>
+                                <Button variant='outlined' 
+                                    endIcon={
+                                        <DeleteIcon
+                                            onClick={handleDeleteSchedule(idx)}
+                                            color='error'
+                                        />
+                                    } 
+                                    startIcon={
+                                        <EditIcon
+                                            onClick={handleSelectSchedule(idx)}
+                                            color='success'
+                                        />
+                                    }
+                                    sx={{width: '100%', height: 60}}
+                                >
+                                    <Grid container direction='column' spacing={0}>
+                                        <Grid item>
+                                            <Typography variant='subtitle1'
+                                                sx={{ 
+                                                    color: 'black',
+                                                    fontWeight: 'fontWeightBold',
+                                                }}
+                                            >
+                                                {el.title}
+                                            </Typography>
                                         </Grid>
-                                    </Button>
-                                </Stack>       
-                            </Collapse>
-                        ))}
-                    </TransitionGroup>
-                </PageBox>
-            </PageBox>
-            <PageBox sx={{pt: 4, display: 'flex'}}>
-                <BobButton title='다 음' onClick={handleNext} />
-            </PageBox>
+                                        <Grid item>
+                                            <Typography variant='subtitle1'
+                                                sx={{ 
+                                                    color: 'black',
+                                                    fontWeight: 'fontWeightMedium',
+                                                }}
+                                            >
+                                                {el.detail}
+                                            </Typography>
+                                        </Grid>
+                                    </Grid>
+                                </Button>
+                            </Stack>       
+                        </Collapse>
+                    ))}
+                </TransitionGroup>
+            </Grid>
+
+            <Grid item 
+                sx={{
+                    width: '100%',
+                    pt: 4
+                }}
+            >
+                <BobButton 
+                    onClick={handleNext}
+                    disabled={false}
+                    title={'다 음'}
+                />
+            </Grid>
+        </Grid>
 
 
         <Root>
@@ -368,8 +402,7 @@ const Schedule = (props) => {
                     </Dialog>
                 </SwipeableDrawer>
             </Root>
-
-        </div>
+        </>
     )
 }
 

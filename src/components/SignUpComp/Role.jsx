@@ -1,12 +1,13 @@
 import {useState} from 'react'
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import BobButton from 'components/styled/BobButton'
+import NormalButton from 'components/styled/NormalButton'
 
-import PageBox from 'components/styled/PageBox'
-import BobButtonWithEmoji from 'components/styled/BobButtonWithEmoji'
 
 const Gender = (props) => {
+
+    const height = window.innerHeight
 
     const [disabled, setDisabled] = useState(
         (props.state.role==='' ? true : false)
@@ -42,40 +43,94 @@ const Gender = (props) => {
 
 
     return (
-        <div>
-            <PageBox sx={{display: 'flex',p:2}}>
-                <Stack direction='row' spacing={4} 
-                    sx={{ 
-                        width: 'inherit', 
-                        justifyContent: 'center'
+        <Grid item container
+            direction='column'
+            sx={{
+                width: '100%',
+                display: 'flex', 
+                p: 2,
+            }}
+        >
+            <Grid item container
+                sx={{
+                    width: '100%',
+                    pt: 4,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}
+            >
+                <Grid item 
+                    sx={{
+                        width: '50%',
+                        p: 1
                     }}
                 >
-                    <Button variant={state.menteeDisplay} onClick={handleMenteeDisplay}
+                    <NormalButton myColor='#f75910'
+                        variant={state.menteeDisplay} 
+                        onClick={handleMenteeDisplay}
                         sx={{
-                            width: '40%', 
-                            height: 200
+                            width: '100%', 
+                            height: height * 0.3,
+                            backgroundColor: props.state.role === 'mentee'
+                                ? '#f75910' : '#ffffff',
+                            borderColor: '#000000',
                         }}
                     >
-                        <Typography variant='h5' sx={{ fontWeight: 'fontWeightMedium' }}>
+                        <Typography variant='h5' 
+                            sx={{ 
+                                fontWeight: 'fontWeightBold',
+                                color: props.state.role === 'mentee'
+                                ? '#ffffff' : '#000000'
+                            }}
+                        >
                             예비<br/>직업인
                         </Typography>
-                    </Button>
-                    <Button variant={state.mentorDisplay} onClick={handleMentorDisplay}
+                    </NormalButton>
+                </Grid>
+                <Grid item 
+                    sx={{
+                        width: '50%',
+                        p: 1
+                    }}
+                >
+                    <NormalButton myColor='#f75910'
+                        variant={state.mentorDisplay} 
+                        onClick={handleMentorDisplay}
                         sx={{
-                            width: '40%',
-                            height: 200
+                            width: '100%', 
+                            height: height * 0.3,
+                            backgroundColor: props.state.role === 'mentor'
+                                ? '#f75910' : '#ffffff',
+                            borderColor: '#000000',
                         }}
                     >
-                        <Typography variant='h5' sx={{ fontWeight: 'fontWeightMedium' }}>
+                        <Typography variant='h5' 
+                            sx={{ 
+                                fontWeight: 'fontWeightBold',
+                                color: props.state.role === 'mentor'
+                                ? '#ffffff' : '#000000'
+                            }}
+                        >
                             직업인
                         </Typography>
-                    </Button>
-                </Stack>
-            </PageBox>
-            <PageBox sx={{pt: 4, display: 'flex'}}>
-                <BobButtonWithEmoji title='가입하기' emoji='partying-face' onClick={props.onClick} disabled={disabled} />
-            </PageBox>
-        </div>
+                    </NormalButton>
+                </Grid>
+            </Grid>
+
+            <Grid item 
+                sx={{
+                    width: '100%',
+                    pt: 4
+                }}
+            >
+                <BobButton 
+                    onClick={props.onClick}
+                    disabled={disabled}
+                    title={'가입하기'}
+                />
+            </Grid>
+        </Grid>
     )
 }
 

@@ -6,6 +6,8 @@ import Alert from '@mui/material/Alert';
 import useChat from 'utils/handle-chat'
 import {getJWT} from 'utils/handle-jwt'
 import {TopBar, ChatInput, Messages} from 'components/ChatRoom'
+import {useSelector} from 'react-redux'
+import { selectBasePath } from 'slices/basePath'
 const axios = require('axios');
 
 const ChatRoom = ({location, history}) => {
@@ -21,6 +23,7 @@ const ChatRoom = ({location, history}) => {
     const [openAlert, setOpenAlert] = useState(false)
 
     const {rcvMessage, sendMessage, response} = useChat(roomInfo.id)
+    const basePath = useSelector(selectBasePath)   
 
     const handleBack = () => {
         history.goBack()
@@ -44,7 +47,7 @@ const ChatRoom = ({location, history}) => {
 
     const handleGetMoreMessages = async () => {
         setIsPending(true)
-        await axios.get(process.env.REACT_APP_API_CHAT,
+        await axios.get(basePath.path + process.env.REACT_APP_API_CHAT,
             {
                 headers: {
                     Authorization: `Bearer ${getJWT().accessToken}`,
@@ -82,7 +85,7 @@ const ChatRoom = ({location, history}) => {
     
     useEffect(() => {
         async function getRecentMessages() {
-            await axios.get(process.env.REACT_APP_API_CHAT,
+            await axios.get(basePath.path + process.env.REACT_APP_API_CHAT,
                 {
                     headers: {
                         Authorization: `Bearer ${getJWT().accessToken}`,

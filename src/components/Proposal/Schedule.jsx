@@ -89,7 +89,7 @@ const Schedule = (props) => {
         let ret = []
         days.map((day,idx) => {
             props.schedule.map(el => {
-                if (dayList[idx%7] === el.day) {
+                if (dayList[idx%7] === el.day.slice(0,1)) {
                     ret = [...ret, {
                         day: day,
                         available: true,
@@ -195,7 +195,7 @@ const Schedule = (props) => {
     
                 } else {
                     const schedule = props.schedule.filter(el =>
-                        el.day === dayList[idx%7])
+                        el.day.slice(0,1) === dayList[idx%7])
         
                     const time = {
                         startTime: schedule[0].startTime,

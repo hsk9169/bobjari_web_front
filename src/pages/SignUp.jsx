@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Grid from '@mui/material/Grid';
 import createNickname from 'utils/create-nickname';
 import StackTitleWithProgress from 'components/styled/StackTitleWithProgress';
 import {Nickname, Gender, ProfileImage, Role, Age} from 'components/SignUpComp';
@@ -42,18 +43,21 @@ const SignUp = ({context, location, history}) => {
         pageNum: 0,
         progress: progressRatio,
     })    
-    console.log(state)
 
     const handleBack = () => {
-        setState({
-            ...state,
-            pageNum: (state.pageNum > 0 
-                ? state.pageNum-1 
-                : state.pageNum),
-            progress: (state.progress > progressRatio
-                ? state.progress-progressRatio 
-                : state.progress),
-        })
+        if (state.pageNum === 0) {
+            history.goBack()
+        } else {
+            setState({
+                ...state,
+                pageNum: (state.pageNum > 0 
+                    ? state.pageNum-1 
+                    : state.pageNum),
+                progress: (state.progress > progressRatio
+                    ? state.progress-progressRatio 
+                    : state.progress),
+            })
+        }
     }
 
     const handleDone = () => {
@@ -101,18 +105,22 @@ const SignUp = ({context, location, history}) => {
     }
 
     return (
-        <div>
-        <StackTitleWithProgress 
-            title={pageText.title[state.pageNum]}
-            subtitle={pageText.subtitle[state.pageNum]}
-            progress={state.progress} 
-            onClickBack={handleBack}
-        />
-        
-        {RenderBody()}
-        
-
-        </div>
+        <Grid container 
+            direction='column'
+            sx={{width: '100%'}}
+        >
+            <Grid item>
+                <StackTitleWithProgress 
+                    title={pageText.title[state.pageNum]}
+                    subtitle={pageText.subtitle[state.pageNum]}
+                    progress={state.progress} 
+                    onClickBack={handleBack}
+                />
+            </Grid>
+            <Grid item>
+                {RenderBody()}
+            </Grid>
+        </Grid>
     )
 }
 

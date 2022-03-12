@@ -1,10 +1,9 @@
 import * as React from 'react'
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Input from '@mui/material/Input';
-import PageBox   from 'components/styled/PageBox'
 import BobButton from 'components/styled/BobButton'
+import NormalButton from 'components/styled/NormalButton'
 
 const feeOption = [
     '원 / 1시간',
@@ -47,13 +46,40 @@ const Fee = (props) => {
 
 
     return (
-        <div>
-            <PageBox sx={{display:'flex'}}>
-                <Stack direction='column' spacing={2} sx={{width:'85%'}}>
-                    {feeOption.map((el,idx) => (
-                        <Button variant={props.state.feeSelect===idx ? 'contained' : 'outlined'} 
+        <Grid item container
+            direction='column'
+            sx={{
+                width: '100%',
+                display: 'flex', 
+                p: 2,
+            }}
+        >
+            <Grid item container
+                direction='column'
+                sx={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}
+            >
+                {feeOption.map((el,idx) => (
+                    <Grid item
+                        sx={{
+                            width: '100%',
+                            pb: 2
+                        }}
+                    >
+                        <NormalButton myColor='#f75910'
+                            variant={props.state.feeSelect===idx 
+                                ? 'contained' : 'outlined'} 
                             onClick={handleSelect(idx)} 
-                            sx={{width: '100%', height:60}}
+                            sx={{
+                                width: '100%', 
+                                height:60,
+                                backgroundColor: props.state.feeSelect===idx
+                                    ? '#f75910' : '#ffffff',
+                                borderColor: '#000000'
+                            }}
                         >
                             {idx === 0
                                 ? <Input
@@ -70,14 +96,24 @@ const Fee = (props) => {
                             >
                                 {el}
                             </Typography>
-                        </Button>
-                    ))}
-                </Stack>
-            </PageBox>
-            <PageBox sx={{pt: 4, display: 'flex'}}>
-                <BobButton title='다 음' onClick={handleNext} />
-            </PageBox>
-        </div>
+                        </NormalButton>
+                    </Grid>
+                ))}
+            </Grid>
+
+            <Grid item 
+                sx={{
+                    width: '100%',
+                    pt: 4
+                }}
+            >
+                <BobButton 
+                    onClick={handleNext}
+                    disabled={false}
+                    title={'다 음'}
+                />
+            </Grid>
+        </Grid>
     )
 }
 

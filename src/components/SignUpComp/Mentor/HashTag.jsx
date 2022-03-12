@@ -1,6 +1,6 @@
 import * as React from 'react'
 import TextField from '@mui/material/TextField';
-import PageBox from 'components/styled/PageBox'
+import Grid from '@mui/material/Grid';
 import BobButton from 'components/styled/BobButton'
 
 const helpText = 
@@ -47,8 +47,21 @@ const HashTag = (props) => {
     }
 
     return (
-        <div>
-            <PageBox sx={{width:'100%',display: 'flex'}}>
+        <Grid item container
+            direction='column'
+            sx={{
+                width: '100%',
+                display: 'flex', 
+                p: 2,
+            }}
+        >
+            <Grid item
+                sx={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}
+            >
                 <TextField 
                     value={input}
                     variant="outlined"
@@ -58,13 +71,23 @@ const HashTag = (props) => {
                     placeholder={helpText}
                     onChange={handleInput} 
                     onKeyUp={handleBackspace}
-                    sx={{width: '85%'}}
+                    sx={{width: '100%'}}
                 />
-            </PageBox>
-            <PageBox sx={{pt: 4, display: 'flex'}}>
-                <BobButton title='다 음' onClick={handleNext} />
-            </PageBox>
-        </div>
+            </Grid>
+
+            <Grid item 
+                sx={{
+                    width: '100%',
+                    pt: 4
+                }}
+            >
+                <BobButton 
+                    onClick={handleNext}
+                    disabled={false}
+                    title={'다 음'}
+                />
+            </Grid>
+        </Grid>
     )
 }
 

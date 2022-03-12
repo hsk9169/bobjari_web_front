@@ -69,7 +69,6 @@ const TopBar = (props) => {
                                 height: '30px',
                                 color: '#000000'
                             }}
-                            onClick={props.onClickClose} 
                         />
                     </ButtonBase>
                 </Grid>

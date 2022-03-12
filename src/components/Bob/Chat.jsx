@@ -5,6 +5,7 @@ import PageBox from 'components/styled/PageBox'
 import Stack from '@mui/material/Stack'
 import {getJWT} from 'utils/handle-jwt'
 import {selectSessions} from 'slices/session'
+import {selectBasePath} from 'slices/basePath'
 import {BobSkeleton, BobMessage} from 'components/Cards'
 import NoList from './NoList'
 const axios = require('axios')
@@ -23,6 +24,9 @@ const Chat = (props) => {
         history.push('/main/search')
     }
 
+    const basePath = useSelector(selectBasePath)   
+
+
     useEffect(() => {
         async function getBobjariList() {
             if (!initialized) {
@@ -32,7 +36,7 @@ const Chat = (props) => {
                 const param = session.role === 'mentee'
                             ? {menteeId: session.mentee.id}
                             : {mentorId: session.mentor.id}
-                await axios.get(api,
+                await axios.get(basePath.path + api,
                     {
                         headers: {
                             Authorization: `Bearer ${getJWT().accessToken}`,

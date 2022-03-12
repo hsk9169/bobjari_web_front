@@ -6,19 +6,31 @@ import {
     BobjariGuide, 
     SearchBar,
     MentorRecommend,
-    LiveReview
+    LiveReview,
+    TopSearch,
+    UpcomingBob,
+    BulletinBoard
 } from 'components/MainScreen'
+import PageBox from 'components/styled/PageBox'
 import slogan from 'contents/slogan.png'
+import {useSelector} from 'react-redux'
+import { selectBasePath } from 'slices/basePath'
+import { selectSessions } from 'slices/session'
 const axios = require('axios')
 
 
 const Main = (props) => {
 
+    const sessions = useSelector(selectSessions)
+    const session = sessions.length > 1
+                    ? sessions[1].session : null
+
     const height = window.innerHeight
 
     const [mentor, setMentor] = useState([])
     const [review, setReview] = useState([])
-
+    const basePath = useSelector(selectBasePath)
+    
     const handleClickSearch = () => {
         props.history.push('/main/search')
     }
@@ -31,10 +43,46 @@ const Main = (props) => {
         console.log('more review')
     }
 
-    useState(() => {
-        async function getMentor() {
-            await axios.get(process.env.REACT_APP_API_)
+    useEffect(() => {
+        async function getRecommendedMentor() {
+            await axios.get(basePath.path + process.env.REACT_APP_API_MENTOR_RECOMMEND,
+                {
+                    params: {
+                        num: 5,
+                    },
+                })
+                .then(res => {
+                    setMentor(res.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
         }
+
+        async function getRecentReview() {
+            await axios.get(basePath.path + process.env.REACT_APP_API_REVIEW_RECENT,
+                {
+                    params: {
+                        num: 5,
+                    },
+                })
+                .then(res => {
+                    setReview(res.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        }
+
+        if (session !== null && 
+            session.role === 'mentor') 
+        {
+            console.log('mentor')
+        } else {
+            getRecommendedMentor()
+            getRecentReview()
+        }
+
     },[])
 
     return (
@@ -42,15 +90,22 @@ const Main = (props) => {
             direction='column'
             spacing={2}
             sx={{
-                p: 2,
                 width: '100%',
+                p: 2,
+                top: 0,
+                bottom: height * 0.25,
+                display: 'flex',
                 justifyContent: 'flex-start',
                 alignItems: 'center',
-                position: 'absolute',
-                top: height * 0.05,
-                bottom: height * 0.07,
+                //
             }}
         >
+            <TopSearch 
+                role={session !== null 
+                    ? session.role : null} 
+                handleClickSearch={handleClickSearch}
+            />
+
             <Grid container
                 sx={{width: '100%'}}
             >
@@ -66,21 +121,31 @@ const Main = (props) => {
                     />
                 </Grid>
             </Grid>
-            
-            <BobjariGuide />
 
-            <SearchBar
-                handleClickSearch={handleClickSearch}
-            />
-
-            <MentorRecommend 
-                handleMoreRecommend={handleMoreRecommend}
-            />
-
-            <LiveReview
-                handleMoreReview={handleMoreReview}
+            <BobjariGuide 
+                role={session !== null 
+                    ? session.role : null} 
             />
             
+            {session !== null && session.role === 'mentor'
+                ?
+                    <UpcomingBob />
+                :
+                <>
+                    <SearchBar
+                        handleClickSearch={handleClickSearch}
+                    />
+                    <MentorRecommend 
+                        mentor={mentor}
+                        handleMoreRecommend={handleMoreRecommend}
+                    />
+                    <LiveReview
+                        review={review}
+                        handleMoreReview={handleMoreReview}
+                    />
+                </>
+            }
+
         </Stack>
     )
 }

@@ -5,6 +5,7 @@ import {MenteeMypage, MentorMypage} from 'components/MyPage'
 import {useSelector, useDispatch} from 'react-redux'
 import {selectSessions, changeSessionRole, toggleSessionSearchAllow} from 'slices/session';
 import {updateBotNav} from 'slices/manage'
+import { selectBasePath } from 'slices/basePath'
 const axios = require('axios')
 
 const Mypage = ({history}) => {
@@ -12,6 +13,7 @@ const Mypage = ({history}) => {
     const dispatch = useDispatch();
     const session = useSelector(selectSessions)[1].session
     dispatch(updateBotNav(true))
+    const basePath = useSelector(selectBasePath)   
 
     const [isChanging, setIsChanging] = useState(false)
 
@@ -20,7 +22,7 @@ const Mypage = ({history}) => {
     }
 
     const handleAllowSearch = async () => {
-        await axios.get(process.env.REACT_APP_API_MENTOR_SEARCH_ALLOW_TOGGLE,
+        await axios.get(basePath.path + process.env.REACT_APP_API_MENTOR_SEARCH_ALLOW_TOGGLE,
             {
                 headers: {
                     Authorization: `Bearer ${getJWT().accessToken}`,

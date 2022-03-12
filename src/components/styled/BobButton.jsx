@@ -1,30 +1,39 @@
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
-import { makeStyles } from '@mui/styles';
-
-const useStyles = makeStyles({
-    root: {
-        background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-        border: 0,
-        borderRadius: 3,
-        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-        color: 'white',
-        height: 45,
-        width: '85%',
-        padding: '0 30px',
-    },
-});
+import { styled } from '@mui/material/styles';
 
 const BobButton = (props) => {
-    const classes = useStyles();
+
+    const StyledButton = styled(Button)({
+        '&:active': {
+            backgroundColor: '#000000',
+            borderColor: '#000000'
+        },
+        '&:focus': {
+            backgroundColor: '#000000',
+            borderColor: '#000000'
+        }
+    })
 
     return (
-        <Button className={classes.root} onClick={props.onClick} disabled={props.disabled}>
-            <Typography variant='h6'>
+        <StyledButton variant='contained' 
+            onClick={props.onClick} 
+            disabled={props.disabled} 
+            sx={{
+                width: '100%',
+                backgroundColor: '#000000',
+                borderRadius: 2
+            }}
+        >
+            <Typography variant='h6'
+                sx={{
+                    fontWeight: 'fontWeightBold',
+                    color: '#ffffff'
+                }}
+            >
                 {props.title}
             </Typography>
-        </Button>
+        </StyledButton>
     )
 }
 

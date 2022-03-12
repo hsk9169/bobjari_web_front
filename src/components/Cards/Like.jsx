@@ -45,30 +45,35 @@ const Like = (props) => {
                         justifyContent: 'flex-start',
                     }}
                 >
-                    <Grid item container>
-                        <Grid item>
-                            <Typography variant='body1'
-                                sx={{fontWeight: 'fontWeightBold'}}
-                            >
-                                {props.nickname}&nbsp;&bull;
-                            </Typography>
-                        </Grid>
-                        <Grid item>
-                            <Typography variant='body1'>
-                                &nbsp;{props.job}
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                    <Grid item container>
-                        <Grid item>
-                            <Typography variant='body2'>
+                    <Grid item sx={{width: '100%'}}>
+                        <div style={{
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            lineHeight: '120%'
+                        }}>
+                            <b style={{
+                                fontSize: '16px',
+                                color: '#000000'
+                            }}>
+                                {props.nickname}&nbsp;&bull;&nbsp;
+                            </b>
+                            <span style={{
+                                fontSize: '16px',
+                                color: '#000000'
+                            }}>
+                                {props.job}
+                            </span>
+                            <br/>
+                            <span style={{
+                                fontSize: '14px',
+                                color: '#000000'
+                            }}>
                                 {years.yearsList[props.years]}
-                                &nbsp;&bull;&nbsp;{props.company}
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                    <Grid item container>
-                        <Grid item>
+                                &nbsp;&bull;&nbsp;
+                                {props.company}
+                            </span>
+                            <br/>
                             <StarIcon 
                                 sx={{
                                     width: 20, 
@@ -76,18 +81,15 @@ const Like = (props) => {
                                     color: '#f57c00'
                                 }} 
                             />
-                        </Grid>
-                        <Grid item>
-                            <Typography variant='button'>
+                            <span style={{
+                                fontSize: '14px',
+                                color: '#000000'
+                            }}>
                                 &nbsp;{props.rate.score === 0
                                     ? '0.0' : score}
-                            </Typography>
-                        </Grid>
-                        <Grid item>
-                            <Typography variant='button'>
                                 &nbsp;({props.rate.num})
-                            </Typography>
-                        </Grid>
+                            </span>
+                        </div>
                     </Grid>
                 </Grid>
 

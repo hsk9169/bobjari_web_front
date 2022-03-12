@@ -27,6 +27,7 @@ const MentorResult = (props) => {
                         careerInfo={el.career}
                         fee={el.details.preference.fee}
                         title={el.title}
+                        rate={el.metadata.rate}
                         onClick={() => {
                             const scrollTop = 
                                 document.documentElement.scrollTop

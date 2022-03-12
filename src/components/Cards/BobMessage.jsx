@@ -11,15 +11,21 @@ const BobMessage = (props) => {
         switch (props.bobjariStatus) {
             case 0:
                 return (
-                    <Typography variant='subtitle2' color='text.secondary'>
+                    <span style={{
+                        fontSize: '14px',
+                        color: '#9e9e9e'
+                    }}>
                         밥자리 거절
-                    </Typography>
+                    </span>
                 )
             case 1:
                 return (
-                    <Typography variant='subtitle2' color='text.secondary'>
+                    <span style={{
+                        fontSize: '14px',
+                        color: '#9e9e9e'
+                    }}>
                         밥자리 신청
-                    </Typography>
+                    </span>
                 )
             case 2:
                 return (
@@ -54,59 +60,82 @@ const BobMessage = (props) => {
     }
 
     return (
-        <Paper elevation={0} onClick={props.handleClick}
-            sx={{pt: 2, pb: 2, display: 'flex', width: '100%'}}>
+        <Paper elevation={0} 
+            onClick={props.handleClick}
+            sx={{
+                p: 1,
+                pt: 2,
+                display: 'flex', 
+                width: '100%'
+            }}
+        >
             <Grid container sx={{display: 'flex', justifyContent: 'center'}}>
-                <Grid item xs={2.4} sx={{display: 'flex', alignItems: 'center'}}>
+                
+                <Grid item
+                    sx={{
+                        width: '17%',
+                        display: 'flex', 
+                        alignItems: 'center'
+                    }}
+                >
                     <Avatar alt='프로필 사진'
                         src={props.image.contentType==='url'
                             ? props.image.data
                             : `data:${props.image.contentType};base64,${props.image.data}`
                         }
-                        sx={{ width: 65, height: 65}} 
+                        sx={{ width: 55, height: 55}} 
                     />
                 </Grid>
-                <Grid item xs={7.2} container direction='column'>
-                    <Grid item container>
-                        <Grid item>
-                            <Typography variant='subtitle2' sx={{fontWeight: 'fontWeightBold'}}>
-                                {props.nickname}
-                            </Typography>
-                        </Grid>
-                        <Grid item>
-                            {props.role === 'mentee' ?
-                            <Typography variant='subtitle2'>
-                                &nbsp;&bull;&nbsp;
-                            </Typography>
-                            : null}
-                        </Grid>
-                        <Grid item>
-                            <Typography variant='subtitle2'>
-                                {props.role === 'mentor' ? null : props.job===null ? '미입력' : 
-                                    props.lineExceeded.firstLine.exceeded 
-                                        ? props.job.slice(0, 0-props.lineExceeded.firstLine.num) + '..'
-                                        : props.job
-                                }
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                    <Grid item>
-                        <Typography variant='subtitle2'>
-                            {props.lastMessage===null ? '(메시지 없음)' : 
-                                props.lineExceeded.secondLine
-                                    ? props.lastMessage.slice(0, 19) + '..'
-                                    : props.lastMessage
-                            }
-                        </Typography>
-                    </Grid>
-                    <Grid item>
+
+                <Grid item
+                    sx={{
+                        width: '65%',
+                        display: 'flex',
+                        alignItems: 'center'
+                    }}
+                >
+                    <div style={{
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        lineHeight: '120%'
+                    }}>
+                        <b style={{
+                            fontSize: '16px',
+                            color: '#000000'
+                        }}>
+                            {props.nickname}
+                        </b>
+                        {props.role === 'mentee' ?
+                            <span style={{
+                                fontSize: '16px',
+                                color: '#000000'
+                            }}>
+                                &nbsp;&bull;&nbsp;{props.job}
+                            </span>
+                        : null}
+                        <br/>
+                        <span style={{
+                            fontSize: '14px',
+                            color: '#000000'
+                        }}>
+                            {props.lastMessage !== null ?
+                            props.lastMessage : '[ 대화를 시작해보세요! ]'}
+                        </span>
+                        <br/>
                         <BobjariStatus />
-                    </Grid>
+                    </div>
                 </Grid>
-                <Grid item xs={1.8} sx={{ display: 'flex', justifyContent: 'flex-end'}}>
-                    <Typography variant='caption' color='text.secondary'>
-                        {renderDateTime()}
-                    </Typography>
+                
+                <Grid item
+                    sx={{ 
+                        width: '18%',
+                        display: 'flex', 
+                        justifyContent: 'flex-end',
+                        alignItems: 'flex-start',
+                    }}
+                >
+                    {renderDateTime()}
                 </Grid>
             </Grid>
         </Paper>

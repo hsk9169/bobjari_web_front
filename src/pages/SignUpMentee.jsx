@@ -1,23 +1,19 @@
 import React, { useState } from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Chip from '@mui/material/Chip';
+import Grid from '@mui/material/Grid';
 import Search from '@mui/icons-material/Search';
 import CircularProgress from '@mui/material/CircularProgress';
 import InputAdornment from '@mui/material/InputAdornment';
-import PageBox from 'components/styled/PageBox';
 import {jobs} from 'constants/job-corp-name'
-import BobButtonWithEmoji from 'components/styled/BobButtonWithEmoji';
 import StackTitle from 'components/styled/StackTitle';
+import PageBox from 'components/styled/PageBox'
+import BobButton from 'components/styled/BobButton'
 import {saveJWT} from 'utils/handle-jwt'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addSession } from "slices/session";
-
+import { selectBasePath } from 'slices/basePath'
 const axios = require('axios');
 
 const SignUpMentee = ({context, location, history}) => {
@@ -30,6 +26,7 @@ const SignUpMentee = ({context, location, history}) => {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
     const loading = open && options.length === 0;
+    const basePath = useSelector(selectBasePath)   
 
     const handleJoin = (event) => {
         let formData = new FormData();
@@ -63,7 +60,7 @@ const SignUpMentee = ({context, location, history}) => {
             formData.append(key, JSON.stringify(value));
         }
 
-        axios.post(process.env.REACT_APP_API_USER_JOIN,
+        axios.post(basePath.path + process.env.REACT_APP_API_USER_JOIN,
             formData, { headers: {
                 'Content-Type': 'multipart/form-data'
                 }
@@ -73,7 +70,7 @@ const SignUpMentee = ({context, location, history}) => {
                 dispatch(addSession(res.data))
                 const retEmail = res.data.profile.email;
                 if (retEmail === location.data.email) {
-                    axios.get(process.env.REACT_APP_API_GET_TOKEN, 
+                    axios.get(basePath.path + process.env.REACT_APP_API_GET_TOKEN, 
                         { params: {
                             email: retEmail,
                             }
@@ -141,37 +138,26 @@ const SignUpMentee = ({context, location, history}) => {
 
 
     return (
-        <div>
-            <StackTitle
-                title={['관심 직업']}
-                subtitle={['알아보고 싶은 직업이 무엇인가요?']}
-                onClickBack={handleBack}
-            />
-            <PageBox
+        <Grid container 
+            direction='column'
+            sx={{width: '100%'}}
+        >
+            <Grid item>
+                <StackTitle
+                    title={['관심 직업']}
+                    subtitle={['알아보고 싶은 직업이 무엇인가요?']}
+                    onClickBack={handleBack}
+                />
+            </Grid>
+            
+            <Grid item
                 sx={{
-                    p: 4,
+                    p: 2,
                     pt: 2,
-                    pb: 15,
                     display: 'flex',
                     width: '100%',
                 }}
             >
-                <Dialog
-                    open={dialogOpen}
-                    onClose={handleDialogButton}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
-                    <DialogTitle id="alert-dialog-title">
-                        {'가입 도중 에러 발생'}
-                    </DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            죄송합니다 에러가 발생했네요 :( 다시 시도해주세요..ㅠㅠ
-                        </DialogContentText>
-                        <Button onClick={handleDialogButton}>홈으로 돌아가기</Button>
-                    </DialogContent>
-                </Dialog>
                 <Autocomplete
                     multiple
                     id="jobSelect"
@@ -219,12 +205,22 @@ const SignUpMentee = ({context, location, history}) => {
                     ref={ref} 
                     sx={{width: '100%'}}
                 />
-            </PageBox>
-            <PageBox sx={{ display: 'flex'}}>
-                <BobButtonWithEmoji title='가입완료' onClick={handleJoin}
-                    emoji='smiling-face-with-sunglasses' />
-            </PageBox>
-        </div>
+            </Grid>
+
+            <Grid item 
+                sx={{
+                    width: '100%',
+                    p: 2,
+                    pt: 4
+                }}
+            >
+                <BobButton 
+                    onClick={handleJoin}
+                    disabled={false}
+                    title={'가입 완료'}
+                />
+            </Grid>
+        </Grid>
         
     );
 }

@@ -54,7 +54,8 @@ const Location = (props) => {
     }
 
     const handleSelect = () => {
-        setSelected([...selected, curSelect])
+        if (!selected.includes(curSelect)) 
+            setSelected([...selected, curSelect])
         setOpen(false)
     }
 

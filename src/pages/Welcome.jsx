@@ -9,6 +9,7 @@ import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import {useDispatch} from 'react-redux'
 import {updateNavScreen} from 'slices/manage'
+import NormalButton from 'components/styled/NormalButton'
 
 const authInfo = require('constants/kakao-auth');
 const imgUri = require('constants/image-uri');
@@ -149,7 +150,8 @@ const Welcome = ({context, drawerWindow, history}) => {
                             }}
                         />
                     </div>
-                    <Button variant='contained'
+                    <NormalButton myColor='#f75910'
+                        variant='contained'
                         onClick={bobjariSignInButtonHandler}
                         sx={{
                             width: '100%', 
@@ -157,21 +159,23 @@ const Welcome = ({context, drawerWindow, history}) => {
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
-                            backgroundColor: '#f75910'
+                            backgroundColor: '#f75910',
                         }}
                     >
                         <Typography variant='body1' 
                             sx={{ fontWeight: 'fontWeightBold'}}>
                             밥자리 계정으로 시작하기
                         </Typography>
-                    </Button>
-                    <Button variant='outlined'
+                    </NormalButton>
+                    <NormalButton myColor='#ffffff'
+                        variant='outlined'
                         onClick={handleVisitorEntering}
                         sx={{
                             width: '100%', 
                             height: 45, 
                             border: 1.5,
-                            borderColor: '#000000'
+                            backgroundColor: '#ffffff',
+                            borderColor: '#000000',
                         }}
                     >
                         <Typography variant='body1' 
@@ -181,7 +185,7 @@ const Welcome = ({context, drawerWindow, history}) => {
                             }}>
                             비회원으로 둘러보기
                         </Typography>
-                    </Button>
+                    </NormalButton>
                 </Stack>
             </Box>
         </div>

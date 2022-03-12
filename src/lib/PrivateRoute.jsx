@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import { useDispatch, useSelector } from "react-redux";
 import { deleteSession } from "slices/session";
 import { selectManage, updateBotNav, updateSessionTime } from 'slices/manage'
-
+import { selectBasePath } from 'slices/basePath'
 import {getJWT, deleteJWT, checkJWTExp, verifyJWT} from 'utils/handle-jwt';
 
 const PrivateRoute = ({ component: Component, botNav, ...rest }) => {
@@ -24,6 +24,7 @@ const PrivateRoute = ({ component: Component, botNav, ...rest }) => {
     const dispatch = useDispatch();
     const manage = useSelector(selectManage)
     
+    const basePath = useSelector(selectBasePath)   
 
     console.log('Private Route')
 
@@ -46,7 +47,7 @@ const PrivateRoute = ({ component: Component, botNav, ...rest }) => {
     useEffect( () => {
         async function start() {
             if (!isValid.initialized) {
-                await axios.get(process.env.REACT_APP_API_VERIFY_TOKEN,
+                await axios.get(basePath.path + process.env.REACT_APP_API_VERIFY_TOKEN,
                     { headers: {
                         Authorization: `Bearer ${getJWT().accessToken}`,
                     }})

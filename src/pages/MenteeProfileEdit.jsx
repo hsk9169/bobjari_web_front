@@ -18,7 +18,7 @@ import ItemListPaper from 'components/styled/ItemListPaper';
 import {NicknameEdit, InterestEdit, GenderEdit, EmailEdit, PhoneEdit} from 'components/MyPage/Mentee/ProfileEdit'
 import {useSelector} from 'react-redux'
 import {selectSessions} from 'slices/session';
-const axios = require('axios');
+
 
 const Root = styled('div')(({ theme }) => ({
     height: '100%',

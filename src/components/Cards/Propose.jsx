@@ -1,8 +1,6 @@
 import React from 'react';
-import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
-import Paper from '@mui/material/Paper';
 import StarIcon from '@mui/icons-material/Star';
 const years = require('constants/career-years')
 
@@ -33,59 +31,59 @@ const ProposeCard = (props) => {
                     sx={{ width: 60, height: 60}} 
                 />
             </Grid>
-            <Grid item container
-                direction='column'
+            <Grid item
                 sx={{
-                    width: '60%',
+                    width: '80%',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'flex-start',
                 }}
             >
-                <Grid item container>
-                    <Grid item>
-                        <Typography variant='body1'
-                            sx={{fontWeight: 'fontWeightBold'}}
-                        >
-                            {props.nickname}&nbsp;&bull;
-                        </Typography>
-                    </Grid>
-                    <Grid item>
-                        <Typography variant='body1'>
-                            &nbsp;{props.job}
-                        </Typography>
-                    </Grid>
-                </Grid>
-                <Grid item container>
-                    <Grid item>
-                        <Typography variant='body2'>
-                            {years.yearsList[props.years]}
-                            &nbsp;&bull;&nbsp;{props.company}
-                        </Typography>
-                    </Grid>
-                </Grid>
-                <Grid item container>
-                    <Grid item>
-                        <StarIcon 
-                            sx={{
-                                width: 20, 
-                                height: 20, 
-                                color: '#f57c00'
-                            }} 
-                        />
-                    </Grid>
-                    <Grid item>
-                        <Typography variant='button'>
-                            &nbsp;{props.rate.score === 0
-                                ? '0.0' : score}
-                        </Typography>
-                    </Grid>
-                    <Grid item>
-                        <Typography variant='button'>
-                            &nbsp;({props.rate.num})
-                        </Typography>
-                    </Grid>
-                </Grid>
+                <div style={{
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    lineHeight: '140%'
+                }}>
+                    <b style={{
+                        fontSize: '16px',
+                        color: '#000000'
+                    }}>
+                        {props.nickname}
+                        &nbsp;&bull;&nbsp;
+                    </b>
+                    <span style={{
+                        fontSize: '16px',
+                        color: '#000000'
+                    }}>
+                        {props.job}
+                    </span>
+                    <br/>
+                    <span style={{
+                        fontSize: '14px',
+                        color: '#000000'
+                    }}>
+                        {years.yearsList[props.years]}
+                        &nbsp;&bull;&nbsp;{props.company}
+                     </span>
+                    <br/>
+                    <StarIcon 
+                        sx={{
+                            width: 20, 
+                            height: 20, 
+                            color: '#f57c00'
+                        }} 
+                    />
+                    <span style={{
+                        fontSize: '14px',
+                        color: '#000000'
+                    }}>
+                        &nbsp;{props.rate.score === 0
+                        ? '0.0' : score}
+                        &nbsp;({props.rate.num})
+                    </span>
+                    
+                </div>
             </Grid>
         </Grid>
     );

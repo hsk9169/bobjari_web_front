@@ -4,7 +4,8 @@ import { logger } from 'redux-logger';
 import { 
     sessionReducer, 
     manageReducer, 
-    searchPageReducer 
+    searchPageReducer,
+    basePathReducer,
 } from "slices";
 // REDUX-PERSIST
 import storage from 'redux-persist/lib/storage'
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
     session: sessionReducer,
     manage: manageReducer,
     searchPage: searchPageReducer,
+    basePath: basePathReducer,
 })
 
 const encrypt = createTransform(

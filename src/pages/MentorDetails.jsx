@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid'
 import PageBox from 'components/styled/PageBox'
 import {getJWT, verifyJWT} from 'utils/handle-jwt'
 import {selectSessions} from 'slices/session'
+import {selectBasePath} from 'slices/basePath'
 import {TopBar, Card, Introduce, Topic, Schedule,
         Place, Review, Propose} from 'components/MentorDetails'
 import {updateLoginAlert} from 'slices/manage'
@@ -11,6 +12,8 @@ const axios = require('axios')
 const years = require('constants/career-years')
 
 const MentorDetails = (props) => {
+
+    
 
     const dispatch = useDispatch()
     const mentorId = props.match.params.id
@@ -21,18 +24,15 @@ const MentorDetails = (props) => {
     const session = sessions.length === 1
                     ? null
                     : sessions[1].session
+    const basePath = useSelector(selectBasePath)
 
     const [mentor, setMentor] = useState(null)
     const [topBarHeight, setTopBarHeight] = useState(null)
     const [bottomHeight, setBottomHeight] = useState(null)
     const [like, setLike] = useState(false)
-    
+        
     const handleClickBack = () => {
         props.history.goBack()
-    }
-
-    const handleClickShare = () => {
-        console.log('share')
     }
 
     const handleClickLike = async () => {
@@ -49,7 +49,7 @@ const MentorDetails = (props) => {
                 headers: {
                     Authorization: `Bearer ${getJWT().accessToken}`,
                 },
-                url: process.env.REACT_APP_API_LIKE,
+                url: basePath.path + process.env.REACT_APP_API_LIKE,
                 method: like ? 'DELETE' : 'POST',
                 data: data
             })
@@ -62,6 +62,17 @@ const MentorDetails = (props) => {
         } else {
             dispatch(updateLoginAlert(true))
         }
+    }
+
+    const handleClickShare = () => {
+        const copyElement = document.createElement('textarea')
+        copyElement.value = window.location.href
+        document.body.appendChild(copyElement)
+        copyElement.focus()
+        copyElement.select()
+        document.execCommand('copy')
+        document.body.removeChild(copyElement)
+        alert('클립보드에 복사되었습니다.')
     }
 
     const handleGetMoreReview = () => {
@@ -92,7 +103,7 @@ const MentorDetails = (props) => {
 
     useEffect( () => {
         async function start() {
-            await axios.get(process.env.REACT_APP_API_MENTOR,
+            await axios.get(basePath.path + process.env.REACT_APP_API_MENTOR,
                 {
                     params: {
                         menteeId: session === null
@@ -124,8 +135,8 @@ const MentorDetails = (props) => {
                         like={like}
                         setTopBarHeight={setTopBarHeight}
                         onClickBack={handleClickBack}
-                        onClickShare={handleClickShare}
                         onClickLike={handleClickLike}
+                        onClickShare={handleClickShare}
                     />
                 </Grid>
                 <Grid item>

@@ -10,11 +10,17 @@ import KakaoCallback from 'components/KakaoCallback';
 
 import BottomNavigator from 'components/styled/BottomNavigator';
 
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import { selectManage } from 'slices/manage';
+import { setBasePath } from 'slices/basePath';
 
 const App = (props) => {
+    const dispatch = useDispatch()
     const manage = useSelector(selectManage)
+    dispatch(setBasePath(
+        process.env.NODE_ENV === 'development'
+            ? '/local' : 'http://ec2-3-138-140-195.us-east-2.compute.amazonaws.com:8000'
+    ))
 
     return (
         <ErrorBoundary FallbackComponent={ErrorPage}>

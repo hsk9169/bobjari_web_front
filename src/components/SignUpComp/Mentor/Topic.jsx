@@ -1,9 +1,8 @@
 import * as React from 'react'
 import Grid from '@mui/material/Grid'
-import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import PageBox from 'components/styled/PageBox'
 import BobButton from 'components/styled/BobButton'
+import NormalButton from 'components/styled/NormalButton'
 import {topicList} from 'constants/topics'
 
 const Topic = (props) => {
@@ -22,7 +21,6 @@ const Topic = (props) => {
             : Array.from({length: topicList.length}, () => 'outlined')
         )
     });
-    console.log(view)
 
     const handleTopic = idx => () => {
         if (props.state.topics.filter(el => el===idx).length > 0) {
@@ -73,30 +71,65 @@ const Topic = (props) => {
 
 
     return (
-        <div>
-            <PageBox sx={{p:2,display: 'flex'}}>
-                <Grid container rowSpacing={2} columnSpacing={{ xs: 2, sm: 4, md: 6 }}>
-                    {topicList.map((el,idx) => (
-                        <Grid item xs={6} key={idx}>
-                                <Button variant={view.state[idx]} onClick={handleTopic(idx)}
-                                    sx={{minWidth:160, maxWidth:160,
-                                        minHeight:80, maxHeigth:80,
-                                        textAlign: 'center'}}
-                                >
-                                    <Typography variant='subtitle1' 
-                                        color={view.state[idx]==='contained' ? 'white' : 'black'}
-                                        sx={{fontWeight: 'fontWeightBold'}}>
-                                        {el}
-                                    </Typography>
-                                </Button>
-                        </Grid>
-                    ))}
-                </Grid>
-            </PageBox>
-            <PageBox sx={{pt: 3, display: 'flex'}}>
-                <BobButton title='다 음' onClick={handleNext} />
-            </PageBox>
-        </div>
+        <Grid item container
+            direction='column'
+            sx={{
+                width: '100%',
+                display: 'flex', 
+                p: 2,
+            }}
+        >
+            <Grid item container
+                sx={{
+                    width: '100%',
+                    pt: 4,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}
+            >
+                {topicList.map((el,idx) => (
+                    <Grid item 
+                        sx={{
+                            width: '50%',
+                            p: 0.5,
+                        }}
+                    >
+                        <NormalButton myColor='#f75910' 
+                            variant={view.state[idx]} 
+                            onClick={handleTopic(idx)}
+                            sx={{
+                                width: '100%',
+                                height: 80,
+                                backgroundColor: view.state[idx]==='contained'
+                                    ? '#f75910' : '#ffffff',
+                                borderColor: '#000000'
+                            }}
+                        >
+                            <Typography variant='subtitle1' 
+                                color={view.state[idx]==='contained' 
+                                    ? 'white' : 'black'}
+                                sx={{fontWeight: 'fontWeightBold'}}>
+                                {el}
+                            </Typography>
+                        </NormalButton>
+                    </Grid>
+                ))}
+            </Grid>
+
+            <Grid item 
+                sx={{
+                    width: '100%',
+                    pt: 4
+                }}
+            >
+                <BobButton 
+                    onClick={handleNext}
+                    disabled={false}
+                    title={'다 음'}
+                />
+            </Grid>
+        </Grid>
     )
 }
 

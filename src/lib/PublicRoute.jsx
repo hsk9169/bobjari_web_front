@@ -8,8 +8,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button'
 import {getJWT} from 'utils/handle-jwt';
-import {useDispatch} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import { updateBotNav } from 'slices/manage';
+import { selectBasePath } from 'slices/basePath'
 
 
 const PublicRoute = ({ component: Component, restricted, botNav, ...rest }) => {
@@ -24,12 +25,12 @@ const PublicRoute = ({ component: Component, restricted, botNav, ...rest }) => {
     })
     const [dialogOpen, setDialogOpen] = useState(false);
 
-    
+    const basePath = useSelector(selectBasePath)   
 
     useEffect( () => {
         async function start() {
             if (!isValid.initialized) { 
-                await axios.get(process.env.REACT_APP_API_VERIFY_TOKEN,
+                await axios.get(basePath.path + process.env.REACT_APP_API_VERIFY_TOKEN,
                     { headers: {
                         Authorization: `Bearer ${getJWT().accessToken}`,
                     }})

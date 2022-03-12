@@ -59,8 +59,8 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "REACT_APP_STAGE=production react-scripts start",
-    "build": "dotenv -e .env.production react-scripts build && mv build ../front_package",
+    "start": "react-scripts start",
+    "build": "dotenv -e .env react-scripts build && mv build ../front_package",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

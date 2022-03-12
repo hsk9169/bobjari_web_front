@@ -12,7 +12,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 const TopBar = (props) => {
 
     const ref = useRef(null)
-
+    
     useEffect(() => {
         if (ref.current !== null)
             props.setTopBarHeight(ref.current.clientHeight)

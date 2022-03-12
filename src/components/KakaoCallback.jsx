@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import {saveJWT} from 'utils/handle-jwt'
 import PageBox from 'components/styled/PageBox'
 import CircularProgress from '@mui/material/CircularProgress';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addSession } from "slices/session";
+import { selectBasePath } from "slices/basePath";
 const axios = require('axios');
 const authInfo = require('constants/kakao-auth');
 
@@ -12,7 +13,7 @@ const KakaoCallback = (props) => {
     const accessCode = new URL(window.location.href).searchParams.get("code");
 
     const dispatch = useDispatch();
-    
+    const basePath = useSelector(selectBasePath)
 
     useEffect( () => {
         let profile = null;
@@ -21,7 +22,7 @@ const KakaoCallback = (props) => {
 
             await axios({
                 method: 'POST',
-                url: process.env.REACT_APP_API_KAKAO_AUTH,
+                url: basePath.path + process.env.REACT_APP_API_KAKAO_AUTH,
                 data: {
                     client_id: authInfo.CLIENT_ID,
                     redirect_uri: authInfo.CALLBACK_URI,
@@ -34,7 +35,7 @@ const KakaoCallback = (props) => {
                     
                     axios({
                         method: 'POST',
-                        url: process.env.REACT_APP_API_SIGNIN_KAKAO,
+                        url: basePath.path + process.env.REACT_APP_API_SIGNIN_KAKAO,
                         data: {
                             email: profile.email,
                         }
@@ -47,7 +48,7 @@ const KakaoCallback = (props) => {
         
                             if (retEmail === profile.email) {
                                 dispatch(addSession(res.data))
-                                axios.get(process.env.REACT_APP_API_GET_TOKEN,
+                                axios.get(basePath.path + process.env.REACT_APP_API_GET_TOKEN,
                                     { params: {
                                         email: retEmail,
                                     }

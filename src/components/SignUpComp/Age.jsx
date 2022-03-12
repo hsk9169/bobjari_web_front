@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from '@date-io/date-fns';
-import PageBox from 'components/styled/PageBox'
+import Grid from '@mui/material/Grid';
 import BobButton from 'components/styled/BobButton'
 
 const Age = (props) => {
@@ -20,7 +20,6 @@ const Age = (props) => {
                 return initialDate
             }
     );
-    console.log(year)
 
     const progressRatio = 20
 
@@ -39,22 +38,48 @@ const Age = (props) => {
 
 
     return (
-        <div>
-            <PageBox sx={{display: 'flex', pt: 4}}>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <Grid item container
+            direction='column'
+            sx={{
+                width: '100%',
+                display: 'flex', 
+                p: 2,
+            }}
+        >
+            <Grid item container
+                sx={{
+                    width: '100%',
+                    pt: 4,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}
+            >
+                <MuiPickersUtilsProvider 
+                    utils={DateFnsUtils}
+                >
                     <DatePicker
                         views={["year"]}
                         label="연도 선택"
                         value={year}
                         onChange={setYear}
-                        sx={{width: '100%', border: '1px dashed'}}
                     />
                 </MuiPickersUtilsProvider>
-            </PageBox>
-            <PageBox sx={{pt: 4, display: 'flex'}}>
-                <BobButton title='다 음' onClick={handleNext} />
-            </PageBox>
-        </div>
+            </Grid>
+
+            <Grid item 
+                sx={{
+                    width: '100%',
+                    pt: 4
+                }}
+            >
+                <BobButton 
+                    onClick={handleNext}
+                    disabled={false}
+                    title={'다 음'}
+                />
+            </Grid>
+        </Grid>
     )
 }
 

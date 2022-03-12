@@ -1,10 +1,12 @@
-import {HowTo} from 'components/Cards'
+import {HowTo, BobRules} from 'components/Cards'
 
 const BobjariGuide = (props) => {
 
     return (
         <>
-        <HowTo/>
+        {props.role === 'mentor'
+            ? <BobRules/> : <HowTo/>
+        }
         </>
     )
 }

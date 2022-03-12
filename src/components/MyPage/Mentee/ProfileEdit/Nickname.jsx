@@ -4,6 +4,8 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import createNickname from 'utils/create-nickname';
+import {useSelector} from 'react-redux'
+import {selectBasePath} from 'slices/basePath'
 const axios = require('axios');
 
 
@@ -14,6 +16,8 @@ const NicknameEdit = (props) => {
         nicknameCheck: true,
 
     })
+    const basePath = useSelector(selectBasePath)   
+
 
     const handleNicknameInput = (event) => {
         setState({            
@@ -37,7 +41,7 @@ const NicknameEdit = (props) => {
         let ret;
         await axios({
             method: 'POST',
-            url: process.env.REACT_APP_API_CHECK_NICKNAME,
+            url: basePath.path + process.env.REACT_APP_API_CHECK_NICKNAME,
             data: {
                 nickname: state.nickname,
             }})

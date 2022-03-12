@@ -11,6 +11,8 @@ import PageBox       from 'components/styled/PageBox'
 import Title         from 'components/styled/Title'
 import TitleWithDone from 'components/styled/TitleWithDone'
 import BobButton     from 'components/styled/BobButton'
+import {useSelector} from 'react-redux'
+import { selectBasePath } from 'slices/basePath'
 const axios = require('axios');
 
 
@@ -25,6 +27,7 @@ const Email = (props) => {
         dialogText:'',
     })
     const [dialogOpen, setDialogOpen] = useState(false);
+    const basePath = useSelector(selectBasePath)   
 
 
     const handleDialogButton = () => {
@@ -41,7 +44,7 @@ const Email = (props) => {
     const handleAuth = async () => {
         await axios({
             method: 'POST',
-            url: process.env.REACT_APP_API_EMAIL_AUTH,
+            url: basePath.path + process.env.REACT_APP_API_EMAIL_AUTH,
             data: {
                 email: state.emailInput,
             }

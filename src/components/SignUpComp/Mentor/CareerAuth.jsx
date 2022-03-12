@@ -1,16 +1,13 @@
 import * as React from 'react'
 import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import { Global } from '@emotion/react';
 import { styled } from '@mui/material/styles';
 import { grey } from '@mui/material/colors';
 import CssBaseline from '@mui/material/CssBaseline';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import PageBox   from 'components/styled/PageBox'
 import BobButton from 'components/styled/BobButton'
-
+import NormalButton from 'components/styled/NormalButton'
 import { Email, Company, Business, Etc } from './options'
 import { careerAuthText } from 'constants/mentor-signup-titles'
 
@@ -196,30 +193,94 @@ const CareerAuth = (props) => {
 
 
     return (
-        <div>
-            <PageBox sx={{display: 'flex'}}>
-                <Stack direction='column' spacing={2} sx={{width:'85%'}}>
-                    {authMethod.map((el,idx) => (
-                        <Button variant={temp.view[idx]} onClick={handleSelect(idx)}>
+        <>
+        <Grid item container
+            direction='column'
+            sx={{
+                width: '100%',
+                display: 'flex', 
+                p: 2,
+            }}
+        >
+            <Grid item container
+                direction='column'
+                sx={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}
+            >
+                {authMethod.map((el,idx) => (
+                    <Grid item 
+                        sx={{
+                            width: '100%',
+                            pb: 2
+                        }}
+                    >
+                        <NormalButton myColor='#75910' 
+                            variant={temp.view[idx]} 
+                            onClick={handleSelect(idx)}
+                            sx={{
+                                width: '100%',
+                                backgroundColor: temp.view[idx]==='contained'
+                                    ? '#f75910' : '#ffffff',
+                                borderColor: '#000000'
+                            }}
+                        >
                             <Grid container direction='column'>
-                            <Typography variant='subtitle1' 
-                                color={temp.view[idx]==='contained' ? 'white' : 'black'}
-                                sx={{fontWeight: 'fontWeightBold'}}>
-                                {el.title}
-                            </Typography>
-                            <Typography variant='caption text'
-                                color={temp.view[idx]==='contained' ? 'white' : 'black'}
-                                sx={{fontWeight: 'fontWeightMedium'}}>
-                                {el.details}
-                            </Typography>
+                                <Grid item 
+                                    sx={{
+                                        width: '100%',
+                                        display:'flex',
+                                        justifyContent: 'center'
+                                    }}
+                                >
+                                    <Typography variant='subtitle1' 
+                                        sx={{
+                                            fontWeight: 'fontWeightBold',
+                                            color: temp.view[idx]==='contained' 
+                                                ? '#ffffff' : '#000000'
+                                        }}
+                                    >
+                                        {el.title}
+                                    </Typography>
+                                </Grid>
+                                <Grid item 
+                                    sx={{
+                                        width: '100%',
+                                        display:'flex',
+                                        justifyContent: 'center'
+                                    }}
+                                >
+                                    <Typography variant='caption text' 
+                                        sx={{
+                                            fontWeight: 'fontWeightMedium',
+                                            color: temp.view[idx]==='contained' 
+                                                ? '#ffffff' : '#000000'
+                                        }}
+                                    >
+                                        {el.details}
+                                    </Typography>
+                                </Grid>
                             </Grid>
-                        </Button>
-                    ))}
-                </Stack>
-            </PageBox>
-            <PageBox sx={{pt: 4, display: 'flex'}}>
-                <BobButton title='다 음' onClick={handleNext} />
-            </PageBox>
+                        </NormalButton>
+                    </Grid>        
+                ))}
+            </Grid>
+
+            <Grid item 
+                sx={{
+                    width: '100%',
+                    pt: 4
+                }}
+            >
+                <BobButton 
+                    onClick={handleNext}
+                    disabled={false}
+                    title={'다 음'}
+                />
+            </Grid>
+        </Grid>
 
 
             <Root>
@@ -227,7 +288,7 @@ const CareerAuth = (props) => {
                 <Global
                     styles={{
                         '.MuiDrawer-root > .MuiPaper-root': {
-                          height: '90%',
+                          height: '80%',
                           overflow: 'visible',
                         },
                         '.MuiDrawer-paper': {
@@ -251,7 +312,7 @@ const CareerAuth = (props) => {
                     {RenderDrawer()}               
                 </SwipeableDrawer>
             </Root>
-        </div>
+        </>
     )
 }
 

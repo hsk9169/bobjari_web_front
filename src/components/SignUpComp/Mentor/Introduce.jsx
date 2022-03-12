@@ -1,7 +1,7 @@
 import * as React from 'react'
 import TextField from '@mui/material/TextField';
-import PageBox from 'components/styled/PageBox'
-import BobButtonWithEmoji from 'components/styled/BobButtonWithEmoji'
+import Grid from '@mui/material/Grid';
+import BobButton from 'components/styled/BobButton'
 
 const helpText = 
     '5년차 IT 커머스 MD입니다. 전공, 현재 직업 등 현재 상황에 맞추어 취업전략을 수립할 수 있습..';
@@ -41,8 +41,21 @@ const Introduce = (props) => {
 
 
     return (
-        <div>
-            <PageBox sx={{width:'100%',display: 'flex'}}>
+        <Grid item container
+            direction='column'
+            sx={{
+                width: '100%',
+                display: 'flex', 
+                p: 2,
+            }}
+        >
+            <Grid item
+                sx={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}
+            >
                 <TextField 
                     value={input}
                     variant="outlined"
@@ -52,13 +65,23 @@ const Introduce = (props) => {
                     placeholder={helpText}
                     onChange={handleInput} 
                     onKeyUp={handleBackspace}
-                    sx={{width: '85%'}}
+                    sx={{width: '100%'}}
                 />
-            </PageBox>
-            <PageBox sx={{pt: 4, display: 'flex'}}>
-                <BobButtonWithEmoji emoji='party-popper' title='가입 완료' onClick={props.clickJoin} />
-            </PageBox>
-        </div>
+            </Grid>
+
+            <Grid item 
+                sx={{
+                    width: '100%',
+                    pt: 4
+                }}
+            >
+                <BobButton 
+                    onClick={props.clickJoin}
+                    disabled={false}
+                    title={'가입 완료'}
+                />
+            </Grid>
+        </Grid>
     )
 }
 

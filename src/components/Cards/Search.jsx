@@ -5,7 +5,7 @@ import Avatar from '@mui/material/Avatar';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
-import { red, grey } from '@mui/material/colors';
+import { red } from '@mui/material/colors';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import PageBox from 'components/styled/PageBox'
 import {topicList} from 'constants/topics'
@@ -13,7 +13,7 @@ import {yearsList} from 'constants/career-years'
 
 
 const SearchCard = ({nickname, careerInfo, profileImg, 
-                    fee, title, onClick}) => {
+                    fee, title, rate, onClick}) => {
 
     return (
         <Paper elevation={2}
@@ -25,54 +25,72 @@ const SearchCard = ({nickname, careerInfo, profileImg,
             onClick={onClick}
         >
             <Grid container direction='column'>
-                <Grid item>
+                <Grid item sx={{pb: 1}}>
                     <Grid container sx={{alignItems:'center'}}>
-                        <Grid item xs={3}>
+
+                        <Grid item sx={{width: '22%'}}>
                             <Avatar alt="프로필 사진" 
                                 src={profileImg.contentType==='url'
                                     ? profileImg.data
                                     : `data:${profileImg.contentType};base64,${profileImg.data}`
                                 } 
-                                sx={{ width: 70, height: 70 }} />
+                                sx={{ width: 60, height: 60 }} />
                         </Grid>
-                        <Grid item xs={5.5} container direction='column'
-                            sx={{alignItems:'left'}}
+
+                        <Grid item
+                            sx={{
+                                display: 'flex',
+                                alignItems:'left',
+                                width: '55%'
+                            }}
                         >
-                            <Grid item>
-                                <Typography variant='subtitle1' 
-                                    sx={{ fontWeight: 'fontWeightBold' }}
-                                >
-                                    {nickname} &#183; {careerInfo.job}
-                                </Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant='subtitle2' 
-                                    sx={{ fontWeight: 'fontWeightBold' }}
-                                >
-                                    {yearsList[careerInfo.years]} &#183; {careerInfo.company}
-                                </Typography>
-                            </Grid>
-                            <Grid item container direction='row'
-                                sx={{alignItems: 'flex-end'}}
-                            >
-                                <Grid item xs={1.3}>
-                                    <StarRateIcon sx={{width:15,height:15,color:red[500]}}/>
-                                </Grid>
-                                <Grid item xs={1.7}>
-                                    <Typography color='text.secondary' variant='subtitle2'>
-                                        4.3
-                                    </Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography color='text.secondary' variant='subtitle2'>
-                                        (15)
-                                    </Typography>
-                                </Grid>
-                            </Grid>
+                            <div style={{
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                lineHeight: '140%'
+                            }}>
+                                <b style={{
+                                    fontSize: '16px',
+                                    color: '#000000',
+                                }}>
+                                    {nickname}
+                                    &nbsp;&bull;&nbsp;
+                                    {careerInfo.job}
+                                </b>
+                                <br/>
+                                <b style={{
+                                    fontSize: '14px',
+                                    color: '#000000',
+                                }}>
+                                    {yearsList[careerInfo.years]}
+                                    &nbsp;&bull;&nbsp;
+                                    {careerInfo.company}
+                                </b>
+                                <br/>
+                                <StarRateIcon 
+                                    sx={{
+                                        width:15,
+                                        height:15,
+                                        color:red[500]
+                                    }}
+                                />
+                                <span style={{
+                                    fontSize: '14px',
+                                    color: '#9e9e9e',
+                                }}>
+                                    {rate.num === 0 ? '0.0'
+                                    : (rate.score/rate.num).toFixed(1)}
+                                    &nbsp;{`(${rate.num})`}
+                                </span>
+                            </div>
                         </Grid>
-                        <Grid item xs={3.5} sx={{
-                            alignItems: 'flex-end',
-                            justifyContent:'flex-end',
+                        <Grid item 
+                            sx={{
+                                width: '23%',
+                                display: 'flex',
+                                alignItems: 'flex-end',
+                                justifyContent:'flex-end',
                             }}
                         >
                             <Stack direction='column'
@@ -92,24 +110,40 @@ const SearchCard = ({nickname, careerInfo, profileImg,
                     </Grid>
                 </Grid>
 
-                <Grid item sx={{pb:1}}>
-                    <PageBox sx={{
-                        height:30, bgcolor: grey[200], 
-                        display:'flex', justifyContent: 'flex-start',
+                <Grid item 
+                    sx={{
+                        pl: 1, pr: 1,
+                        width: '100%',
+                        height: 30, 
+                        bgcolor: '#eeeeee', 
+                        display:'flex', 
+                        justifyContent: 'flex-start',
+                        alignItems: 'center',
                         borderRadius: 3,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
+                    }}
+                >
+                    <div
+                        style={{
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
                         }}
                     >
-                        <Typography variant='subtitle2' 
-                            sx={{pl: 1, pr: 1, fontWeight: 'fontWeightBold'}}
-                        >
+                        <b style={{
+                            fontSize: '15px',
+                            color: '#000000'
+                        }}>
                             {title}
-                        </Typography>
-                    </PageBox>
+                        </b>
+                    </div>
                 </Grid>
                 <Grid item>
                     <PageBox
                         sx={{
-                            pt: 0.5,
+                            pt: 2,
                             width: 'inherit',
                             display: 'flex',
                         }}

@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import StackTitleWithProgress from '../components/styled/StackTitleWithProgress';
 import {Job, Company, Topic, Schedule, Location, CareerAuth, 
         Fee, HashTag, Introduce, Years} from 'components/SignUpComp/Mentor'
-import PageBox from 'components/styled/PageBox';
+import Grid from '@mui/material/Grid'
 import {pageText} from 'constants/mentor-signup-titles'
 import { saveJWT } from 'utils/handle-jwt';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addSession } from "slices/session";
+import { selectBasePath } from 'slices/basePath'
 const axios = require('axios');
 
 
@@ -33,8 +34,8 @@ const SignUpMentor = ({context, location, history}) => {
         progress: progressRatio,
     })
 
-    console.log(state)
     const dispatch = useDispatch();
+    const basePath = useSelector(selectBasePath)   
 
     const handleJoin = (event) => {
         event.preventDefault();
@@ -84,7 +85,7 @@ const SignUpMentor = ({context, location, history}) => {
             formData.append(key, JSON.stringify(value));
         }
 
-        axios.post(process.env.REACT_APP_API_USER_JOIN,
+        axios.post(basePath.path + process.env.REACT_APP_API_USER_JOIN,
             formData, { headers: {
                 'Content-Type': 'multipart/form-data'
                 }
@@ -94,7 +95,7 @@ const SignUpMentor = ({context, location, history}) => {
                 dispatch(addSession(res.data))
                 const retEmail = res.data.profile.email;
                 if (retEmail === location.data.email) {
-                    axios.get(process.env.REACT_APP_API_GET_TOKEN, 
+                    axios.get(basePath.path + process.env.REACT_APP_API_GET_TOKEN, 
                         { params: {
                             email: retEmail,
                             }
@@ -178,18 +179,23 @@ const SignUpMentor = ({context, location, history}) => {
 
 
     return (
-        <PageBox sx={{overflow:'auto'}}>
-            <StackTitleWithProgress 
-                title={pageText.title[state.pageNum]}
-                subtitle={pageText.subtitle[state.pageNum]}
-                progress={state.progress} 
-                onClickBack={handleBack}
-            />
-        
-            {RenderBody()}
-        
-        </PageBox>
-        
+        <Grid container
+            direction='column'
+            sx={{width: '100%'}}
+        >
+            <Grid item container>
+                <StackTitleWithProgress 
+                    title={pageText.title[state.pageNum]}
+                    subtitle={pageText.subtitle[state.pageNum]}
+                    progress={state.progress} 
+                    onClickBack={handleBack}
+                />
+            </Grid>
+            
+            <Grid item container>
+                {RenderBody()}
+            </Grid>
+        </Grid>
     );
 }
 

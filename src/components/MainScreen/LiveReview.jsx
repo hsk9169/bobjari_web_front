@@ -1,16 +1,18 @@
 import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ButtonBase from '@mui/material/ButtonBase';
+import {LiveReviewCard} from 'components/Cards'
 
 const LiveReview = (props) => {
+    
+    const height = window.innerHeight
 
     return (
-        <Grid container
-            direction='column'
-            sx={{width: '100%', pt: 1}}
-        >
-            <Grid item container
+        <>
+            <Grid container
                 sx={{width: '100%'}}
             >
                 <Grid item 
@@ -41,7 +43,33 @@ const LiveReview = (props) => {
                     </ButtonBase>
                 </Grid>
             </Grid>
-        </Grid>
+
+            <Box component='div'
+                sx={{
+                    width: '100%',
+                    height: height * 0.33,
+                    display: 'flex',
+                    overflow: 'auto',
+                    whiteSpace: 'nowrap'
+                }}
+            >
+                <Stack 
+                    direction='row'
+                    spacing={2}
+                    sx={{margin: 0.5}}
+                >
+                    {props.review.map(el => (
+                        <LiveReviewCard
+                            mentorNickname={el.mentor.user.profile.nickname}
+                            menteeNickname={el.mentee.user.profile.nickname}
+                            job={el.mentor.career.job}
+                            body={el.body}
+                            date={el.createdAt}
+                        />
+                    ))}
+                </Stack>
+            </Box>
+        </>
     )
 }
 

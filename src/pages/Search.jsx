@@ -11,6 +11,7 @@ import { Global } from '@emotion/react';
 import {useDispatch, useSelector} from 'react-redux'
 import {getJWT, verifyJWT} from 'utils/handle-jwt'
 import {updateSessionTime} from 'slices/manage'
+import { selectBasePath } from 'slices/basePath'
 import {saveSearchPage, deleteSearchPage, selectSearchPage} from 'slices/searchPage'
 
 const axios = require('axios');
@@ -38,6 +39,7 @@ const Search = ({history}) => {
     const [filterSel, setFilterSel] = useState(new Array(5).fill(false))
 
     const numGet = 10;
+    const basePath = useSelector(selectBasePath)   
 
 
     const handleClickBack = () => {
@@ -71,7 +73,7 @@ const Search = ({history}) => {
                 setPending(false)
             } else {
                 if (queryId === 0) {
-                    await axios.get(process.env.REACT_APP_API_MENTOR_SEARCH,
+                    await axios.get(basePath.path + process.env.REACT_APP_API_MENTOR_SEARCH,
                         { 
                             params: {
                                 keyword: searchInput,
@@ -130,7 +132,7 @@ const Search = ({history}) => {
         if (scrollTop + clientHeight === scrollHeight) {
             setPending(true)
             if (!isEnd) {
-                await axios.get(process.env.REACT_APP_API_MENTOR_SEARCH,
+                await axios.get(basePath.path + process.env.REACT_APP_API_MENTOR_SEARCH,
                     { 
                         headers: {
                             Authorization: `Bearer ${getJWT().accessToken}`,

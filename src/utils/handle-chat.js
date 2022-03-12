@@ -12,7 +12,7 @@ const useChat = (roomId) => {
     const socketRef = useRef()
 
     useEffect(() => {
-        socketRef.current = socketIOClient(process.env.REACT_APP_SOCKET_SERVER_URL, {
+        socketRef.current = socketIOClient('/', {
             query: { roomId },
         })
 
@@ -32,8 +32,12 @@ const useChat = (roomId) => {
             setRcvMessage((rcvMessage) => [...rcvMessage, incomingMessage])
             setResponse(true)
         })
+
+        socketRef.current.on('error', (err) => {
+            console.log(err.stack)
+        })
         return () => {
-            socketRef.current.disconnect()
+            socketRef.current.close()
         }
     }, [])
 

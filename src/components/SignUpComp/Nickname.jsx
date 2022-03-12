@@ -1,20 +1,19 @@
 import {useState, useEffect} from 'react'
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-
-import PageBox from 'components/styled/PageBox'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
 import BobButton from 'components/styled/BobButton'
+import NormalButton from 'components/styled/NormalButton'
 import createNickname from 'utils/create-nickname';
-
+import {useSelector} from 'react-redux'
+import { selectBasePath } from 'slices/basePath'
 const axios = require('axios');
-
-
 
 const Nickname = (props) => {
 
 
     const [disabled, setDisabled] = useState(true)
+    const basePath = useSelector(selectBasePath)   
 
     const progressRatio = 20
 
@@ -31,7 +30,7 @@ const Nickname = (props) => {
         let ret;
         await axios({
             method: 'GET',
-            url: process.env.REACT_APP_API_CHECK_NICKNAME,
+            url: basePath.path + process.env.REACT_APP_API_CHECK_NICKNAME,
             params: {
                 nickname: props.state.nickname,
             }})
@@ -79,29 +78,97 @@ const Nickname = (props) => {
     },[props, setDisabled])
 
     return (
-        <div>
-            <PageBox sx={{display: 'flex',p:2}}>
-                <Stack direction='column' spacing={2} sx={{width: '90%'}}>
-                    <TextField error={!props.state.nicknameCheck} id='nickname' value={props.state.nickname} 
-                                label='닉네임 입력'
-                                helperText={(props.state.nicknameCheck === null) ? '중복확인 해주세요'
-                                           :(!props.state.nicknameCheck) ? '닉네임 중복입니다' : '사용 가능합니다'}
-                                onChange={handleNicknameInput}
-                                sx={{width: '100%'}}>
-                    </TextField>
-                    
-                    <Stack direction='row' spacing={2}>
-                        {(props.state.nickname.length > 3) ? <Button variant='contained' onClick={handleCheckDuplicate}>중복확인</Button> 
-                                  : <Button variant='contained' disabled>중복확인</Button>
+            <Grid item container
+                direction='column'
+                sx={{
+                    width: '100%',
+                    display: 'flex', 
+                    p: 2,
+                }}
+            >
+                <Grid item container
+                    direction='column' 
+                    sx={{
+                        width: '100%',
+                        pt: 4
+                    }}
+                >
+                    <TextField 
+                        error={!props.state.nicknameCheck} 
+                        id='nickname' 
+                        value={props.state.nickname} 
+                        label='닉네임 입력'
+                        helperText={(props.state.nicknameCheck === null) 
+                                    ? '중복확인 해주세요'
+                                    :(!props.state.nicknameCheck) 
+                                    ? '닉네임 중복입니다' 
+                                    : '사용 가능합니다'
                         }
-                        <Button variant='contained' onClick={handleNicknameRefresh}>닉네임 재추천</Button>
-                    </Stack>
-                </Stack>
-            </PageBox>
-            <PageBox sx={{pt: 4, display: 'flex'}}>
-                <BobButton title='다 음' onClick={handleNext} disabled={disabled} />
-            </PageBox>
-        </div>
+                        onChange={handleNicknameInput}
+                        sx={{width: '100%'}}
+                    />
+                </Grid>                    
+                <Grid item container
+                    spacing={1}
+                    sx={{
+                        width: '100%',
+                        pt: 1,
+                        display: 'flex',
+                        justifyContent: 'flex-start'    
+                    }}
+                >
+                    <Grid item sx={{width: '30%'}}>
+                        <NormalButton myColor='#f75910'
+                            variant='contained' 
+                            onClick={handleCheckDuplicate}
+                            disabled={
+                                props.state.nickname.length > 3
+                                ? false : true
+                            }
+                            sx={{
+                                width: '100%',
+                                backgroundColor: '#f75910'
+                            }}
+                        >
+                            <Typography variant='body2'
+                                sx={{fontWeight: 'fontWeightBold'}}
+                            >
+                                중복 확인
+                            </Typography>
+                        </NormalButton> 
+                    </Grid>
+                    <Grid item sx={{width: '40%'}}>
+                        <NormalButton myColor='#f75910'
+                            variant='contained' 
+                            onClick={handleNicknameRefresh}
+                            sx={{
+                                width: '100%',
+                                backgroundColor: '#f75910'
+                            }}
+                        >
+                            <Typography variant='body2'
+                                sx={{fontWeight: 'fontWeightBold'}}
+                            >
+                                닉네임 재추천
+                            </Typography>
+                        </NormalButton>
+                    </Grid>
+                        
+                </Grid>
+
+                <Grid item 
+                    sx={{
+                        width: '100%',
+                        pt: 4
+                    }}
+                >
+                    <BobButton 
+                        onClick={handleNext}
+                        disabled={disabled}
+                        title={'다 음'}
+                    />
+                </Grid>
+            </Grid>
     )
 }
 

@@ -1,5 +1,4 @@
 import {useState} from 'react'
-import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -8,7 +7,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import Badge from "@mui/material/Badge";
 import { makeStyles } from '@mui/styles';
-import PageBox from 'components/styled/PageBox'
+import Grid from '@mui/material/Grid';
 import BobButton from 'components/styled/BobButton'
 import {blobToFile, compressImgFile} from 'utils/handle-imgFile'
 const imageUri = require('constants/image-uri')
@@ -117,58 +116,124 @@ const ProfileImage = (props) => {
 
 
     return (
-        <div>
-            <PageBox sx={{display: 'flex',p:2}}>
-                <Stack direction='column' spacing={5}
-                    sx={{ 
-                        width: 'inherit', 
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}
-                >
-                    <form id='myForm' name='myForm'>
-                        <input
-                            disabled={!selectedFile.editEnable}
-                            accept='image/*'
-                            className={classes.input}
-                            id='raised-button-file'
-                            style={{ display: 'none', }}
-                            type='file'
-                            onChange={handleFileInput}
-                        />
-                        <label htmlFor='raised-button-file'>
-                            <Badge
-                                overlap="circular"
-                                anchorOrigin={{ vertical: "top", horizontal: 'left' }}
-                                badgeContent={
-                                  <CameraAltIcon sx={{color: 'text.secondary', width: 40, height: 40}}  />
-                                }
-                            >
-                                <Avatar alt="프로필 사진" src={selectedFile.previewUrl} 
-                                    sx={{ width: 130, height: 130 }} />
-                            </Badge>
-                        </label>
-                    </form>
-                    <FormControl component="fieldset" >
-                        <RadioGroup row
-                            aria-label="profileImage"
-                            value={props.state.profileImage}
-                            onChange={handleProfileImageSelect}
-                            name="controlled-radio-buttons-group"
-                            
+        <Grid item container
+            direction='column'
+            sx={{
+                width: '100%',
+                display: 'flex', 
+                p: 2,
+            }}
+        >
+            <Grid item
+                sx={{
+                    width: '100%',
+                    pt: 4,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}
+            >
+                <form id='myForm' name='myForm'>
+                    <input
+                        disabled={!selectedFile.editEnable}
+                        accept='image/*'
+                        className={classes.input}
+                        id='raised-button-file'
+                        style={{ display: 'none', }}
+                        type='file'
+                        onChange={handleFileInput}
+                    />
+                    <label htmlFor='raised-button-file'>
+                        <Badge
+                            overlap="circular"
+                            anchorOrigin={{ 
+                                vertical: "top", 
+                                horizontal: 'left' 
+                            }}
+                            badgeContent={
+                                <CameraAltIcon 
+                                    sx={{
+                                        color: 'text.secondary', 
+                                        width: 40, 
+                                        height: 40
+                                    }}  
+                                />
+                            }
                         >
-                            <FormControlLabel value={selectedFile.selectUrl} 
-                                control={<Radio />} label="사용" />
-                            <FormControlLabel value={imageUri.BOB_CHARACTER} 
-                                control={<Radio />} label="미사용" />                            
-                        </RadioGroup>
-                    </FormControl>
-                </Stack>
-            </PageBox>
-            <PageBox sx={{pt: 4, display: 'flex'}}>
-                <BobButton title='다 음' onClick={handleNext} disabled={disabled} />
-            </PageBox>
-        </div>
+                            <Avatar alt="프로필 사진" 
+                                src={selectedFile.previewUrl} 
+                                sx={{ 
+                                    width: 130, 
+                                    height: 130 
+                                }} 
+                            />
+                        </Badge>
+                    </label>
+                </form>
+            </Grid>
+
+            <Grid item
+                sx={{
+                    width: '100%',
+                    pt: 2,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}
+            >
+                <FormControl component="fieldset" >
+                    <RadioGroup row
+                        aria-label="profileImage"
+                        value={props.state.profileImage}
+                        onChange={handleProfileImageSelect}
+                        name="controlled-radio-buttons-group"
+                    >
+                        <FormControlLabel 
+                            value={selectedFile.selectUrl} 
+                            control={
+                                <Radio 
+                                    sx={{
+                                        color: '#000000',
+                                        '&.Mui-checked': {
+                                            color: '#f75910',
+                                        }
+                                    }}
+                                />
+                            } 
+                            label="사용" 
+                        />
+                        <FormControlLabel 
+                            value={imageUri.BOB_CHARACTER} 
+                            control={
+                                <Radio 
+                                    sx={{
+                                        color: '#000000',
+                                        '&.Mui-checked': {
+                                            color: '#f75910',
+                                        }
+                                    }}
+                                />
+                            } 
+                            label="미사용" 
+                        />                            
+                    </RadioGroup>
+                </FormControl>
+            </Grid>
+                    
+
+            <Grid item 
+                sx={{
+                    width: '100%',
+                    pt: 4
+                }}
+            >
+                <BobButton 
+                    onClick={handleNext}
+                    disabled={disabled}
+                    title={'다 음'}
+                />
+            </Grid>
+        </Grid>
     )
 }
 

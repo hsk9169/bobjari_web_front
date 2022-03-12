@@ -1,12 +1,13 @@
 import {useState} from 'react'
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-
-import PageBox from 'components/styled/PageBox'
 import BobButton from 'components/styled/BobButton'
+import NormalButton from 'components/styled/NormalButton'
+
 
 const Gender = (props) => {
+
+    const height = window.innerHeight
 
     const [disabled, setDisabled] = useState(
         (props.state.gender==='' ? true : false)
@@ -17,8 +18,6 @@ const Gender = (props) => {
     });
 
     const progressRatio = 20
-
-    console.log(state)
 
     const handleMaleDisplay = async () => {
         setState({
@@ -58,40 +57,94 @@ const Gender = (props) => {
 
 
     return (
-        <div>
-            <PageBox sx={{display: 'flex',p:2}}>
-                <Stack direction='row' spacing={4} 
-                    sx={{ 
-                        width: 'inherit', 
-                        justifyContent: 'center'
+        <Grid item container
+            direction='column'
+            sx={{
+                width: '100%',
+                display: 'flex', 
+                p: 2,
+            }}
+        >
+            <Grid item container
+                sx={{
+                    width: '100%',
+                    pt: 4,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}
+            >
+                <Grid item 
+                    sx={{
+                        width: '50%',
+                        p: 1
                     }}
                 >
-                    <Button variant={state.maleDisplay} onClick={handleMaleDisplay}
+                    <NormalButton myColor='#f75910'
+                        variant={state.maleDisplay} 
+                        onClick={handleMaleDisplay}
                         sx={{
-                            width: '40%', 
-                            height: 200
+                            width: '100%', 
+                            height: height * 0.3,
+                            backgroundColor: props.state.gender === 'male'
+                                ? '#f75910' : '#ffffff',
+                            borderColor: '#000000',
                         }}
                     >
-                        <Typography variant='h5' sx={{ fontWeight: 'fontWeightMedium' }}>
+                        <Typography variant='h5'
+                            sx={{
+                                fontWeight: 'fontWeightBold',
+                                color: props.state.gender === 'male'
+                                ? '#ffffff' : '#000000'
+                            }}
+                        >
                             남성
                         </Typography>
-                    </Button>
-                    <Button variant={state.femaleDisplay} onClick={handleFemaleDisplay}
+                    </NormalButton>
+                </Grid>
+                <Grid item 
+                    sx={{
+                        width: '50%',
+                        p: 1
+                    }}
+                >
+                    <NormalButton myColor='#f75910' 
+                        variant={state.femaleDisplay} 
+                        onClick={handleFemaleDisplay}
                         sx={{
-                            width: '40%',
-                            height: 200
+                            width: '100%', 
+                            height: height * 0.3,
+                            backgroundColor: props.state.gender === 'female'
+                                ? '#f75910' : '#ffffff',
+                            borderColor: '#000000'
                         }}
                     >
-                        <Typography variant='h5' sx={{ fontWeight: 'fontWeightMedium' }}>
+                        <Typography variant='h5' 
+                            sx={{
+                                fontWeight: 'fontWeightBold',
+                                color: props.state.gender === 'female'
+                                ? '#ffffff' : '#000000'
+                            }}
+                        >
                             여성
                         </Typography>
-                    </Button>
-                </Stack>
-            </PageBox>
-            <PageBox sx={{pt: 4, display: 'flex'}}>
-                <BobButton title='다 음' onClick={handleNext} disabled={disabled} />
-            </PageBox>
-        </div>
+                    </NormalButton>
+                </Grid>
+            </Grid>
+            
+            <Grid item 
+                sx={{
+                    width: '100%',
+                    pt: 4
+                }}
+            >
+                <BobButton 
+                    onClick={handleNext}
+                    disabled={disabled}
+                    title={'다 음'}
+                />
+            </Grid>
+        </Grid>
     )
 }
 

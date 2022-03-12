@@ -5,6 +5,7 @@ import PageBox from 'components/styled/PageBox'
 import Stack from '@mui/material/Stack'
 import {getJWT} from 'utils/handle-jwt'
 import {selectSessions} from 'slices/session'
+import {selectBasePath} from 'slices/basePath'
 import {LikeSkeleton, LikeCard} from 'components/Cards'
 import NoList from './NoList'
 const axios = require('axios')
@@ -19,6 +20,8 @@ const Like = (props) => {
 
     const numSkeleton = new Array(3).fill('')
 
+    const basePath = useSelector(selectBasePath)   
+
     const handleClickSearch = () => {
         history.push('/main/search')
     }
@@ -30,7 +33,7 @@ const Like = (props) => {
     useEffect(() => {
         async function getLikeList() {
             if (!initialized) {
-                await axios.get(process.env.REACT_APP_API_LIKE,
+                await axios.get(basePath.path + process.env.REACT_APP_API_LIKE,
                     {
                         headers: {
                             Authorization: `Bearer ${getJWT().accessToken}`,
@@ -56,7 +59,7 @@ const Like = (props) => {
             <Stack 
                 spacing={2}
                 sx={{
-                    p: 2,
+                    p: 1,
                     width: '100%', 
                     display: 'flex', 
                     justifyContent:'center'
