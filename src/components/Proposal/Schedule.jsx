@@ -48,7 +48,7 @@ const Schedule = (props) => {
     const [calendarDays, setCalendarDays] = useState([])
 
     const [selected, setSelected] = useState(props.scheduleCheck)
-    const [numSelected, setNumSelected] = useState(0)
+    const [numSel, setNumSel] = useState(props.numSchedSel)
 
     const [timeEditting, setTimeEditting] = useState('')
 
@@ -70,6 +70,12 @@ const Schedule = (props) => {
     })
     
     const [checkList, setCheckList] = useState([])
+
+    console.log('selected', selected)
+    console.log('curSelected', curSelected)
+    console.log('checkList', checkList)
+    console.log('numSel', numSel)
+
 
     useEffect(() => {
         if (props.scheduleCheck.length > 0) {
@@ -172,7 +178,7 @@ const Schedule = (props) => {
 
     const handleCheck = idx => {
         if (calendarDays[idx].available && calendarDays[idx].day !== '') {
-            if (numSelected < selectNum) {
+            if (numSel < selectNum) {
                 if (selected.filter(el => 
                     el.year === curDate.year &&
                     el.month === curDate.month &&
@@ -194,6 +200,7 @@ const Schedule = (props) => {
                     setOpen(true)
     
                 } else {
+                    console.log('debug')
                     const schedule = props.schedule.filter(el =>
                         el.day.slice(0,1) === dayList[idx%7])
         
@@ -306,10 +313,11 @@ const Schedule = (props) => {
                     dateDay: [calendarDays[curSelected.day].day]
                 }
             ]
+            console.log('sel',sel)
         }
-        setSelected(sel)
-        setNumSelected(numSelected+1)
         setOpen(false)
+        setSelected(sel)
+        setNumSel(numSel+1)
     }
     
     const handleAlertClose = () => {
@@ -406,6 +414,7 @@ const Schedule = (props) => {
                     <Button variant='contained'
                         onClick={() => {
                             props.setScheduleCheck(selected)
+                            props.setNumSchedSel(numSel)
                             props.onClickNext()
                         }}
                         sx={{

@@ -17,6 +17,7 @@ const MentorPropose = (props) => {
 
     const [step, setStep] = useState(0)
     const [scheduleCheck, setScheduleCheck] = useState([])
+    const [numSchedSel, setNumSchedSel] = useState(0)
     const [locationCheck, setLocationCheck] = useState([])
 
     const [dialogOpen, setDialogOpen] = useState(false)
@@ -97,6 +98,8 @@ const MentorPropose = (props) => {
                     <Schedule
                         schedule={props.location.data.schedule}
                         scheduleCheck={scheduleCheck}
+                        numSchedSel={numSchedSel}
+                        setNumSchedSel={setNumSchedSel}
                         setScheduleCheck={setScheduleCheck}
                         onClickNext={handleNext}
                         onClickBack={handleBack}
