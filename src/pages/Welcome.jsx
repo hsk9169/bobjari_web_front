@@ -1,5 +1,4 @@
 import {useState} from 'react';
-import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -75,7 +74,7 @@ const Welcome = ({context, drawerWindow, history}) => {
     }
 
     return (
-        <div>
+        <>
             <Box sx={{height: 60}}></Box>
             <Box sx={{ 
                     width: '100%', 
@@ -108,7 +107,6 @@ const Welcome = ({context, drawerWindow, history}) => {
                     {steps[activeStep].description2}
                 </Box>
                 <AutoPlaySwipeableViews
-                    axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                     index={activeStep}
                     onChangeIndex={handleStepChange}
                     enableMouseEvents
@@ -188,7 +186,7 @@ const Welcome = ({context, drawerWindow, history}) => {
                     </NormalButton>
                 </Stack>
             </Box>
-        </div>
+        </>
     );
 }
 

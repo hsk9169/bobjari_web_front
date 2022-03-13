@@ -1,20 +1,20 @@
 import Grid from '@mui/material/Grid'
-import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import dog from 'contents/dog.png'
-import cat from 'contents/cat.png'
 
 const BobRules = () => {
 
     const handleGuideLink = () => {
         console.log('link')
     }
+    const height = window.innerHeight
+
 
     return (
         <Grid container
             sx={{
                 width: '100%',
+                height: height * 0.14,
                 backgroundColor: '#f75910',
                 borderRadius: 3
             }}
@@ -31,7 +31,7 @@ const BobRules = () => {
             >
                 <Grid item>
                     <h4 style={{color:'white', fontWeight: 700}}>
-                        밥자리 강령<br/>10조
+                        밥자리 강령 10조
                     </h4>
                 </Grid>
                 
@@ -58,29 +58,7 @@ const BobRules = () => {
                 </Grid>
             </Grid>
 
-            <Grid item container
-                sx={{
-                    width: '45%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'flex-end'
-                }}
-            >
-                <Grid item>
-                    <Box component='img'
-                        src={cat}
-                        alt='cat_image'
-                        sx={{width: 70, height: 100}}
-                    />
-                </Grid>
-                <Grid item>
-                    <Box component='img'
-                        src={dog}
-                        alt='dog_image'
-                        sx={{width: 80, height: 80}}
-                    />
-                </Grid>
-            </Grid>
+            
         </Grid>
     )
 }

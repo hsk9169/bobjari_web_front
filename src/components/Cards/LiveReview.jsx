@@ -18,6 +18,7 @@ const LiveReview = (props) => {
                 width: width * 0.7, 
                 height: height * 0.25,
                 backgroundColor: '#f5f5f5',
+                borderRadius: 2
             }}
         >
             <Grid container direction='column'>

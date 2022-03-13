@@ -10,11 +10,13 @@ const HowTo = () => {
     const handleGuideLink = () => {
         console.log('link')
     }
+    const height = window.innerHeight
 
     return (
         <Grid container
             sx={{
                 width: '100%',
+                height: height * 0.14,
                 backgroundColor: '#f75910',
                 borderRadius: 3
             }}
@@ -71,6 +73,7 @@ const HowTo = () => {
                         src={cat}
                         alt='cat_image'
                         sx={{width: 70, height: 100}}
+                        style={{zIndex: 100}}
                     />
                 </Grid>
                 <Grid item>
@@ -78,6 +81,7 @@ const HowTo = () => {
                         src={dog}
                         alt='dog_image'
                         sx={{width: 80, height: 80}}
+                        style={{zIndex: 100}}
                     />
                 </Grid>
             </Grid>
