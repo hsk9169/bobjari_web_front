@@ -47,7 +47,7 @@ const LiveReview = (props) => {
             <Box component='div'
                 sx={{
                     width: '100%',
-                    height: height * 0.33,
+                    height: height * 0.3,
                     display: 'flex',
                     overflow: 'auto',
                     whiteSpace: 'nowrap'

@@ -22,7 +22,7 @@ const SignUp = ({context, location, history}) => {
   
 
     const [state, setState] = useState({
-        email: (location.data.email ? location.data.email : ''),
+        phone: (location.data.phone ? location.data.phone : ''),
         age: (location.data.age ? location.data.age : ''),
         gender: (location.data.gender 
             ? location.data.gender : ''),
@@ -62,7 +62,7 @@ const SignUp = ({context, location, history}) => {
 
     const handleDone = () => {
         const data = {
-            email: state.email,
+            phone: state.phone,
             age: state.age,
             gender: state.gender,
             nickname: state.nickname,

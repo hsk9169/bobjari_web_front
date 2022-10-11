@@ -27,7 +27,10 @@ const BobjariGuide = (props) => {
             }}
         >
             <AutoPlaySwipeableViews
-                style={{position: 'absolute'}}
+                style={{
+                    width: '100%',
+                    position: 'absolute'
+                }}
                 index={activeStep}
                 onChangeIndex={handleStepChange}
                 enableMouseEvent

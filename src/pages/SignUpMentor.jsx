@@ -43,7 +43,7 @@ const SignUpMentor = ({context, location, history}) => {
         let formData = new FormData();
         
         const req = {
-            email: location.data.email,
+            phone: location.data.phone,
             age: location.data.age,
             gender: location.data.gender,
             nickname: location.data.nickname,
@@ -61,6 +61,8 @@ const SignUpMentor = ({context, location, history}) => {
             feeSelect: state.feeSelect,
             fee: state.fee,
         }
+
+        console.log('req data', req);
 
         if (location.data.profileImage.contentType === 'url') {
             formData.append(
@@ -93,11 +95,11 @@ const SignUpMentor = ({context, location, history}) => {
         )
             .then(res => {
                 dispatch(addSession(res.data))
-                const retEmail = res.data.profile.email;
-                if (retEmail === location.data.email) {
+                const retPhone = res.data.profile.phone;
+                if (retPhone === location.data.phone) {
                     axios.get(basePath.path + process.env.REACT_APP_API_GET_TOKEN, 
                         { params: {
-                            email: retEmail,
+                            phone: retPhone,
                             }
                         })
                         .then(res => {
@@ -106,7 +108,7 @@ const SignUpMentor = ({context, location, history}) => {
                             history.push({
                                 pathname: '/main',
                                 data: {
-                                    email: location.data.email,
+                                    phone: location.data.phone,
                                 }
                             });
                         })
@@ -128,7 +130,7 @@ const SignUpMentor = ({context, location, history}) => {
         
         if (state.pageNum === 0) {
             const data = {
-                email: location.data.email,
+                phone: location.data.phone,
                 age: location.data.age,
                 gender: location.data.gender,
                 nickname: location.data.nickname,

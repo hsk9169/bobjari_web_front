@@ -9,6 +9,8 @@ import { autoPlay } from 'react-swipeable-views-utils';
 import {useDispatch} from 'react-redux'
 import {updateNavScreen} from 'slices/manage'
 import NormalButton from 'components/styled/NormalButton'
+const CryptoJS = require("crypto-js");
+
 
 const authInfo = require('constants/kakao-auth');
 const imgUri = require('constants/image-uri');

@@ -22,6 +22,7 @@ const SignInBob = ({context, history}) => {
         clockOn: false,
         errMsg: '',
     });
+    console.log(state)
     const [isPending, setIsPending] = useState(false);
 
     const dispatch = useDispatch();
@@ -37,13 +38,13 @@ const SignInBob = ({context, history}) => {
                 method: 'POST',
                 url: basePath.path + process.env.REACT_APP_API_SIGNIN_BOB,
                 data: {
-                    email: state.email,
+                    phone: state.email,
                 }
             })
                 .then(res => {
                     let retEmail = null;
                     try {
-                        retEmail = res.data.profile.email;
+                        retEmail = res.data.profile.phone;
                     } catch {
                     }
                     
@@ -52,7 +53,7 @@ const SignInBob = ({context, history}) => {
                         axios.get(basePath.path + process.env.REACT_APP_API_GET_TOKEN, 
                             { 
                                 params: {
-                                    email: retEmail
+                                    phone: retEmail
                                 }
                             })
                             .then(res => {
@@ -61,7 +62,7 @@ const SignInBob = ({context, history}) => {
                                 history.push({
                                     pathname: '/main',
                                     data: {
-                                        email: state.email,
+                                        phone: state.email,
                                     }
                                 });
                                 saveJWT(tokens)
@@ -73,7 +74,7 @@ const SignInBob = ({context, history}) => {
                         history.push({
                             pathname: '/signup',
                             data: {
-                                email: state.email,
+                                phone: state.email,
                             },
                         });
                     }

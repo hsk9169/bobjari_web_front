@@ -35,13 +35,14 @@ const SignUpMentee = ({context, location, history}) => {
 
         
         const req = {
-            email: location.data.email,
+            phone: location.data.phone,
             age: location.data.age,
             gender: location.data.gender,
             nickname: location.data.nickname,
             role: location.data.role,
             interests: jobList,
         }
+        console.log('req data', req);
 
         if (location.data.profileImage.contentType === 'url') {
             formData.append(
@@ -68,11 +69,11 @@ const SignUpMentee = ({context, location, history}) => {
         )
             .then(res => {
                 dispatch(addSession(res.data))
-                const retEmail = res.data.profile.email;
-                if (retEmail === location.data.email) {
+                const retPhone = res.data.profile.phone;
+                if (retPhone === location.data.phone) {
                     axios.get(basePath.path + process.env.REACT_APP_API_GET_TOKEN, 
                         { params: {
-                            email: retEmail,
+                            phone: retPhone,
                             }
                         })
                         .then(res => {
@@ -81,7 +82,7 @@ const SignUpMentee = ({context, location, history}) => {
                             history.push({
                                 pathname: '/main',
                                 data: {
-                                    email: location.data.email,
+                                    phone: location.data.phone,
                                 }
                             });
                         })
@@ -106,7 +107,7 @@ const SignUpMentee = ({context, location, history}) => {
 
     const handleBack = () => {
         const data = {
-            email: location.data.email,
+            phone: location.data.phone,
             age: location.data.age,
             gender: location.data.gender,
             nickname: location.data.nickname,

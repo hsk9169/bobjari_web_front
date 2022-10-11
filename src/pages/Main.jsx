@@ -53,6 +53,7 @@ const Main = (props) => {
                 })
                 .then(res => {
                     setMentor(res.data)
+                    console.log('rcmd mentor', res.data);
                 })
                 .catch(err => {
                     console.log(err)
@@ -86,18 +87,16 @@ const Main = (props) => {
     },[])
 
     return (
+        <>
         <Stack
             direction='column'
             spacing={2}
             sx={{
                 width: '100%',
                 p: 2,
-                top: 0,
-                bottom: height * 0.25,
                 display: 'flex',
                 justifyContent: 'flex-start',
                 alignItems: 'center',
-                //
             }}
         >
             <TopSearch 
@@ -145,8 +144,11 @@ const Main = (props) => {
                     />
                 </>
             }
-
         </Stack>
+        <Box sx={{
+            height: height*0.1,
+        }}/>
+        </>
     )
 }
 
